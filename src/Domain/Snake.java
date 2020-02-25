@@ -1,5 +1,8 @@
 package Domain;
 
+
+import javafx.scene.layout.Pane;
+
 import java.util.ArrayList;
 
 public class Snake {
@@ -7,7 +10,7 @@ public class Snake {
     private ArrayList<Blocks> snakeArray = new ArrayList<>();
     private Direction snakeDirection = Direction.RIGHT;
 
-    public Snake(){
+    public Snake() {
         snakeArray.add(new SnakeHead());       // Add snake head
     }
 
@@ -21,12 +24,11 @@ public class Snake {
         }
 
         // Move snake head
-        
+
         double snakeHeadX = snakeArray.get(0).getX();
         double snakeHeadY = snakeArray.get(0).getY();
         int snakeSize = snakeArray.get(0).getBLOCK_SIZE();
 
-        
         if (snakeDirection == Direction.RIGHT) {
             snakeArray.get(0).setX(snakeHeadX + snakeSize);
         } else if (snakeDirection == Direction.DOWN) {
@@ -38,12 +40,48 @@ public class Snake {
         }
     }
 
-    public ArrayList<Blocks> getSnakeArray() {
-        return snakeArray;
+    public boolean checkCollision() {
+
+        // Get position of the snake head
+        double snakeX = snakeArray.get(0).getX();
+        double snakeY = snakeArray.get(0).getY();
+
+        // Check collision with snake itself
+        for (int i = 1; i < snakeArray.size() - 1; i++) {
+
+            // Next body block to be checked for collision with head
+            Blocks currentCheck = snakeArray.get(i);
+
+            // If a block has same coordinates then return true
+            if (snakeX == currentCheck.getX() && snakeY == currentCheck.getY()) {
+                return true;
+            }
+        }
+
+        // Check collision with borders (Pane is 600x600)
+        if (snakeX >= 600 || snakeX < 0 || snakeY >= 600 || snakeY < 0) {
+            return true;
+        }
+
+        // On no collision return false
+        return false;
+
     }
 
-    public void setSnakeArray(ArrayList<Blocks> snakeArray) {
-        this.snakeArray = snakeArray;
+    public void addSnakeBody(Pane pane) {
+
+        // Copy info from last part of the snake
+        Blocks lastBlock = snakeArray.get(snakeArray.size() - 1);
+        double posX = lastBlock.getX();
+        double posY = lastBlock.getY();
+
+        snakeArray.add(new SnakeBody(posX, posY));
+        pane.getChildren().add(snakeArray.get(snakeArray.size() - 1));
+
+    }
+
+    public ArrayList<Blocks> getSnakeArray() {
+        return snakeArray;
     }
 
     public Direction getSnakeDirection() {
