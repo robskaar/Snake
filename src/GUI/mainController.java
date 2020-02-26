@@ -51,8 +51,10 @@ public class mainController implements Initializable {
 
         FPStimeline.setAutoReverse(false);
         FPStimeline.setCycleCount(Animation.INDEFINITE);
-        FPStimeline.getKeyFrames().add(new KeyFrame(Duration.millis(300), ActionEvent -> {
+        FPStimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), ActionEvent -> {
+
             snake.moveSnake();
+
         }));
 
         FPStimeline.play();
@@ -62,13 +64,16 @@ public class mainController implements Initializable {
 
         CollisionTimeline.setAutoReverse(false);
         CollisionTimeline.setCycleCount(Animation.INDEFINITE);
-        CollisionTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), ActionEvent -> {
+        CollisionTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1), ActionEvent -> {
 
             // Check if snake collides with anything
             boolean hasCollision = snake.checkCollision();
 
             // End game if collision is detected
-            if (hasCollision) endGame();
+            if (hasCollision){
+                snake.getSnakeArray().get(0).toFront();
+                endGame();
+            }
 
         }));
 
@@ -95,7 +100,7 @@ public class mainController implements Initializable {
         // Other input
 
         if (key == KeyCode.SPACE) {
-            // Pause game
+            snake.addSnakeBody(gamePane);
         }
     }
 

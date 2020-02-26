@@ -17,4 +17,14 @@ public class Blocks extends Rectangle {
     public int getBLOCK_SIZE() {
         return BLOCK_SIZE;
     }
+
+    public int getHashValue() {
+
+        // Calculating an unique value with the Cantor Pairing hash function
+
+        int x = (int) this.getX();
+        int y = (int) this.getY();
+
+        return (((x + y) * (x + y + 1)) / 2) + y;
+    }
 }

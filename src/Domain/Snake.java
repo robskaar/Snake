@@ -11,7 +11,10 @@ public class Snake {
     private Direction snakeDirection = Direction.RIGHT;
 
     public Snake() {
-        snakeArray.add(new SnakeHead());       // Add snake head
+        snakeArray.add(new SnakeHead());                    // Add snake head
+        snakeArray.add(new SnakeBody(280,300));  // Add body part
+        snakeArray.add(new SnakeBody(260,300));  // Add body part
+
     }
 
     public void moveSnake() {
@@ -42,21 +45,21 @@ public class Snake {
 
     public boolean checkCollision() {
 
-        // Get position of the snake head
-        double snakeX = snakeArray.get(0).getX();
-        double snakeY = snakeArray.get(0).getY();
+        // Check collision with snake it self
 
-        // Check collision with snake itself
-        for (int i = 1; i < snakeArray.size() - 1; i++) {
+        for (int i = 1; i <= snakeArray.size() - 1 ; i++) {
 
-            // Next body block to be checked for collision with head
-            Blocks currentCheck = snakeArray.get(i);
+            int headHash = snakeArray.get(0).getHashValue();
+            int checkHash = snakeArray.get(i).getHashValue();
 
-            // If a block has same coordinates then return true
-            if (snakeX == currentCheck.getX() && snakeY == currentCheck.getY()) {
+            if(headHash == checkHash){
                 return true;
             }
         }
+
+        // Get position of the snake head
+        double snakeX = snakeArray.get(0).getX();
+        double snakeY = snakeArray.get(0).getY();
 
         // Check collision with borders (Pane is 600x600)
         if (snakeX >= 600 || snakeX < 0 || snakeY >= 600 || snakeY < 0) {
@@ -91,4 +94,6 @@ public class Snake {
     public void setSnakeDirection(Direction snakeDirection) {
         this.snakeDirection = snakeDirection;
     }
+
+
 }
