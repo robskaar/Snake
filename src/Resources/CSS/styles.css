@@ -1,5 +1,16 @@
-/* Setting height and width for panes*/
 
+@font-face {
+    font-family: "StrenuousThreeD-Regular";
+    font-style: normal;
+    font-weight: 400px;
+    src: url("strenuous3d.ttf");
+}
+@font-face {
+    font-family: "ka1";
+    font-style: normal;
+    font-weight: 400px;
+    src: url("ka1.ttf");
+}
 .BorderPane {
     -fx-pref-width: 600;
     -fx-pref-height: 600;
@@ -25,7 +36,15 @@
     -fx-stroke: black;
 }
 .userName{
+    -fx-font-size: 40;
+    -fx-font-family: "StrenuousThreeD-Regular" !important;
     -fx-background-color: white;
+}
+
+.MenuButtons{
+    -fx-font-size: 30;
+    -fx-font-family: "Karmatic Arcade" !important;
+    -fx-background-color: Transparent;
 }
 
 

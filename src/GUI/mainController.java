@@ -60,7 +60,9 @@ public class mainController implements Initializable {
         overlayPane.setFocusTraversable(true);       // Make key input possible on overlay pane
         initFPSTimeline();                           // Timeline to move snake
         initCollisionTimeline();                     // Timeline to detect collision
-
+        FPStimeline.pause();                        // pauses timeline
+        CollisionTimeline.pause();                   // pauses timeline
+        menuPane.setVisible(true);                   //initially shows main menu
 
         userNameField.setOnMouseClicked(e->{
             userNameField.setEditable(true);

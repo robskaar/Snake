@@ -19,7 +19,6 @@
             <AnchorPane fx:id="overlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" onKeyPressed="#getKeyInput" prefHeight="600.0" prefWidth="600.0" styleClass="Overlay">
                <children>
                   <Label fx:id="score" layoutX="40.0" layoutY="29.0" text="Score" />
-                  <Button layoutX="84.0" layoutY="70.0" mnemonicParsing="false" onAction="#addToSnakeBody" text="Add snakeblock" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="countDownPane" prefHeight="200.0" prefWidth="200.0" styleClass="Menu" visible="false">
@@ -37,32 +36,32 @@
                      <children>
                         <TextField fx:id="userNameField" alignment="CENTER" prefHeight="26.0" prefWidth="364.0" promptText="User Name" styleClass="userName">
                            <VBox.margin>
-                              <Insets bottom="30.0" left="50.0" right="50.0" top="50.0" />
+                              <Insets left="50.0" right="50.0" top="50.0" />
                            </VBox.margin>
                         </TextField>
-                        <Button mnemonicParsing="false" onAction="#resumeGame" prefHeight="54.0" prefWidth="499.0" text="RESUME GAME">
+                        <Button mnemonicParsing="false" onAction="#resumeGame" prefHeight="54.0" prefWidth="499.0" styleClass="MenuButtons" text="RESUME GAME">
                            <VBox.margin>
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#newGame" prefHeight="54.0" prefWidth="610.0" text="NEW GAME">
+                        <Button mnemonicParsing="false" onAction="#newGame" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="NEW GAME">
                            <VBox.margin>
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="610.0" text="SETTINGS">
+                        <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="SETTINGS">
                            <VBox.margin>
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="610.0" text="HIGHSCORES">
+                        <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="HIGHSCORES">
                            <VBox.margin>
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#quitGame" prefHeight="54.0" prefWidth="610.0" text="QUIT">
+                        <Button mnemonicParsing="false" onAction="#quitGame" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="QUIT">
                            <VBox.margin>
-                              <Insets left="50.0" right="50.0" top="20.0" />
+                              <Insets bottom="50.0" left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
                         </Button>
                      </children>
