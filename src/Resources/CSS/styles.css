@@ -1,19 +1,32 @@
-
 /* Setting height and width for panes*/
 
-.BorderPane{
+.BorderPane {
     -fx-pref-width: 600;
     -fx-pref-height: 600;
     -fx-background-color: brown;
 }
 
-.StackPane{
+.StackPane {
 }
 
-.AnchorPane{
+.AnchorPane {
     -fx-background-color: grey;
 }
 
-.Overlay{
+.Overlay {
     -fx-background-color: Transparent !important;
 }
+
+.Menu {
+    -fx-background-color: rgba(255, 255, 255, 0.75);
+}
+.Counter .text {
+    -fx-stroke-width: 2px;
+    -fx-stroke: black;
+}
+.userName{
+    -fx-background-color: white;
+}
+
+
+
