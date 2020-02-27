@@ -1,16 +1,16 @@
+@font-face {
+    font-family: "Gagalin";
+    font-style: normal;
+    font-weight: 400px;
+    src: url("Gagalin-Regular.ttf");
+}
+@font-face {
+    font-family: "Evil Empire";
+    font-style: normal;
+    font-weight: 400px;
+    src: url("EvilEmpire-4BBVK.ttf");
+}
 
-@font-face {
-    font-family: "StrenuousThreeD-Regular";
-    font-style: normal;
-    font-weight: 400px;
-    src: url("strenuous3d.ttf");
-}
-@font-face {
-    font-family: "ka1";
-    font-style: normal;
-    font-weight: 400px;
-    src: url("ka1.ttf");
-}
 .BorderPane {
     -fx-pref-width: 600;
     -fx-pref-height: 600;
@@ -36,15 +36,22 @@
     -fx-stroke: black;
 }
 .userName{
-    -fx-font-size: 40;
-    -fx-font-family: "StrenuousThreeD-Regular" !important;
+    -fx-font-size: 20;
+    -fx-font-family: "Evil Empire" !important;
     -fx-background-color: white;
+    -fx-background-radius: 50 50 50 50;
+    -fx-border-radius: 50 50 50 50;
+   -fx-border-width: 2px;
+   -fx-border-color: black;
 }
 
 .MenuButtons{
     -fx-font-size: 30;
-    -fx-font-family: "Karmatic Arcade" !important;
+    -fx-font-family: "Gagalin" !important;
     -fx-background-color: Transparent;
+}
+.Settings{
+    -fx-background-color: rgba(255, 255, 255, 0.75);
 }
 
 

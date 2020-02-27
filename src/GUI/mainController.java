@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -17,9 +18,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 
@@ -29,10 +33,12 @@ public class mainController implements Initializable {
     private Label countDown;
     @FXML
     private Label score;
-
+    @FXML
+    private Button resumeButton;
     @FXML
     private AnchorPane gamePane;
-
+    @FXML
+    private AnchorPane settingsPane;
     @FXML
     private AnchorPane menuPane;
     @FXML
@@ -71,6 +77,8 @@ public class mainController implements Initializable {
             userNameField.setStyle("-fx-background-color: transparent");
             userNameField.setEditable(false);
         });
+        resumeButton.setDisable(true);
+
 
 
     }
@@ -140,9 +148,16 @@ public class mainController implements Initializable {
     }
 
     public void showMenu() {
+
         FPStimeline.pause();
         CollisionTimeline.pause();
+        settingsPane.setVisible(false);
         menuPane.setVisible(true);
+    }
+
+    public void showSettings(){
+        menuPane.setVisible(false);
+        settingsPane.setVisible(true);
     }
 
     public void resumeGame() {
@@ -184,6 +199,7 @@ public class mainController implements Initializable {
         }
     }
 
+
     public boolean isUserNameSupplied() {
         if (userNameField.getText().isEmpty()) {
             userNameField.setEditable(true);
@@ -201,6 +217,7 @@ public class mainController implements Initializable {
 
     public void newGame() {
         if (isUserNameSupplied()) {
+            resumeButton.setDisable(false);
             userNameField.setTooltip(null);
             gamePane.getChildren().clear();
             snake = new Snake();                          // Create new snake
