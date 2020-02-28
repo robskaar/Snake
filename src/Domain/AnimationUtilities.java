@@ -28,7 +28,6 @@ public class AnimationUtilities {
     public void play() {
         music.play(-1);
         winnerSnake();
-        //winnerLabel();
     }
 
     private void winnerSnake() {
@@ -215,7 +214,7 @@ public class AnimationUtilities {
         timeline.play();
     }
 
-    private void playFireworks(){
+    private void playFireworks() {
 
         AudioPlayer ap = new AudioPlayer("C:\\Users\\jacob\\Desktop\\Snake\\src\\Resources\\Sound\\RocketExplosion.wav");
         ap.play(1);
