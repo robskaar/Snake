@@ -3,6 +3,7 @@ package GUI;
 import Domain.AudioPlayer;
 import Domain.Blocks;
 import Domain.Direction;
+import Domain.Food;
 import Domain.Snake;
 import javafx.animation.*;
 
@@ -50,6 +51,8 @@ public class mainController implements Initializable {
     private TextField userNameField;
     @FXML
     private AnchorPane overlayPane;
+
+    static Food yumyum;
     volatile StringProperty countDownNo = new SimpleStringProperty(""); // used to countdown when resuming / starting a game
     Timeline FPStimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
@@ -81,6 +84,7 @@ public class mainController implements Initializable {
             userNameField.setStyle("-fx-background-color: transparent");
             userNameField.setEditable(false);
         });
+        resumeButton.setDisable(true);
 
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
         resumeButton.setOnAction(e -> { // set on action for resume button
@@ -94,8 +98,6 @@ public class mainController implements Initializable {
             playGameSound(true);
             newGame();
         });
-
-
     }
 
     public void setMode(){
@@ -139,12 +141,23 @@ public class mainController implements Initializable {
         CollisionTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1), ActionEvent -> {
 
             // Check if snake collides with anything
-            boolean hasCollision = snake.checkCollision();
+            boolean hasSelfCollision, hasBorderCollision, hasFoodCollision;
+            hasSelfCollision = snake.checkSelfCollision();
+            hasBorderCollision = snake.checkBorderCollision();
+            hasFoodCollision = snake.checkFoodCollision();
 
-            // End game if collision is detected
-            if (hasCollision) {
+
+            // End game if collision with self or border is detected
+            if (hasSelfCollision || hasBorderCollision) {
                 snake.getSnakeArray().get(0).toFront();
                 endGame();
+            }
+
+            // expand snake if collision with food is detected
+
+            if(hasFoodCollision){
+                snake.addSnakeBody(gamePane);
+                generateFood();
             }
 
         }));
@@ -261,6 +274,8 @@ public class mainController implements Initializable {
             gamePane.getChildren().clear();
             snake = new Snake();                          // Create new snake
 
+            generateFood();
+
             for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
                 gamePane.getChildren().add(block);
             }
@@ -307,5 +322,31 @@ public class mainController implements Initializable {
     // Temp method for button
     public void addToSnakeBody() {
         snake.addSnakeBody(gamePane);
+    }
+
+    // generates a new food token at a random location on the playfield
+    public void generateFood(){
+        gamePane.getChildren().remove(yumyum);
+
+        double rndX, rndY;
+        rndX = Math.random() * 600;
+        if(rndX>=600)rndX=rndX-20;
+        rndY = Math.random() * 600;
+        if(rndY>=600)rndY=rndY-20;
+        rndX=Math.round(rndX);
+        rndY=Math.round(rndY);
+
+        rndX=rndX-(rndX%20);
+        rndY=rndY-(rndY%20);
+
+        yumyum = new Food();
+        yumyum.setX(rndX);
+        yumyum.setY(rndY);
+
+        gamePane.getChildren().add(yumyum);
+    }
+
+    public static Food getFood(){
+        return yumyum;
     }
 }
