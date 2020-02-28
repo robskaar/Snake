@@ -19,18 +19,21 @@ import java.util.Random;
 public class AnimationUtilities {
 
     private Pane pane;
+    private AudioPlayer music = new AudioPlayer("C:\\Users\\jacob\\Desktop\\Snake\\src\\Resources\\Sound\\victoryFanfareCut1.wav");
 
     public AnimationUtilities(Pane pane) {
         this.pane = pane;
     }
 
     public void play() {
+        music.play(-1);
         winnerSnake();
+        //winnerLabel();
     }
 
     private void winnerSnake() {
 
-        final int BLOCK_SIZE = 60;
+        final int BLOCK_SIZE = 40;
         final int PANE_SIZE = 600;
         final double NUMBER_OF_BLOCKS = Math.pow((PANE_SIZE / BLOCK_SIZE), 2);
         final int ANIMATION_TIME_MS = 3000;
@@ -57,7 +60,7 @@ public class AnimationUtilities {
 
                 // Set black outline on blocks
                 rectangle.setStrokeType(StrokeType.INSIDE);
-                rectangle.setStrokeWidth(2);
+                rectangle.setStrokeWidth(1);
                 rectangle.setStroke(Color.BLACK);
 
                 pane.getChildren().add(rectangle);
@@ -78,10 +81,11 @@ public class AnimationUtilities {
 
     private void confettiCanon() {
 
+        playFireworks();
+
         Random ran = new Random();
         int circleSpawnX = 406;
         int circleSpawnY = 235;
-
 
         Timeline victoryTimeline = new Timeline();
         victoryTimeline.setAutoReverse(false);
@@ -120,6 +124,9 @@ public class AnimationUtilities {
     }
 
     private void fire() {
+
+        AudioPlayer audioPlayer = new AudioPlayer("C:\\Users\\jacob\\Desktop\\Snake\\src\\Resources\\Sound\\RocketLaunch.wav");
+        audioPlayer.play(1);
 
         final Duration DURATION = Duration.millis(2500);
 
@@ -206,6 +213,24 @@ public class AnimationUtilities {
         });
 
         timeline.play();
+    }
+
+    private void playFireworks(){
+
+        AudioPlayer ap = new AudioPlayer("C:\\Users\\jacob\\Desktop\\Snake\\src\\Resources\\Sound\\RocketExplosion.wav");
+        ap.play(1);
+
+        Random ran = new Random();
+        Timeline timeline = new Timeline();
+        timeline.setAutoReverse(false);
+        timeline.setCycleCount(3);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), ActionEvent -> {
+            AudioPlayer audioPlayer = new AudioPlayer("C:\\Users\\jacob\\Desktop\\Snake\\src\\Resources\\Sound\\RocketExplosion.wav");
+            audioPlayer.play(1);
+            timeline.setRate(ran.nextInt(1) + 0.5);
+        }));
+        timeline.play();
+
     }
 
 }
