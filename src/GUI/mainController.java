@@ -1,10 +1,6 @@
 package GUI;
 
-import Domain.AudioPlayer;
-import Domain.Blocks;
-import Domain.Direction;
-import Domain.Food;
-import Domain.Snake;
+import Domain.*;
 import javafx.animation.*;
 
 import javafx.application.Platform;
@@ -196,6 +192,11 @@ public class mainController implements Initializable {
                 playMenuSound(true);
                 showMenu();
             }
+        }
+
+        if(key == KeyCode.P){
+            AnimationUtilities animationUtilities = new AnimationUtilities(gamePane);
+            animationUtilities.play();
         }
     }
 
