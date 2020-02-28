@@ -1,0 +1,21 @@
+
+/* Setting height and width for panes*/
+
+.BorderPane{
+    -fx-pref-width: 600;
+    -fx-pref-height: 600;
+    -fx-background-color: brown;
+}
+
+.StackPane{
+}
+
+.AnchorPane{
+    -fx-background-color: grey;
+}
+
+.Overlay{
+    -fx-background-color: Transparent !important;
+}
+
+
