@@ -19,7 +19,7 @@ import java.util.Random;
 public class AnimationUtilities {
 
     private Pane pane;
-    private AudioPlayer music = new AudioPlayer("C:\\Users\\jacob\\Desktop\\Snake\\src\\Resources\\Sound\\victoryFanfareCut1.wav");
+    private AudioPlayer music = new AudioPlayer("src\\Resources\\Sound\\victoryFanfareCut1.wav");
 
     public AnimationUtilities(Pane pane) {
         this.pane = pane;
@@ -124,7 +124,7 @@ public class AnimationUtilities {
 
     private void fire() {
 
-        AudioPlayer audioPlayer = new AudioPlayer("C:\\Users\\jacob\\Desktop\\Snake\\src\\Resources\\Sound\\RocketLaunch.wav");
+        AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketLaunch.wav");
         audioPlayer.play(1);
 
         final Duration DURATION = Duration.millis(2500);
@@ -216,7 +216,7 @@ public class AnimationUtilities {
 
     private void playFireworks() {
 
-        AudioPlayer ap = new AudioPlayer("C:\\Users\\jacob\\Desktop\\Snake\\src\\Resources\\Sound\\RocketExplosion.wav");
+        AudioPlayer ap = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
         ap.play(1);
 
         Random ran = new Random();
@@ -224,7 +224,7 @@ public class AnimationUtilities {
         timeline.setAutoReverse(false);
         timeline.setCycleCount(3);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), ActionEvent -> {
-            AudioPlayer audioPlayer = new AudioPlayer("C:\\Users\\jacob\\Desktop\\Snake\\src\\Resources\\Sound\\RocketExplosion.wav");
+            AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
             audioPlayer.play(1);
             timeline.setRate(ran.nextInt(1) + 0.5);
         }));
