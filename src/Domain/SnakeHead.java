@@ -9,7 +9,7 @@ public class SnakeHead extends Blocks {
     private final int POSITION_Y = 300;
 
     public SnakeHead() {
-        super(new Image("Resources/Images/snakeHead.png"));  // Set width, height and image
+        super(new Image("Resources/Images/snakeHeadCustom.png"));  // Set width, height and image
         this.setX(POSITION_X);
         this.setY(POSITION_Y);
     }

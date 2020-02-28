@@ -143,8 +143,10 @@ public class AnimationUtilities {
         scaleTransition.setToX(3);
         scaleTransition.setToY(3);
         scaleTransition.setOnFinished(ActionEvent -> {
+            audioPlayer.stop();
             confettiCanon();
         });
+
 
         // Move fire a little up to compensate for scaling
         TranslateTransition translateTransition = new TranslateTransition(DURATION, imageView);

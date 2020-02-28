@@ -20,9 +20,10 @@
             <AnchorPane fx:id="gamePane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="AnchorPane" />
             <AnchorPane fx:id="overlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" onKeyPressed="#getKeyInput" prefHeight="600.0" prefWidth="600.0" styleClass="Overlay">
                <children>
-                  <Label fx:id="score" layoutX="40.0" layoutY="29.0" text="Score" />
+                  <Label fx:id="score" layoutX="40.0" layoutY="29.0" styleClass="scoreLabel" text="Score" />
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="highScorePane" prefHeight="200.0" prefWidth="200.0" />
             <AnchorPane fx:id="countDownPane" prefHeight="200.0" prefWidth="200.0" styleClass="Menu" visible="false">
                <children>
                   <Label fx:id="countDown" alignment="CENTER" contentDisplay="CENTER" prefHeight="151.0" prefWidth="216.0" styleClass="Counter" textAlignment="CENTER" AnchorPane.bottomAnchor="224.0" AnchorPane.leftAnchor="192.0" AnchorPane.topAnchor="225.0">
@@ -56,7 +57,7 @@
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="HIGHSCORES">
+                        <Button fx:id="highScoreButton" mnemonicParsing="false" onAction="#showHighScoreOnEnd" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="HIGHSCORES">
                            <VBox.margin>
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
