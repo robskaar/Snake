@@ -36,6 +36,8 @@ public class mainController implements Initializable {
     @FXML
     private Button resumeButton;
     @FXML
+    private Button highScoreButton;
+    @FXML
     private AnchorPane gamePane;
     @FXML
     private AnchorPane settingsPane;
@@ -44,15 +46,19 @@ public class mainController implements Initializable {
     @FXML
     private AnchorPane countDownPane;
     @FXML
+    private AnchorPane highScorePane;
+    @FXML
     private TextField userNameField;
     @FXML
     private AnchorPane overlayPane;
 
     static Food yumyum;
+    static Snake snake;
+    static String difficulty;
+    static Score currentScore;
     volatile StringProperty countDownNo = new SimpleStringProperty(""); // used to countdown when resuming / starting a game
     Timeline FPStimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
-    static Snake snake;
     AudioPlayer menuSound = new AudioPlayer("src/Resources/Sound/MenuSound.wav");
     AudioPlayer gameSound = new AudioPlayer("src/Resources/Sound/GameSound.wav");
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
@@ -71,6 +77,7 @@ public class mainController implements Initializable {
         FPStimeline.pause();                        // pauses timeline
         CollisionTimeline.pause();                   // pauses timeline
         menuPane.setVisible(true);                   //initially shows main menu
+        overlayPane.setVisible(false);               // Hide overlay
 
         userNameField.setOnMouseClicked(e -> { // set on mouse click actions for username field
             userNameField.setEditable(true);
@@ -94,25 +101,25 @@ public class mainController implements Initializable {
             playGameSound(true);
             newGame();
         });
+
+
     }
 
-    public void setMode(){
+    public void setMode() {
 
         easyDifficultyButton.setToggleGroup(levelDifficulty);
         normalDifficultyButton.setToggleGroup(levelDifficulty);
         hardDifficultyButton.setToggleGroup(levelDifficulty);
 
-        if (easyDifficultyButton.isArmed()){
+        if (easyDifficultyButton.isArmed()) {
             FPStimeline.setRate(2);
-
-        }
-        else if(normalDifficultyButton.isArmed()){
+            difficulty = "Easy";
+        } else if (normalDifficultyButton.isArmed()) {
             FPStimeline.setRate(4);
-
-        }
-        else if (hardDifficultyButton.isArmed()){
+            difficulty = "Normal";
+        } else if (hardDifficultyButton.isArmed()) {
             FPStimeline.setRate(6);
-
+            difficulty = "Hard";
         }
 
     }
@@ -151,7 +158,9 @@ public class mainController implements Initializable {
 
             // expand snake if collision with food is detected
 
-            if(hasFoodCollision){
+            if (hasFoodCollision) {
+                currentScore.setScore(currentScore.getScore() + 1);
+                score.setText(Integer.toString(currentScore.getScore()));
                 snake.addSnakeBody(gamePane);
                 generateFood();
             }
@@ -170,14 +179,11 @@ public class mainController implements Initializable {
 
         if (key == KeyCode.DOWN && snakeDirection != Direction.UP) {
             snake.setSnakeDirection(Direction.DOWN);
-        }
-        else if (key == KeyCode.LEFT && snakeDirection != Direction.RIGHT) {
+        } else if (key == KeyCode.LEFT && snakeDirection != Direction.RIGHT) {
             snake.setSnakeDirection(Direction.LEFT);
-        }
-        else if (key == KeyCode.RIGHT && snakeDirection != Direction.LEFT) {
+        } else if (key == KeyCode.RIGHT && snakeDirection != Direction.LEFT) {
             snake.setSnakeDirection(Direction.RIGHT);
-        }
-        else if (key == KeyCode.UP && snakeDirection != Direction.DOWN) {
+        } else if (key == KeyCode.UP && snakeDirection != Direction.DOWN) {
             snake.setSnakeDirection(Direction.UP);
         }
 
@@ -186,15 +192,14 @@ public class mainController implements Initializable {
         if (key == KeyCode.SPACE) {
             if (FPStimeline.getStatus().equals(Animation.Status.PAUSED)) {
                 // you cant pause if the game is paused.
-            }
-            else {
+            } else {
                 playGameSound(false);
                 playMenuSound(true);
                 showMenu();
             }
         }
 
-        if(key == KeyCode.P){          // Plays victory animation
+        if (key == KeyCode.P) {          // Plays victory animation
             FPStimeline.stop();
             CollisionTimeline.stop();
             menuSound.stop();
@@ -212,6 +217,7 @@ public class mainController implements Initializable {
         CollisionTimeline.pause();
         settingsPane.setVisible(false);
         menuPane.setVisible(true);
+        overlayPane.setVisible(false);
     }
 
     public void showSettings() {
@@ -255,9 +261,10 @@ public class mainController implements Initializable {
             );
             countDowns.setCycleCount(1);
             countDowns.play();
+
+            overlayPane.setVisible(true);
         }
     }
-
 
     public boolean isUserNameSupplied() {
         if (userNameField.getText().isEmpty()) {
@@ -266,8 +273,7 @@ public class mainController implements Initializable {
             userNameField.setStyle("-fx-background-color: white");
             userNameField.setTooltip(new Tooltip("YOU MUST PROVIDE A USERNAME"));
             return false;
-        }
-        else {
+        } else {
             userNameField.setStyle("-fx-background-color: transparent");
             return true;
         }
@@ -276,11 +282,15 @@ public class mainController implements Initializable {
 
     public void newGame() {
         if (isUserNameSupplied()) {
+            overlayPane.setVisible(true);
             resumeButton.setDisable(false);
             userNameField.setTooltip(null);
             gamePane.getChildren().clear();
-            snake = new Snake();                          // Create new snake
 
+            // Create new score and bind value to label
+            currentScore = new Score(userNameField.getText(), 0, difficulty);
+
+            snake = new Snake();                          // Create new snake
             generateFood();
 
             for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
@@ -294,23 +304,19 @@ public class mainController implements Initializable {
         Platform.exit();
     }
 
-
     public void playGameSound(Boolean play) {
         if (play) {
             gameSound.play(-1);
-        }
-        else {
+        } else {
             gameSound.stop();
         }
 
     }
 
-
     public void playMenuSound(Boolean play) {
         if (play) {
             menuSound.play(-1);
-        }
-        else {
+        } else {
             menuSound.stop();
 
         }
@@ -320,31 +326,40 @@ public class mainController implements Initializable {
     public void endGame() {
         FPStimeline.stop();       // Stop moving the snake..
         CollisionTimeline.stop();
-        score.setText("Game ended. u ded bot");
+        currentScore.writeCSV();
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
-        showMenu();
-
+        //showMenu();
+        showHighScoreOnEnd();
     }
 
-    // Temp method for button
-    public void addToSnakeBody() {
-        snake.addSnakeBody(gamePane);
+    public void showHighScoreOnEnd() {
+        FPStimeline.pause();
+        CollisionTimeline.pause();
+        settingsPane.setVisible(false);
+        menuPane.setVisible(false);
+        overlayPane.setVisible(false);
+        highScorePane.setVisible(true);
+
+        gameSound.stop();
+        menuSound.play(-1);
+
+        new Score().showHighScores(highScorePane);
     }
 
     // generates a new food token at a random location on the playfield
-    public void generateFood(){
+    public void generateFood() {
         gamePane.getChildren().remove(yumyum);
 
         double rndX, rndY;
         rndX = Math.random() * 600;
-        if(rndX>=600)rndX=rndX-20;
+        if (rndX >= 600) rndX = rndX - 20;
         rndY = Math.random() * 600;
-        if(rndY>=600)rndY=rndY-20;
-        rndX=Math.round(rndX);
-        rndY=Math.round(rndY);
+        if (rndY >= 600) rndY = rndY - 20;
+        rndX = Math.round(rndX);
+        rndY = Math.round(rndY);
 
-        rndX=rndX-(rndX%20);
-        rndY=rndY-(rndY%20);
+        rndX = rndX - (rndX % 20);
+        rndY = rndY - (rndY % 20);
 
         yumyum = new Food();
         yumyum.setX(rndX);
@@ -353,7 +368,7 @@ public class mainController implements Initializable {
         gamePane.getChildren().add(yumyum);
     }
 
-    public static Food getFood(){
+    public static Food getFood() {
         return yumyum;
     }
 }
