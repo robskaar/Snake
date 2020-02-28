@@ -30,13 +30,14 @@ public class AnimationUtilities {
 
     private void winnerSnake() {
 
-        final int BLOCK_SIZE = 30;
+        final int BLOCK_SIZE = 60;
         final int PANE_SIZE = 600;
+        final double NUMBER_OF_BLOCKS = Math.pow((PANE_SIZE / BLOCK_SIZE), 2);
         final int ANIMATION_TIME_MS = 3000;
 
         // Creates queue with blocks that covers whole pane
         Queue<Rectangle> queue = new LinkedList<>();
-        for (int i = 0; i < PANE_SIZE; i += BLOCK_SIZE * 2 ) {
+        for (int i = 0; i < PANE_SIZE; i += BLOCK_SIZE * 2) {
             for (int j = 0; j < PANE_SIZE; j += BLOCK_SIZE) {
                 queue.add(new Rectangle(j, i, BLOCK_SIZE, BLOCK_SIZE));
             }
@@ -47,20 +48,23 @@ public class AnimationUtilities {
 
         Timeline timeline = new Timeline();
         timeline.setAutoReverse(false);
-        timeline.setCycleCount(queue.size());
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(ANIMATION_TIME_MS / (Math.pow(PANE_SIZE/BLOCK_SIZE,2))), ActionEvent -> {
+        timeline.setCycleCount(queue.size() + (int) (NUMBER_OF_BLOCKS));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(ANIMATION_TIME_MS / NUMBER_OF_BLOCKS), ActionEvent -> {
 
-            Rectangle rectangle = queue.poll();
+            if (!queue.isEmpty()) {
 
-            // Set black outline on blocks
-            rectangle.setStrokeType(StrokeType.INSIDE);
-            rectangle.setStrokeWidth(2);
-            rectangle.setStroke(Color.BLACK);
+                Rectangle rectangle = queue.poll();
 
-            pane.getChildren().add(rectangle);
+                // Set black outline on blocks
+                rectangle.setStrokeType(StrokeType.INSIDE);
+                rectangle.setStrokeWidth(2);
+                rectangle.setStroke(Color.BLACK);
 
-            // Makes every block blink in random colors
-            shapeColorShow(rectangle,true,Duration.millis(20),300);
+                pane.getChildren().add(rectangle);
+
+                // Makes every block blink in random colors
+                shapeColorShow(rectangle, true, Duration.millis(20), 150);
+            }
 
         }));
 
@@ -75,21 +79,23 @@ public class AnimationUtilities {
     private void confettiCanon() {
 
         Random ran = new Random();
-        int circleSpawnX = 410;
-        int circleSpawnY = 240;
+        int circleSpawnX = 406;
+        int circleSpawnY = 235;
+
 
         Timeline victoryTimeline = new Timeline();
         victoryTimeline.setAutoReverse(false);
         victoryTimeline.setCycleCount(1000);
         victoryTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(10), ActionEvent -> {
 
+            // New circle with random size and black outline
             Circle circle = new Circle(ran.nextInt(15) + 2);
             circle.setLayoutX(circleSpawnX);
             circle.setLayoutY(circleSpawnY);
             circle.setStrokeType(StrokeType.INSIDE);
             circle.setStroke(Color.BLACK);
 
-            shapeColorShow(circle, true , Duration.millis(250) , 50);
+            shapeColorShow(circle, true, Duration.millis(250), 50);
 
             pane.getChildren().add(circle);
 
@@ -115,7 +121,7 @@ public class AnimationUtilities {
 
     private void fire() {
 
-        final Duration DURATION = Duration.millis(3000);
+        final Duration DURATION = Duration.millis(2500);
 
         ImageView imageView = new ImageView();
         imageView.setImage(new Image("Resources/Images/fire.gif"));
@@ -159,10 +165,9 @@ public class AnimationUtilities {
 
         pane.getChildren().add(text);
 
-        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(1000), text);
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(500), text);
         scaleTransition.setToX(8);
         scaleTransition.setToY(8);
-        scaleTransition.setDelay(Duration.millis(3000));
         scaleTransition.setOnFinished(ActionEvent -> {
             fire();
         });
@@ -174,15 +179,16 @@ public class AnimationUtilities {
     private void nodeToFront(Node node) {
 
         Timeline timeline = new Timeline();
-        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.setCycleCount(15000);
         timeline.setAutoReverse(false);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1), ActionEvent -> {
             node.toFront();
         }));
+
         timeline.play();
     }
 
-    private void shapeColorShow(Shape shape, Boolean endOnBlack, Duration duration , int cycleCount) {
+    private void shapeColorShow(Shape shape, Boolean endOnBlack, Duration duration, int cycleCount) {
 
         Timeline timeline = new Timeline();
         timeline.setAutoReverse(false);
@@ -201,4 +207,5 @@ public class AnimationUtilities {
 
         timeline.play();
     }
+
 }
