@@ -1,5 +1,6 @@
 package GUI;
 
+import Domain.AudioPlayer;
 import Domain.Blocks;
 import Domain.Direction;
 import Domain.Snake;
@@ -10,29 +11,31 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 
 public class mainController implements Initializable {
 
     @FXML
+    private ToggleButton easyDifficultyButton;
+    @FXML
+    private ToggleButton normalDifficultyButton;
+    @FXML
+    private ToggleButton hardDifficultyButton;
+    @FXML
     private Label countDown;
     @FXML
     private Label score;
+    @FXML
+    private Button newGameButton;
     @FXML
     private Button resumeButton;
     @FXML
@@ -47,21 +50,21 @@ public class mainController implements Initializable {
     private TextField userNameField;
     @FXML
     private AnchorPane overlayPane;
-    volatile StringProperty countDownNo = new SimpleStringProperty("");
+    volatile StringProperty countDownNo = new SimpleStringProperty(""); // used to countdown when resuming / starting a game
     Timeline FPStimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
     static Snake snake;
-
-    private String currentUser;
+    AudioPlayer menuSound = new AudioPlayer("src/Resources/Sound/MenuSound.wav");
+    AudioPlayer gameSound = new AudioPlayer("src/Resources/Sound/GameSound.wav");
+    ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        snake = new Snake();                          // Create new snake
-
-        for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
-            gamePane.getChildren().add(block);
-        }
+        playMenuSound(true);                        // start the menu sound
+        normalDifficultyButton.setSelected(true);   // sets initial difficulty to normal
+        normalDifficultyButton.arm();               // sets initial difficulty to normal
+        setMode();                                  // load the initial difficulty level
 
         overlayPane.setFocusTraversable(true);       // Make key input possible on overlay pane
         initFPSTimeline();                           // Timeline to move snake
@@ -70,19 +73,51 @@ public class mainController implements Initializable {
         CollisionTimeline.pause();                   // pauses timeline
         menuPane.setVisible(true);                   //initially shows main menu
 
-        userNameField.setOnMouseClicked(e->{
+        userNameField.setOnMouseClicked(e -> { // set on mouse click actions for username field
             userNameField.setEditable(true);
             userNameField.setStyle("-fx-background-color: white");
-        });userNameField.setOnAction(e->{
+        });
+        userNameField.setOnAction(e -> { // set on action for username field - when space is pressed.
             userNameField.setStyle("-fx-background-color: transparent");
             userNameField.setEditable(false);
         });
-        resumeButton.setDisable(true);
 
+        resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
+        resumeButton.setOnAction(e -> { // set on action for resume button
+            playMenuSound(false);
+            playGameSound(true);
+            resumeGame();
+        });
+
+        newGameButton.setOnAction(e -> { // set on action for new game button
+            playMenuSound(false);
+            playGameSound(true);
+            newGame();
+        });
 
 
     }
 
+    public void setMode(){
+
+        easyDifficultyButton.setToggleGroup(levelDifficulty);
+        normalDifficultyButton.setToggleGroup(levelDifficulty);
+        hardDifficultyButton.setToggleGroup(levelDifficulty);
+
+        if (easyDifficultyButton.isArmed()){
+            FPStimeline.setRate(2);
+
+        }
+        else if(normalDifficultyButton.isArmed()){
+            FPStimeline.setRate(4);
+
+        }
+        else if (hardDifficultyButton.isArmed()){
+            FPStimeline.setRate(6);
+
+        }
+
+    }
 
     public void initFPSTimeline() {
 
@@ -140,10 +175,14 @@ public class mainController implements Initializable {
         // Other input
 
         if (key == KeyCode.SPACE) {
-            if (FPStimeline.getStatus().equals(Animation.Status.PAUSED)){
+            if (FPStimeline.getStatus().equals(Animation.Status.PAUSED)) {
                 // you cant pause if the game is paused.
-            }else
-            showMenu();
+            }
+            else {
+                playGameSound(false);
+                playMenuSound(true);
+                showMenu();
+            }
         }
     }
 
@@ -155,7 +194,7 @@ public class mainController implements Initializable {
         menuPane.setVisible(true);
     }
 
-    public void showSettings(){
+    public void showSettings() {
         menuPane.setVisible(false);
         settingsPane.setVisible(true);
     }
@@ -233,11 +272,36 @@ public class mainController implements Initializable {
         Platform.exit();
     }
 
+
+    public void playGameSound(Boolean play) {
+        if (play) {
+            gameSound.play(-1);
+        }
+        else {
+            gameSound.stop();
+        }
+
+    }
+
+
+    public void playMenuSound(Boolean play) {
+        if (play) {
+            menuSound.play(-1);
+        }
+        else {
+            menuSound.stop();
+
+        }
+
+    }
+
     public void endGame() {
         FPStimeline.stop();       // Stop moving the snake..
         CollisionTimeline.stop();
         score.setText("Game ended. u ded bot");
+        resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
         showMenu();
+
     }
 
     // Temp method for button
