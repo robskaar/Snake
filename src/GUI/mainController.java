@@ -194,7 +194,13 @@ public class mainController implements Initializable {
             }
         }
 
-        if(key == KeyCode.P){
+        if(key == KeyCode.P){          // Plays victory animation
+            FPStimeline.stop();
+            CollisionTimeline.stop();
+            menuSound.stop();
+            gameSound.stop();
+            overlayPane.setVisible(false);
+            gamePane.getChildren().clear();
             AnimationUtilities animationUtilities = new AnimationUtilities(gamePane);
             animationUtilities.play();
         }
