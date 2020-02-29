@@ -1,8 +1,10 @@
 package GUI;
 
 import Domain.*;
-import javafx.animation.*;
-
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -16,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 
@@ -61,6 +64,10 @@ public class mainController implements Initializable {
     Timeline CollisionTimeline = new Timeline();
     AudioPlayer menuSound = new AudioPlayer("src/Resources/Sound/MenuSound.wav");
     AudioPlayer gameSound = new AudioPlayer("src/Resources/Sound/GameSound.wav");
+    AudioPlayer foodSlurp = new AudioPlayer("src/Resources/Sound/Slurping+1.wav");
+    AudioPlayer foodBite = new AudioPlayer("src/Resources/Sound/bite.wav");
+    AudioPlayer foodChomp = new AudioPlayer("src/Resources/Sound/Chomp+1.wav");
+    AudioPlayer gameOver = new AudioPlayer("src/Resources/Sound/gameover.wav");
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
 
     @Override
@@ -155,6 +162,7 @@ public class mainController implements Initializable {
             // End game if collision with self or border is detected
             if (hasSelfCollision || hasBorderCollision) {
                 snake.getSnakeArray().get(0).toFront();
+                gameOver.play(0);
                 endGame();
             }
 
@@ -165,6 +173,7 @@ public class mainController implements Initializable {
                 score.setText(Integer.toString(currentScore.getScore()));
                 snake.addSnakeBody(gamePane);
                 generateFood();
+                playRandomFoodSound();
             }
 
         }));
@@ -374,5 +383,23 @@ public class mainController implements Initializable {
 
     public static Food getFood() {
         return yumyum;
+    }
+
+    private void playRandomFoodSound() {
+        Random r = new Random();
+        switch (r.nextInt(3)) {
+            case 0:
+                foodBite.restart();
+                foodBite.play(0);
+                break;
+            case 1:
+                foodChomp.restart();
+                foodChomp.play(0);
+                break;
+            case 2:
+                foodSlurp.restart();
+                foodSlurp.play(0);
+                break;
+        }
     }
 }
