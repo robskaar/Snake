@@ -37,6 +37,11 @@
     -fx-font-size: 20;
 }
 
+.highscoreLabel{
+    -fx-font-family: "Karmatic Arcade";
+    -fx-font-size: 50;
+}
+
 .Menu {
     -fx-background-color: rgba(255, 255, 255, 0.75);
 }
@@ -74,17 +79,13 @@
 
 .HighScores{
     -fx-font-size: 20;
-    -fx-pref-width: 450;
+    -fx-pref-width: 500;
 }
 
 .HighScores .table-column {
-    -fx-pref-width: 150;
     -fx-alignment: center;
 }
 
-.HighScores .table-column .text {
-
-}
 
 
 
