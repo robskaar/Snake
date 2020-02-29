@@ -36,8 +36,6 @@ public class mainController implements Initializable {
     @FXML
     private Button resumeButton;
     @FXML
-    private Button highScoreButton;
-    @FXML
     private AnchorPane gamePane;
     @FXML
     private AnchorPane settingsPane;
@@ -285,6 +283,7 @@ public class mainController implements Initializable {
         if (isUserNameSupplied()) {
             overlayPane.setVisible(true);
             resumeButton.setDisable(false);
+            highScorePane.setVisible(false);
             userNameField.setTooltip(null);
             gamePane.getChildren().clear();
 
