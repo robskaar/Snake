@@ -25,6 +25,11 @@
             </AnchorPane>
             <AnchorPane fx:id="highScorePane" prefHeight="200.0" prefWidth="200.0">
                <children>
+                  <Label alignment="CENTER" layoutY="-15.0" prefHeight="150.0" prefWidth="600.0" styleClass="highscoreLabel" text="HIGHSCORES">
+                     <font>
+                        <Font size="49.0" />
+                     </font>
+                  </Label>
                   <Button layoutX="21.0" layoutY="25.0" mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" />
                </children></AnchorPane>
             <AnchorPane fx:id="countDownPane" prefHeight="200.0" prefWidth="200.0" styleClass="Menu" visible="false">

@@ -2,7 +2,9 @@ package Domain;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import javafx.scene.control.TableColumn;
+
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
@@ -12,7 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Score{
+public class Score {
 
     private String pathCSV = "src/Resources/CSV/HighScores.csv";
 
@@ -20,11 +22,12 @@ public class Score{
     private String difficulty;
     private int score;
 
-    private static ObservableList<Score> highScores = FXCollections.observableArrayList();
+    private ObservableList<Score> highScores = FXCollections.observableArrayList();
 
-    public Score(){}
+    public Score() {
+    }
 
-    public Score(String name, Integer score, String difficulty){
+    public Score(String name, Integer score, String difficulty) {
         this.name = name;
         this.score = score;
         this.difficulty = difficulty;
@@ -50,7 +53,7 @@ public class Score{
         }
     }
 
-    public void readCSV(){
+    public void readCSV() {
 
         BufferedReader bufferedReader = null;
 
@@ -82,28 +85,41 @@ public class Score{
         }
     }
 
+    public void addToObservableList(){
+        highScores.add(this);
+    }
+
     public void showHighScores(Pane pane) {
 
         readCSV();
 
         TableView tableView = new TableView();
         tableView.getStyleClass().addAll("HighScores");
-        tableView.setLayoutX(75);
-        tableView.setLayoutY(150);
+        tableView.setLayoutX(50);
+        tableView.setLayoutY(140);
+
 
         TableColumn<String, Score> name = new TableColumn<>("Name");
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        name.setPrefWidth(275);
 
         TableColumn<Integer, Score> score = new TableColumn<>("Score");
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
         score.setSortType(TableColumn.SortType.DESCENDING);
+        score.setPrefWidth(100);
 
-        TableColumn<String, Score> difficulty = new TableColumn<>("Difficulty");
+        TableColumn<String, Score> difficulty = new TableColumn<>("Level");
         difficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
+        difficulty.setPrefWidth(100);
 
-        tableView.getColumns().addAll(name,score,difficulty);
+        tableView.getColumns().addAll(name, score, difficulty);
         tableView.setItems(highScores);
-        tableView.getSortOrder().addAll(score,difficulty);
+        tableView.getSortOrder().addAll(score, difficulty);
+
+        System.out.println(highScores.indexOf(this));
+
+        tableView.getSelectionModel().select(highScores.indexOf(this));
+        tableView.scrollTo(highScores.indexOf(this));
 
         pane.getChildren().add(tableView);
     }
