@@ -372,23 +372,32 @@ public class mainController implements Initializable {
 
     // generates a new food token at a random location on the playfield
     public void generateFood() {
+
         gamePane.getChildren().remove(yumyum);
+        boolean foodIsUnderSnake =  false;
 
-        double rndX, rndY;
-        rndX = Math.random() * 600;
-        if (rndX >= 600) rndX = rndX - 20;
-        rndY = Math.random() * 600;
-        if (rndY >= 600) rndY = rndY - 20;
-        rndX = Math.round(rndX);
-        rndY = Math.round(rndY);
+        do{
+            double rndX, rndY;
+            rndX = Math.random() * 600;
+            if (rndX >= 600) rndX = rndX - 20;
+            rndY = Math.random() * 600;
+            if (rndY >= 600) rndY = rndY - 20;
+            rndX = Math.round(rndX);
+            rndY = Math.round(rndY);
 
-        rndX = rndX - (rndX % 20);
-        rndY = rndY - (rndY % 20);
+            rndX = rndX - (rndX % 20);
+            rndY = rndY - (rndY % 20);
 
-        yumyum = new Food();
-        yumyum.setX(rndX);
-        yumyum.setY(rndY);
+            yumyum = new Food();
+            yumyum.setX(rndX);
+            yumyum.setY(rndY);
 
+            for (Blocks block : snake.getSnakeArray()){
+                if(yumyum.getHashValue() == block.getHashValue()) foodIsUnderSnake = true;
+            }
+
+        } while(foodIsUnderSnake);
+        
         gamePane.getChildren().add(yumyum);
     }
 
