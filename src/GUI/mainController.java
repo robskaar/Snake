@@ -46,6 +46,8 @@ public class mainController implements Initializable {
     @FXML
     private AnchorPane highScorePane;
     @FXML
+    private AnchorPane gameUnderlayPane;
+    @FXML
     private TextField userNameField;
     @FXML
     private AnchorPane overlayPane;
@@ -76,6 +78,8 @@ public class mainController implements Initializable {
         CollisionTimeline.pause();                   // pauses timeline
         menuPane.setVisible(true);                   //initially shows main menu
         overlayPane.setVisible(false);               // Hide overlay
+
+        AnimationUtilities.drawGameGrid(gameUnderlayPane);
 
         userNameField.setOnMouseClicked(e -> { // set on mouse click actions for username field
             userNameField.setEditable(true);
