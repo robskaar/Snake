@@ -85,6 +85,7 @@ public class mainController implements Initializable {
         CollisionTimeline.pause();                   // pauses timeline
         menuPane.setVisible(true);                   //initially shows main menu
         overlayPane.setVisible(false);               // Hide overlay
+        highScorePane.setVisible(false);
 
         AnimationUtilities.drawGameGrid(gameUnderlayPane);
 
