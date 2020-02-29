@@ -16,7 +16,7 @@
    <center>
       <StackPane prefHeight="600.0" prefWidth="600.0" styleClass="StackPane" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="AnchorPane" />
+            <AnchorPane fx:id="gameUnderlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="gameUnderlayPane" />
             <AnchorPane fx:id="gamePane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="AnchorPane" />
             <AnchorPane fx:id="overlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" onKeyPressed="#getKeyInput" prefHeight="600.0" prefWidth="600.0" styleClass="Overlay">
                <children>

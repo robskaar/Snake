@@ -8,6 +8,9 @@ public class Food extends Blocks {
 
     public Food() {
         super(new Image(randomFood()));  // Set width, height and image
+
+        this.setScaleX(1.5);
+        this.setScaleY(1.5);
     }
 
     private static String randomFood() {
