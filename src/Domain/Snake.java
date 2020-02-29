@@ -33,12 +33,16 @@ public class Snake {
 
         if (snakeDirection == Direction.RIGHT) {
             snakeArray.get(0).setX(snakeHeadX + snakeSize);
+            snakeArray.get(0).setRotate(360);
         } else if (snakeDirection == Direction.DOWN) {
             snakeArray.get(0).setY(snakeHeadY + snakeSize);
+            snakeArray.get(0).setRotate(90);
         } else if (snakeDirection == Direction.UP) {
             snakeArray.get(0).setY(snakeHeadY - snakeSize);
+            snakeArray.get(0).setRotate(-90);
         } else if (snakeDirection == Direction.LEFT) {
             snakeArray.get(0).setX(snakeHeadX - snakeSize);
+            snakeArray.get(0).setRotate(-180);
         }
     }
 
