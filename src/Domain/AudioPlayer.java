@@ -6,18 +6,17 @@ import java.io.IOException;
 
 public class AudioPlayer {
 
-    private AudioInputStream audioInputStream =  null;
+    private AudioInputStream audioInputStream = null;
     private Clip clip = null;
 
     public AudioPlayer(String filePath) {
 
-        try{
+        try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
 
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-        }
-        catch (IOException | UnsupportedAudioFileException | LineUnavailableException e){
+        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
             e.printStackTrace();
         }
 
@@ -27,9 +26,14 @@ public class AudioPlayer {
         clip.loop(numberOfLoops);
     }
 
-    public void stop(){
+    public void stop() {
 
-            clip.stop();
+        clip.stop();
 
     }
+
+    public void restart() {
+        clip.setMicrosecondPosition(0);
+    }
+
 }
