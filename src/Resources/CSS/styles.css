@@ -68,5 +68,19 @@
     -fx-pref-width: 20;
 }
 
+.HighScores{
+    -fx-font-size: 20;
+    -fx-pref-width: 450;
+}
+
+.HighScores .table-column {
+    -fx-pref-width: 150;
+    -fx-alignment: center;
+}
+
+.HighScores .table-column .text {
+
+}
+
 
 
