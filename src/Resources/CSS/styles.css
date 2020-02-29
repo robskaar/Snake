@@ -79,11 +79,10 @@
 
 .HighScores{
     -fx-font-size: 20;
-    -fx-pref-width: 450;
+    -fx-pref-width: 500;
 }
 
 .HighScores .table-column {
-    -fx-pref-width: 150;
     -fx-alignment: center;
 }
 

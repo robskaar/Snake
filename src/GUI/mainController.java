@@ -58,7 +58,7 @@ public class mainController implements Initializable {
     static Food yumyum;
     static Snake snake;
     static String difficulty;
-    static Score currentScore;
+    static Score currentScore;;
     volatile StringProperty countDownNo = new SimpleStringProperty(""); // used to countdown when resuming / starting a game
     Timeline FPStimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
@@ -107,8 +107,10 @@ public class mainController implements Initializable {
         });
 
         newGameButton.setOnAction(e -> { // set on action for new game button
-            playMenuSound(false);
-            playGameSound(true);
+            if(isUserNameSupplied()){
+                playMenuSound(false);
+                playGameSound(true);
+            }
             newGame();
         });
 
@@ -340,9 +342,8 @@ public class mainController implements Initializable {
     public void endGame() {
         FPStimeline.stop();       // Stop moving the snake..
         CollisionTimeline.stop();
-        currentScore.writeCSV();
+        gamePane.getChildren().clear();  // Clear gamepane
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
-        //showMenu();
         showHighScoreOnEnd();
     }
 
@@ -357,7 +358,15 @@ public class mainController implements Initializable {
         gameSound.stop();
         menuSound.play(-1);
 
-        new Score().showHighScores(highScorePane);
+        if(currentScore == null){
+            new Score().showHighScores(highScorePane);
+        }
+        else{
+            currentScore.writeCSV();                      // Add current score to csv
+            currentScore.addToObservableList();
+            currentScore.showHighScores(highScorePane);   // Show highscores
+        }
+
     }
 
     // generates a new food token at a random location on the playfield
