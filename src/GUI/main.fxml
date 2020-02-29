@@ -23,7 +23,10 @@
                   <Label fx:id="score" layoutX="40.0" layoutY="29.0" styleClass="scoreLabel" text="Score" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="highScorePane" prefHeight="200.0" prefWidth="200.0" />
+            <AnchorPane fx:id="highScorePane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Button layoutX="21.0" layoutY="25.0" mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" />
+               </children></AnchorPane>
             <AnchorPane fx:id="countDownPane" prefHeight="200.0" prefWidth="200.0" styleClass="Menu" visible="false">
                <children>
                   <Label fx:id="countDown" alignment="CENTER" contentDisplay="CENTER" prefHeight="151.0" prefWidth="216.0" styleClass="Counter" textAlignment="CENTER" AnchorPane.bottomAnchor="224.0" AnchorPane.leftAnchor="192.0" AnchorPane.topAnchor="225.0">
