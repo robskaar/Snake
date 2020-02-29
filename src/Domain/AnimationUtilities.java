@@ -234,4 +234,30 @@ public class AnimationUtilities {
 
     }
 
+    public static void drawGameGrid(Pane pane) {
+
+        final int BLOCK_SIZE = 20;
+        final int PANE_SIZE = 600;
+
+        for (int y = 0; y < PANE_SIZE; y += BLOCK_SIZE * 2) {
+
+            for (int x = 0; x < PANE_SIZE; x += BLOCK_SIZE * 2) {
+
+                Rectangle r = new Rectangle(x, y, BLOCK_SIZE, BLOCK_SIZE);
+                r.setFill(Color.WHITESMOKE);
+                pane.getChildren().add(r);
+
+            }
+
+            for (int x = 0; x < PANE_SIZE; x += BLOCK_SIZE * 2) {
+
+                Rectangle r = new Rectangle(x + BLOCK_SIZE, y + BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                r.setFill(Color.WHITESMOKE);
+                pane.getChildren().add(r);
+
+            }
+        }
+
+    }
+
 }
