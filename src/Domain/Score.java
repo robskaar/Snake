@@ -98,7 +98,6 @@ public class Score {
         tableView.setLayoutX(50);
         tableView.setLayoutY(140);
 
-
         TableColumn<String, Score> name = new TableColumn<>("Name");
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         name.setPrefWidth(275);
@@ -115,8 +114,6 @@ public class Score {
         tableView.getColumns().addAll(name, score, difficulty);
         tableView.setItems(highScores);
         tableView.getSortOrder().addAll(score, difficulty);
-
-        System.out.println(highScores.indexOf(this));
 
         tableView.getSelectionModel().select(highScores.indexOf(this));
         tableView.scrollTo(highScores.indexOf(this));
