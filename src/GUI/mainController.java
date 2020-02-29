@@ -345,6 +345,7 @@ public class mainController implements Initializable {
         gamePane.getChildren().clear();  // Clear gamepane
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
         showHighScoreOnEnd();
+        currentScore = null;
     }
 
     public void showHighScoreOnEnd() {
@@ -362,9 +363,9 @@ public class mainController implements Initializable {
             new Score().showHighScores(highScorePane);
         }
         else{
-            currentScore.writeCSV();                      // Add current score to csv
             currentScore.addToObservableList();
             currentScore.showHighScores(highScorePane);   // Show highscores
+            currentScore.writeCSV();                      // Add current score to csv
         }
 
     }
