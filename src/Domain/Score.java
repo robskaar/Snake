@@ -82,18 +82,14 @@ public class Score{
         }
     }
 
-    public void addScore(Score score){
-
-    }
-
     public void showHighScores(Pane pane) {
 
         readCSV();
 
         TableView tableView = new TableView();
-        tableView.setPrefWidth(300);
-        tableView.setPrefHeight(200);
-        tableView.setTableMenuButtonVisible(false);
+        tableView.getStyleClass().addAll("HighScores");
+        tableView.setLayoutX(75);
+        tableView.setLayoutY(150);
 
         TableColumn<String, Score> name = new TableColumn<>("Name");
         name.setCellValueFactory(new PropertyValueFactory<>("name"));

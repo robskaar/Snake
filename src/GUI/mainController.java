@@ -218,6 +218,7 @@ public class mainController implements Initializable {
         settingsPane.setVisible(false);
         menuPane.setVisible(true);
         overlayPane.setVisible(false);
+        highScorePane.setVisible(false);
     }
 
     public void showSettings() {
