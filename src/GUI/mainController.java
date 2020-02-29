@@ -62,8 +62,8 @@ public class mainController implements Initializable {
     volatile StringProperty countDownNo = new SimpleStringProperty(""); // used to countdown when resuming / starting a game
     Timeline FPStimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
-    AudioPlayer menuSound = new AudioPlayer("src/Resources/Sound/MenuSound.wav");
-    AudioPlayer gameSound = new AudioPlayer("src/Resources/Sound/GameSound.wav");
+    AudioPlayer menuSound = new AudioPlayer("src/Resources/Sound/MenuSound.wav", 0.1);
+    AudioPlayer gameSound = new AudioPlayer("src/Resources/Sound/GameSound.wav", 0.1);
     AudioPlayer foodSlurp = new AudioPlayer("src/Resources/Sound/Slurping+1.wav");
     AudioPlayer foodBite = new AudioPlayer("src/Resources/Sound/bite.wav");
     AudioPlayer foodChomp = new AudioPlayer("src/Resources/Sound/Chomp+1.wav");
