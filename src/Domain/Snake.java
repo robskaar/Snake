@@ -116,7 +116,7 @@ public class Snake {
 
     }
 
-    public void changeBodyColor(){
+    public void changeBodyColor(Pane pane){
 
         Queue<Integer> queue = new LinkedList<>();
         for (int i = 1; i < this.getSnakeArray().size() ; i++) {
@@ -134,6 +134,9 @@ public class Snake {
 
         }));
         timeline.play();
+        timeline.setOnFinished(ActionEvent -> {
+            this.addSnakeBody(pane);
+        });
 
     }
 

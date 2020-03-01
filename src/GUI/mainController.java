@@ -62,8 +62,7 @@ public class mainController implements Initializable {
     static Snake snake;
     static String difficulty;
     static Score currentScore;
-    ;
-    volatile StringProperty countDownNo = new SimpleStringProperty(""); // used to countdown when resuming / starting a game
+
     Timeline FPStimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
     AudioPlayer menuSound = new AudioPlayer("src/Resources/Sound/MenuSound.wav", 0.1);
@@ -182,7 +181,6 @@ public class mainController implements Initializable {
             if (hasFoodCollision) {
                 currentScore.setScore(currentScore.getScore() + 1);
                 score.setText(Integer.toString(currentScore.getScore()));
-                snake.addSnakeBody(gamePane);
                 generateFood();
                 playRandomFoodSound();
                 System.out.println(difficulty + " current rate" + FPStimeline.getCurrentRate());
@@ -190,10 +188,8 @@ public class mainController implements Initializable {
                     hardModeSpeedBoost();
                 }
 
-                snake.changeBodyColor();
-//                for (int i = 1; i < snake.getSnakeArray().size() ; i++) {
-//                    snake.getSnakeArray().get(i).setFill(Color.color(Math.random(),Math.random(),Math.random()));
-//                }
+                snake.changeBodyColor(gamePane);
+
             }
 
         }));

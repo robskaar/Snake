@@ -73,6 +73,11 @@
     -fx-font-family: "Karmatic Arcade" !important;
     -fx-background-color: rgba(255, 255, 255, 0.75);
 }
+
+.Settings .label{
+    -fx-background-color: transparent;
+}
+
 .SettingsButtons{
     -fx-font-family: "Evil Empire" !important;
     -fx-background-radius: 50 50 50 50;
