@@ -134,12 +134,12 @@ public class mainController implements Initializable {
         if (easyDifficultyButton.isArmed()) {
             FPStimeline.setRate(2);
             difficulty = "Easy";
-        } else if (normalDifficultyButton.isArmed()) {
-            FPStimeline.setRate(4);
-            difficulty = "Normal";
         } else if (hardDifficultyButton.isArmed()) {
             FPStimeline.setRate(6);
             difficulty = "Hard";
+        } else if (normalDifficultyButton.isArmed()) {
+            FPStimeline.setRate(4);
+            difficulty = "Normal";
         }
 
     }
@@ -185,6 +185,10 @@ public class mainController implements Initializable {
                 snake.addSnakeBody(gamePane);
                 generateFood();
                 playRandomFoodSound();
+                System.out.println(difficulty + " current rate" + FPStimeline.getCurrentRate());
+                if (difficulty.contains("Hard")) {
+                    hardModeSpeedBoost();
+                }
             }
 
         }));
@@ -380,7 +384,7 @@ public class mainController implements Initializable {
         gamePane.getChildren().remove(yumyum);
         boolean foodIsUnderSnake;
 
-        do{
+        do {
             foodIsUnderSnake = false;
 
             double rndX, rndY;
@@ -398,15 +402,15 @@ public class mainController implements Initializable {
             yumyum.setX(rndX);
             yumyum.setY(rndY);
 
-            for (Blocks block : snake.getSnakeArray()){
-                if(yumyum.getHashValue() == block.getHashValue()){
+            for (Blocks block : snake.getSnakeArray()) {
+                if (yumyum.getHashValue() == block.getHashValue()) {
                     System.out.println("FOOD IS UNDER SNAKE!");
                     foodIsUnderSnake = true;
                     break;
                 }
             }
 
-        } while(foodIsUnderSnake);
+        } while (foodIsUnderSnake);
 
         gamePane.getChildren().add(yumyum);
     }
@@ -428,5 +432,20 @@ public class mainController implements Initializable {
                 foodSlurp.play(0);
                 break;
         }
+    }
+
+    private void hardModeSpeedBoost() {
+        double currentSpeed = FPStimeline.getCurrentRate();
+        KeyFrame speedStart = new KeyFrame(Duration.seconds(0), event -> {
+            FPStimeline.setRate(10);
+        });
+        KeyFrame speedEnd = new KeyFrame(Duration.seconds(1), event -> {
+            FPStimeline.setRate(currentSpeed);
+        });
+        Timeline speedBuffTime = new Timeline(
+                speedStart, speedEnd
+        );
+        speedBuffTime.setCycleCount(1);
+        speedBuffTime.play();
     }
 }
