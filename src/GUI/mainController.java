@@ -189,6 +189,11 @@ public class mainController implements Initializable {
                 if (difficulty.contains("Hard")) {
                     hardModeSpeedBoost();
                 }
+
+                snake.changeBodyColor();
+//                for (int i = 1; i < snake.getSnakeArray().size() ; i++) {
+//                    snake.getSnakeArray().get(i).setFill(Color.color(Math.random(),Math.random(),Math.random()));
+//                }
             }
 
         }));
