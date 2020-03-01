@@ -61,7 +61,8 @@ public class mainController implements Initializable {
     static Food yumyum;
     static Snake snake;
     static String difficulty;
-    static Score currentScore;;
+    static Score currentScore;
+    ;
     volatile StringProperty countDownNo = new SimpleStringProperty(""); // used to countdown when resuming / starting a game
     Timeline FPStimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
@@ -93,12 +94,11 @@ public class mainController implements Initializable {
         AnimationUtilities.drawGameGrid(gameUnderlayPane);
 
 
-
-        userNameField.setOnAction( e->{
-            if (userNameField.getText().isEmpty()){
+        userNameField.setOnAction(e -> {
+            if (userNameField.getText().isEmpty()) {
                 userNameField.requestFocus();
-            userNameField.setTooltip( new Tooltip("Please provide a username"));
-            }else {
+                userNameField.setTooltip(new Tooltip("Please provide a username"));
+            } else {
                 userNamePane.setVisible(false);
                 userNameField.clear();
                 playMenuSound(false);
@@ -114,13 +114,13 @@ public class mainController implements Initializable {
         });
 
         newGameButton.setOnAction(e -> { // set on action for new game button
-        setUserName();
+            setUserName();
         });
 
 
     }
 
-    public void setUserName(){
+    public void setUserName() {
         menuPane.setVisible(false);
         userNamePane.setVisible(true);
     }
@@ -252,44 +252,43 @@ public class mainController implements Initializable {
 
     public void resumeGame() {
 
-            KeyFrame countOne = new KeyFrame(Duration.seconds(0), event -> {
-                FPStimeline.pause();
-                CollisionTimeline.pause();
-                menuPane.setVisible(false);
-                countDownPane.setVisible(true);
-                countDown.setText("3");
-                Timeline timeline = new Timeline(
-                        new KeyFrame(Duration.ZERO, new KeyValue(countDown.textFillProperty(), Color.rgb(0, 0, 0))),
-                        new KeyFrame(Duration.seconds(1), new KeyValue(countDown.textFillProperty(), Color.rgb(255, 0, 25))),
-                        new KeyFrame(Duration.seconds(1), new KeyValue(countDown.textFillProperty(), Color.rgb(0, 0, 0))),
-                        new KeyFrame(Duration.seconds(2), new KeyValue(countDown.textFillProperty(), Color.rgb(255, 255, 0))),
-                        new KeyFrame(Duration.seconds(2), new KeyValue(countDown.textFillProperty(), Color.rgb(0, 0, 0))),
-                        new KeyFrame(Duration.seconds(3), new KeyValue(countDown.textFillProperty(), Color.rgb(0, 255, 0)))
-                );
-                timeline.play();
-            });
-            KeyFrame countTwo = new KeyFrame(Duration.seconds(1), event -> {
-                countDown.setText("2");
-            });
-            KeyFrame countThree = new KeyFrame(Duration.seconds(2), event -> {
-                countDown.setText("1");
-            });
-            KeyFrame resume = new KeyFrame(Duration.seconds(3), event -> {
-                countDown.setText("");
-                countDownPane.setVisible(false);
-                FPStimeline.play();
-                CollisionTimeline.play();
-            });
-
-            Timeline countDowns = new Timeline(
-                    countOne, countTwo, countThree, resume
+        KeyFrame countOne = new KeyFrame(Duration.seconds(0), event -> {
+            FPStimeline.pause();
+            CollisionTimeline.pause();
+            menuPane.setVisible(false);
+            countDownPane.setVisible(true);
+            countDown.setText("3");
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(countDown.textFillProperty(), Color.rgb(0, 0, 0))),
+                    new KeyFrame(Duration.seconds(1), new KeyValue(countDown.textFillProperty(), Color.rgb(255, 0, 25))),
+                    new KeyFrame(Duration.seconds(1), new KeyValue(countDown.textFillProperty(), Color.rgb(0, 0, 0))),
+                    new KeyFrame(Duration.seconds(2), new KeyValue(countDown.textFillProperty(), Color.rgb(255, 255, 0))),
+                    new KeyFrame(Duration.seconds(2), new KeyValue(countDown.textFillProperty(), Color.rgb(0, 0, 0))),
+                    new KeyFrame(Duration.seconds(3), new KeyValue(countDown.textFillProperty(), Color.rgb(0, 255, 0)))
             );
-            countDowns.setCycleCount(1);
-            countDowns.play();
+            timeline.play();
+        });
+        KeyFrame countTwo = new KeyFrame(Duration.seconds(1), event -> {
+            countDown.setText("2");
+        });
+        KeyFrame countThree = new KeyFrame(Duration.seconds(2), event -> {
+            countDown.setText("1");
+        });
+        KeyFrame resume = new KeyFrame(Duration.seconds(3), event -> {
+            countDown.setText("");
+            countDownPane.setVisible(false);
+            FPStimeline.play();
+            CollisionTimeline.play();
+        });
 
-            overlayPane.setVisible(true);
-        }
+        Timeline countDowns = new Timeline(
+                countOne, countTwo, countThree, resume
+        );
+        countDowns.setCycleCount(1);
+        countDowns.play();
 
+        overlayPane.setVisible(true);
+    }
 
     public boolean isUserNameSupplied() {
         if (userNameField.getText().isEmpty()) {
@@ -304,23 +303,23 @@ public class mainController implements Initializable {
 
     public void newGame() {
 
-            overlayPane.setVisible(true);
-            resumeButton.setDisable(false);
-            highScorePane.setVisible(false);
-            userNameField.setTooltip(null);
-            gamePane.getChildren().clear();
+        overlayPane.setVisible(true);
+        resumeButton.setDisable(false);
+        highScorePane.setVisible(false);
+        userNameField.setTooltip(null);
+        gamePane.getChildren().clear();
 
-            // Create new score and bind value to label
-            currentScore = new Score(userNameField.getText(), 0, difficulty);
+        // Create new score and bind value to label
+        currentScore = new Score(userNameField.getText(), 0, difficulty);
 
-            snake = new Snake();                          // Create new snake
-            generateFood();
+        snake = new Snake();                          // Create new snake
+        generateFood();
 
-            for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
-                gamePane.getChildren().add(block);
-            }
-            resumeGame();
+        for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
+            gamePane.getChildren().add(block);
         }
+        resumeGame();
+    }
 
     public void quitGame() {
         Platform.exit();
@@ -365,10 +364,9 @@ public class mainController implements Initializable {
         gameSound.stop();
         menuSound.play(-1);
 
-        if(currentScore == null){
+        if (currentScore == null) {
             new Score().showHighScores(highScorePane);
-        }
-        else{
+        } else {
             currentScore.addToObservableList();
             currentScore.showHighScores(highScorePane);   // Show highscores
             currentScore.writeCSV();                      // Add current score to csv
@@ -380,48 +378,36 @@ public class mainController implements Initializable {
     public void generateFood() {
 
         gamePane.getChildren().remove(yumyum);
-        boolean foodIsUnderSnake =  false;
+        boolean foodIsUnderSnake;
 
-//        do{
-//            double rndX, rndY;
-//            rndX = Math.random() * 600;
-//            if (rndX >= 600) rndX = rndX - 20;
-//            rndY = Math.random() * 600;
-//            if (rndY >= 600) rndY = rndY - 20;
-//            rndX = Math.round(rndX);
-//            rndY = Math.round(rndY);
-//
-//            rndX = rndX - (rndX % 20);
-//            rndY = rndY - (rndY % 20);
-//
-//            yumyum = new Food();
-//            yumyum.setX(rndX);
-//            yumyum.setY(rndY);
-//
-//            for (Blocks block : snake.getSnakeArray()){
-//                if(yumyum.getHashValue() == block.getHashValue()){
-//                    System.out.println("FOOD IS UNDER SNAKE!");
-//                    foodIsUnderSnake = true;
-//                }
-//            }
-//
-//        } while(foodIsUnderSnake);
+        do{
+            foodIsUnderSnake = false;
 
-        double rndX, rndY;
-        rndX = Math.random() * 600;
-        if (rndX >= 600) rndX = rndX - 20;
-        rndY = Math.random() * 600;
-        if (rndY >= 600) rndY = rndY - 20;
-        rndX = Math.round(rndX);
-        rndY = Math.round(rndY);
+            double rndX, rndY;
+            rndX = Math.random() * 600;
+            if (rndX >= 600) rndX = rndX - 20;
+            rndY = Math.random() * 600;
+            if (rndY >= 600) rndY = rndY - 20;
+            rndX = Math.round(rndX);
+            rndY = Math.round(rndY);
 
-        rndX = rndX - (rndX % 20);
-        rndY = rndY - (rndY % 20);
+            rndX = rndX - (rndX % 20);
+            rndY = rndY - (rndY % 20);
 
-        yumyum = new Food();
-        yumyum.setX(rndX);
-        yumyum.setY(rndY);
-        
+            yumyum = new Food();
+            yumyum.setX(rndX);
+            yumyum.setY(rndY);
+
+            for (Blocks block : snake.getSnakeArray()){
+                if(yumyum.getHashValue() == block.getHashValue()){
+                    System.out.println("FOOD IS UNDER SNAKE!");
+                    foodIsUnderSnake = true;
+                    break;
+                }
+            }
+
+        } while(foodIsUnderSnake);
+
         gamePane.getChildren().add(yumyum);
     }
 
