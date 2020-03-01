@@ -397,6 +397,21 @@ public class mainController implements Initializable {
             }
 
         } while(foodIsUnderSnake);
+
+//        double rndX, rndY;
+//        rndX = Math.random() * 600;
+//        if (rndX >= 600) rndX = rndX - 20;
+//        rndY = Math.random() * 600;
+//        if (rndY >= 600) rndY = rndY - 20;
+//        rndX = Math.round(rndX);
+//        rndY = Math.round(rndY);
+//
+//        rndX = rndX - (rndX % 20);
+//        rndY = rndY - (rndY % 20);
+//
+//        yumyum = new Food();
+//        yumyum.setX(rndX);
+//        yumyum.setY(rndY);
         
         gamePane.getChildren().add(yumyum);
     }
