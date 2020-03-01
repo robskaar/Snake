@@ -185,6 +185,11 @@ public class mainController implements Initializable {
                 snake.addSnakeBody(gamePane);
                 generateFood();
                 playRandomFoodSound();
+                System.out.println(difficulty + " current rate" + FPStimeline.getCurrentRate());
+                if (difficulty.contains("Hard")) {
+                    System.out.println("is armed");
+                    hardModeSpeedBoost();
+                }
             }
 
         }));
@@ -428,5 +433,23 @@ public class mainController implements Initializable {
                 foodSlurp.play(0);
                 break;
         }
+    }
+
+    private void hardModeSpeedBoost() {
+        double currentSpeed = FPStimeline.getCurrentRate();
+        KeyFrame speedStart = new KeyFrame(Duration.seconds(0), event -> {
+            FPStimeline.setRate(10);
+            System.out.println("buff is active");
+        });
+        KeyFrame speedEnd = new KeyFrame(Duration.seconds(1), event -> {
+            FPStimeline.setRate(currentSpeed);
+            System.out.println("buff is over");
+
+        });
+        Timeline speedBuffTime = new Timeline(
+                speedStart, speedEnd
+        );
+        speedBuffTime.setCycleCount(1);
+        speedBuffTime.play();
     }
 }
