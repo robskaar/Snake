@@ -124,8 +124,8 @@ public class AnimationUtilities {
 
     private void fire() {
 
-        AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketLaunch.wav");
-        audioPlayer.play(1);
+        AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketLaunch.wav",1);
+        audioPlayer.play(0);
 
         final Duration DURATION = Duration.millis(2500);
 
@@ -224,11 +224,11 @@ public class AnimationUtilities {
         Random ran = new Random();
         Timeline timeline = new Timeline();
         timeline.setAutoReverse(false);
-        timeline.setCycleCount(3);
+        timeline.setCycleCount(5);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), ActionEvent -> {
             AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
             audioPlayer.play(1);
-            timeline.setRate(ran.nextInt(1) + 0.5);
+            timeline.setRate(ran.nextInt(1) + 1);
         }));
         timeline.play();
 

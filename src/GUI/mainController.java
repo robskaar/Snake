@@ -382,27 +382,45 @@ public class mainController implements Initializable {
         gamePane.getChildren().remove(yumyum);
         boolean foodIsUnderSnake =  false;
 
-        do{
-            double rndX, rndY;
-            rndX = Math.random() * 600;
-            if (rndX >= 600) rndX = rndX - 20;
-            rndY = Math.random() * 600;
-            if (rndY >= 600) rndY = rndY - 20;
-            rndX = Math.round(rndX);
-            rndY = Math.round(rndY);
+//        do{
+//            double rndX, rndY;
+//            rndX = Math.random() * 600;
+//            if (rndX >= 600) rndX = rndX - 20;
+//            rndY = Math.random() * 600;
+//            if (rndY >= 600) rndY = rndY - 20;
+//            rndX = Math.round(rndX);
+//            rndY = Math.round(rndY);
+//
+//            rndX = rndX - (rndX % 20);
+//            rndY = rndY - (rndY % 20);
+//
+//            yumyum = new Food();
+//            yumyum.setX(rndX);
+//            yumyum.setY(rndY);
+//
+//            for (Blocks block : snake.getSnakeArray()){
+//                if(yumyum.getHashValue() == block.getHashValue()){
+//                    System.out.println("FOOD IS UNDER SNAKE!");
+//                    foodIsUnderSnake = true;
+//                }
+//            }
+//
+//        } while(foodIsUnderSnake);
 
-            rndX = rndX - (rndX % 20);
-            rndY = rndY - (rndY % 20);
+        double rndX, rndY;
+        rndX = Math.random() * 600;
+        if (rndX >= 600) rndX = rndX - 20;
+        rndY = Math.random() * 600;
+        if (rndY >= 600) rndY = rndY - 20;
+        rndX = Math.round(rndX);
+        rndY = Math.round(rndY);
 
-            yumyum = new Food();
-            yumyum.setX(rndX);
-            yumyum.setY(rndY);
+        rndX = rndX - (rndX % 20);
+        rndY = rndY - (rndY % 20);
 
-            for (Blocks block : snake.getSnakeArray()){
-                if(yumyum.getHashValue() == block.getHashValue()) foodIsUnderSnake = true;
-            }
-
-        } while(foodIsUnderSnake);
+        yumyum = new Food();
+        yumyum.setX(rndX);
+        yumyum.setY(rndY);
         
         gamePane.getChildren().add(yumyum);
     }
