@@ -62,7 +62,7 @@ public class mainController implements Initializable {
     static Snake snake;
     static String difficulty;
     static Score currentScore;
-    
+
     Timeline FPStimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
     AudioPlayer menuSound = new AudioPlayer("src/Resources/Sound/MenuSound.wav", 0.1);
