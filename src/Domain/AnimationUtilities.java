@@ -19,14 +19,13 @@ import java.util.Random;
 public class AnimationUtilities {
 
     private Pane pane;
-    private AudioPlayer music = new AudioPlayer("src\\Resources\\Sound\\victoryFanfareCut1.wav");
 
     public AnimationUtilities(Pane pane) {
         this.pane = pane;
     }
 
-    public void play() {
-        music.play(-1);
+    public void playVictoryAnimation() {
+        SoundUtilities.playVictorySound(true);
         winnerSnake();
     }
 

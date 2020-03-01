@@ -16,7 +16,6 @@ public class Snake {
 
     private ArrayList<Blocks> snakeArray = new ArrayList<>();
     private Direction snakeDirection = Direction.RIGHT;
-    private Food yumyum;
 
     public Snake() {
         snakeArray.add(new SnakeHead());                    // Add snake head
@@ -54,11 +53,11 @@ public class Snake {
         }
     }
 
-    public boolean checkFoodCollision() {
+    public boolean checkFoodCollision(Food food) {
         boolean result = false;
 
         int headHash = snakeArray.get(0).getHashValue();
-        int foodHash = mainController.getFood().getHashValue();
+        int foodHash = food.getHashValue();
 
         if(headHash == foodHash){
             result = true;
@@ -139,6 +138,8 @@ public class Snake {
         });
 
     }
+
+    // Getter and Setters
 
     public ArrayList<Blocks> getSnakeArray() {
         return snakeArray;
