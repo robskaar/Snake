@@ -433,15 +433,12 @@ public class mainController implements Initializable {
         Random r = new Random();
         switch (r.nextInt(3)) {
             case 0:
-                foodBite.restart();
                 foodBite.play(0);
                 break;
             case 1:
-                foodChomp.restart();
                 foodChomp.play(0);
                 break;
             case 2:
-                foodSlurp.restart();
                 foodSlurp.play(0);
                 break;
         }
