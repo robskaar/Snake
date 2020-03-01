@@ -1,8 +1,8 @@
 @font-face {
-    font-family: "Gagalin";
+    font-family: "Karmatic Arcade";
     font-style: normal;
     font-weight: 400px;
-    src: url("Gagalin-Regular.ttf");
+    src: url("Karmatic-Arcade.ttf");
 }
 @font-face {
     font-family: "Evil Empire";
@@ -21,11 +21,25 @@
 }
 
 .AnchorPane {
-    -fx-background-color: grey;
+    -fx-background-color: Transparent;
+}
+
+.gameUnderlayPane {
+    -fx-background-color: WHITE;
 }
 
 .Overlay {
     -fx-background-color: Transparent !important;
+}
+
+.scoreLabel{
+    -fx-font-family: "Karmatic Arcade";
+    -fx-font-size: 20;
+}
+
+.highscoreLabel{
+    -fx-font-family: "Karmatic Arcade";
+    -fx-font-size: 50;
 }
 
 .Menu {
@@ -47,13 +61,31 @@
 
 .MenuButtons{
     -fx-font-size: 30;
-    -fx-font-family: "Gagalin" !important;
+    -fx-font-family: "Karmatic Arcade" !important;
     -fx-background-color: Transparent;
 }
 .Settings{
     -fx-background-color: rgba(255, 255, 255, 0.75);
-    -fx-font-family: "Evil Empire" !important;
 }
+
+.BackButton{
+    -fx-background-color: transparent;
+    -fx-background-size: 20px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%;
+    -fx-background-image: url("/Resources/Images/left-arrow.png");
+    -fx-pref-width: 20;
+}
+
+.HighScores{
+    -fx-font-size: 20;
+    -fx-pref-width: 500;
+}
+
+.HighScores .table-column {
+    -fx-alignment: center;
+}
+
 
 
 

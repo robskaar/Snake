@@ -1,20 +1,19 @@
 package Domain;
 
-
 import javafx.scene.layout.Pane;
-
 import java.util.ArrayList;
+import GUI.mainController;
 
 public class Snake {
 
     private ArrayList<Blocks> snakeArray = new ArrayList<>();
     private Direction snakeDirection = Direction.RIGHT;
+    private Food yumyum;
 
     public Snake() {
         snakeArray.add(new SnakeHead());                    // Add snake head
         snakeArray.add(new SnakeBody(280,300));  // Add body part
         snakeArray.add(new SnakeBody(260,300));  // Add body part
-
     }
 
     public void moveSnake() {
@@ -34,18 +33,37 @@ public class Snake {
 
         if (snakeDirection == Direction.RIGHT) {
             snakeArray.get(0).setX(snakeHeadX + snakeSize);
+            snakeArray.get(0).setRotate(360);
         } else if (snakeDirection == Direction.DOWN) {
             snakeArray.get(0).setY(snakeHeadY + snakeSize);
+            snakeArray.get(0).setRotate(90);
         } else if (snakeDirection == Direction.UP) {
             snakeArray.get(0).setY(snakeHeadY - snakeSize);
+            snakeArray.get(0).setRotate(-90);
         } else if (snakeDirection == Direction.LEFT) {
             snakeArray.get(0).setX(snakeHeadX - snakeSize);
+            snakeArray.get(0).setRotate(-180);
         }
     }
 
-    public boolean checkCollision() {
+    public boolean checkFoodCollision() {
+        boolean result = false;
 
-        // Check collision with snake it self
+        int headHash = snakeArray.get(0).getHashValue();
+        int foodHash = mainController.getFood().getHashValue();
+
+        if(headHash == foodHash){
+            result = true;
+        }
+
+        return result;
+    }
+
+    public boolean checkSelfCollision() {
+
+        // Check collision with snake itself
+
+        boolean result = false;
 
         for (int i = 1; i <= snakeArray.size() - 1 ; i++) {
 
@@ -53,9 +71,18 @@ public class Snake {
             int checkHash = snakeArray.get(i).getHashValue();
 
             if(headHash == checkHash){
-                return true;
+                result = true;
             }
         }
+
+        return result;
+    }
+
+    public boolean checkBorderCollision(){
+
+        // checking if snake is out of bounds of playing fields
+
+        boolean result = false;
 
         // Get position of the snake head
         double snakeX = snakeArray.get(0).getX();
@@ -63,12 +90,10 @@ public class Snake {
 
         // Check collision with borders (Pane is 600x600)
         if (snakeX >= 600 || snakeX < 0 || snakeY >= 600 || snakeY < 0) {
-            return true;
+            result =  true;
         }
 
-        // On no collision return false
-        return false;
-
+        return result;
     }
 
     public void addSnakeBody(Pane pane) {
