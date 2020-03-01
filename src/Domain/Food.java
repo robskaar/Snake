@@ -13,13 +13,6 @@ public class Food extends Blocks {
         this.setScaleY(1.5);
     }
 
-    public Food(int x, int y){
-        this();
-
-        this.setX(x);
-        this.setY(y);
-    }
-
     private static String randomFood() {
         Random r = new Random();
         String foodString;
@@ -38,5 +31,8 @@ public class Food extends Blocks {
         }
         return foodString;
     }
+
+
+
 
 }
