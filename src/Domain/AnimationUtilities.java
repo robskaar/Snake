@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 import java.util.LinkedList;
@@ -183,6 +184,24 @@ public class AnimationUtilities {
         nodeToFront(text);
     }
 
+    private void playFireworks() {
+
+        AudioPlayer ap = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
+        ap.play(1);
+
+        Random ran = new Random();
+        Timeline timeline = new Timeline();
+        timeline.setAutoReverse(false);
+        timeline.setCycleCount(5);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), ActionEvent -> {
+            AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
+            audioPlayer.play(1);
+            timeline.setRate(ran.nextInt(1) + 1);
+        }));
+        timeline.play();
+
+    }
+
     private void nodeToFront(Node node) {
 
         Timeline timeline = new Timeline();
@@ -213,24 +232,6 @@ public class AnimationUtilities {
         });
 
         timeline.play();
-    }
-
-    private void playFireworks() {
-
-        AudioPlayer ap = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
-        ap.play(1);
-
-        Random ran = new Random();
-        Timeline timeline = new Timeline();
-        timeline.setAutoReverse(false);
-        timeline.setCycleCount(5);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), ActionEvent -> {
-            AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
-            audioPlayer.play(1);
-            timeline.setRate(ran.nextInt(1) + 1);
-        }));
-        timeline.play();
-
     }
 
     public static void drawGameGrid(Pane pane) {
@@ -267,6 +268,23 @@ public class AnimationUtilities {
         }
 
 
+
+    }
+
+    public static void rotatePane(double seconds , Pane pane){
+
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5),pane);
+        rotateTransition.setToAngle(90);
+        rotateTransition.play();
+
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(1);
+        timeline.setAutoReverse(false);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(seconds),ActionEvent ->{
+            rotateTransition.setToAngle(0);
+            rotateTransition.play();
+        }));
+        timeline.play();
 
     }
 

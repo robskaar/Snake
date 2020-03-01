@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 
@@ -123,7 +124,7 @@ public class mainController implements Initializable {
             FPSTimeline.setRate(2);
             difficulty = "Easy";
         } else if (hardDifficultyButton.isArmed()) {
-            FPSTimeline.setRate(6);
+            FPSTimeline.setRate(4);
             difficulty = "Hard";
         } else if (normalDifficultyButton.isArmed()) {
             FPSTimeline.setRate(4);
@@ -166,15 +167,27 @@ public class mainController implements Initializable {
             }
 
             // expand snake if collision with food is detected
-
             if (hasFoodCollision) {
                 currentScore.setScore(currentScore.getScore() + 1);
                 score.setText(Integer.toString(currentScore.getScore()));
                 generateFood();
                 SoundUtilities.playRandomFoodSound();
                 System.out.println(difficulty + " current rate" + FPSTimeline.getCurrentRate());
+
                 if (difficulty.contains("Hard")) {
-                    hardModeSpeedBoost();
+
+                    Random ran = new Random();
+                    int randomNum = ran.nextInt(100) + 1 ;
+
+                    if(randomNum < 30){
+                        SoundUtilities.playSpeedBoost(true);
+                        hardModeSpeedBoost();        // 29% chance of speed boost
+                    }
+                    if(randomNum > 90){
+                        SoundUtilities.playRotatePane(true);
+                        AnimationUtilities.rotatePane(5,gamePane);  // 9% chance for rotate pane
+                    }
+
                 }
 
                 snake.changeBodyColor(gamePane);
@@ -186,7 +199,7 @@ public class mainController implements Initializable {
         CollisionTimeline.play();
     }
 
-    public void getKeyInput(KeyEvent ke){
+    public void getGameInput(KeyEvent ke) {
 
         KeyCode key = ke.getCode();
 
@@ -224,6 +237,7 @@ public class mainController implements Initializable {
             overlayPane.setVisible(false);
             gamePane.getChildren().clear();
             AnimationUtilities animationUtilities = new AnimationUtilities(gamePane);
+            gamePane.setFocusTraversable(true);
             animationUtilities.playVictoryAnimation();
         }
     }

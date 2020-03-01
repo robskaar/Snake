@@ -7,10 +7,12 @@ public abstract class SoundUtilities {
     private static final AudioPlayer FOOD_SLURP = new AudioPlayer("src/Resources/Sound/Slurping+1.wav");
     private static final AudioPlayer FOOD_BITE = new AudioPlayer("src/Resources/Sound/bite.wav");
     private static final AudioPlayer FOOD_CHOMP = new AudioPlayer("src/Resources/Sound/Chomp+1.wav");
-    private static final AudioPlayer MENU_SOUND = new AudioPlayer("src/Resources/Sound/MenuSound.wav", 0.1);
-    private static final AudioPlayer GAME_SOUND = new AudioPlayer("src/Resources/Sound/GameSound.wav", 0.1);
+    private static final AudioPlayer MENU_SOUND = new AudioPlayer("src/Resources/Sound/MenuSound.wav", 0.05);
+    private static final AudioPlayer GAME_SOUND = new AudioPlayer("src/Resources/Sound/GameSound.wav", 0.05);
     private static final AudioPlayer GAME_OVER = new AudioPlayer("src/Resources/Sound/GameOver2.wav");
     private static final AudioPlayer VICTORY = new AudioPlayer("src/Resources/Sound/victoryFanfareCut1.wav");
+    private static final AudioPlayer WUHUU = new AudioPlayer("src/Resources/Sound/Wuhu.wav");
+    private static final AudioPlayer SCREAM = new AudioPlayer("src/Resources/Sound/Scream.wav",1);
 
     public static void playGameSound(Boolean play) {
         if (play) {
@@ -57,6 +59,23 @@ public abstract class SoundUtilities {
             case 2:
                 FOOD_SLURP.play(0);
                 break;
+        }
+    }
+
+    public static void playSpeedBoost(Boolean play) {
+        if (play) {
+            WUHUU.play(0);
+        } else {
+            WUHUU.stop();
+        }
+    }
+
+    public static void playRotatePane(Boolean play) {
+        if (play) {
+            SCREAM.play(0);
+
+        } else {
+            SCREAM.stop();
         }
     }
 }
