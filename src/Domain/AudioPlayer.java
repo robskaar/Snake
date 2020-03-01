@@ -38,6 +38,7 @@ public class AudioPlayer {
     }
 
     public void play(int numberOfLoops) {
+        clip.setMicrosecondPosition(0);
         clip.loop(numberOfLoops);
     }
 
@@ -45,10 +46,6 @@ public class AudioPlayer {
 
         clip.stop();
 
-    }
-
-    public void restart() {
-        clip.setMicrosecondPosition(0);
     }
 
     public float getVolume() {
