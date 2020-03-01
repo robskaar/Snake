@@ -71,7 +71,7 @@ public class mainController implements Initializable {
     AudioPlayer foodSlurp = new AudioPlayer("src/Resources/Sound/Slurping+1.wav");
     AudioPlayer foodBite = new AudioPlayer("src/Resources/Sound/bite.wav");
     AudioPlayer foodChomp = new AudioPlayer("src/Resources/Sound/Chomp+1.wav");
-    AudioPlayer gameOver = new AudioPlayer("src/Resources/Sound/gameover.wav");
+    AudioPlayer gameOver = new AudioPlayer("src/Resources/Sound/GameOver2.wav");
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
 
     @Override
@@ -189,6 +189,11 @@ public class mainController implements Initializable {
                 if (difficulty.contains("Hard")) {
                     hardModeSpeedBoost();
                 }
+
+                snake.changeBodyColor();
+//                for (int i = 1; i < snake.getSnakeArray().size() ; i++) {
+//                    snake.getSnakeArray().get(i).setFill(Color.color(Math.random(),Math.random(),Math.random()));
+//                }
             }
 
         }));

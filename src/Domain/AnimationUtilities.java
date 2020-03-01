@@ -196,7 +196,7 @@ public class AnimationUtilities {
         timeline.play();
     }
 
-    private void shapeColorShow(Shape shape, Boolean endOnBlack, Duration duration, int cycleCount) {
+    public static void shapeColorShow(Shape shape, Boolean endOnBlack, Duration duration, int cycleCount) {
 
         Timeline timeline = new Timeline();
         timeline.setAutoReverse(false);
@@ -239,12 +239,20 @@ public class AnimationUtilities {
         final int BLOCK_SIZE = 20;
         final int PANE_SIZE = 600;
 
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(600);
+        imageView.setFitHeight(600);
+        imageView.setImage(new Image("Resources/Images/UnderlayBG.png"));
+        pane.getChildren().add(imageView);
+
+
         for (int y = 0; y < PANE_SIZE; y += BLOCK_SIZE * 2) {
 
             for (int x = 0; x < PANE_SIZE; x += BLOCK_SIZE * 2) {
 
                 Rectangle r = new Rectangle(x, y, BLOCK_SIZE, BLOCK_SIZE);
-                r.setFill(Color.WHITESMOKE);
+                r.setFill(Color.BLACK);
+                r.setOpacity(0.1);
                 pane.getChildren().add(r);
 
             }
@@ -252,11 +260,14 @@ public class AnimationUtilities {
             for (int x = 0; x < PANE_SIZE; x += BLOCK_SIZE * 2) {
 
                 Rectangle r = new Rectangle(x + BLOCK_SIZE, y + BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                r.setFill(Color.WHITESMOKE);
+                r.setFill(Color.BLACK);
+                r.setOpacity(0.1);
                 pane.getChildren().add(r);
 
             }
         }
+
+
 
     }
 
