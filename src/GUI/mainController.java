@@ -185,7 +185,6 @@ public class mainController implements Initializable {
                 snake.addSnakeBody(gamePane);
                 generateFood();
                 playRandomFoodSound();
-                System.out.println(difficulty + " current rate" + FPStimeline.getCurrentRate());
                 if (difficulty.contains("Hard")) {
                     hardModeSpeedBoost();
                 }
