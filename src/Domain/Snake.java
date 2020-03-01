@@ -1,8 +1,16 @@
 package Domain;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import GUI.mainController;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class Snake {
 
@@ -105,6 +113,27 @@ public class Snake {
 
         snakeArray.add(new SnakeBody(posX, posY));
         pane.getChildren().add(snakeArray.get(snakeArray.size() - 1));
+
+    }
+
+    public void changeBodyColor(){
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 1; i < this.getSnakeArray().size() ; i++) {
+            queue.add(i);
+        }
+
+        Timeline timeline = new Timeline();
+        timeline.setAutoReverse(false);
+        timeline.setCycleCount(queue.size());
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100), ActionEvent -> {
+
+            if(!queue.isEmpty()){
+                AnimationUtilities.shapeColorShow(this.getSnakeArray().get(queue.poll()),true,Duration.millis(200),10);
+            }
+
+        }));
+        timeline.play();
 
     }
 
