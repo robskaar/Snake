@@ -71,7 +71,7 @@ public class mainController implements Initializable {
     AudioPlayer foodSlurp = new AudioPlayer("src/Resources/Sound/Slurping+1.wav");
     AudioPlayer foodBite = new AudioPlayer("src/Resources/Sound/bite.wav");
     AudioPlayer foodChomp = new AudioPlayer("src/Resources/Sound/Chomp+1.wav");
-    AudioPlayer gameOver = new AudioPlayer("src/Resources/Sound/gameover.wav");
+    AudioPlayer gameOver = new AudioPlayer("src/Resources/Sound/GameOver2.wav");
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
 
     @Override
