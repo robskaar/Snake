@@ -57,6 +57,9 @@ public class mainController implements Initializable {
     private TextField userNameField;
     @FXML
     private AnchorPane overlayPane;
+    @FXML
+    private Button soundIcon;
+
 
     static Food yumyum;
     static Snake snake;
@@ -94,13 +97,16 @@ public class mainController implements Initializable {
 
 
 
+
+        soundIcon.setOnAction(e->{
+           playSound();
+        });
         userNameField.setOnAction( e->{
             if (userNameField.getText().isEmpty()){
                 userNameField.requestFocus();
             userNameField.setTooltip( new Tooltip("Please provide a username"));
             }else {
                 userNamePane.setVisible(false);
-                userNameField.clear();
                 playMenuSound(false);
                 playGameSound(true);
                 newGame();
@@ -231,6 +237,17 @@ public class mainController implements Initializable {
             gamePane.getChildren().clear();
             AnimationUtilities animationUtilities = new AnimationUtilities(gamePane);
             animationUtilities.play();
+        }
+    }
+
+
+    public void playSound(){
+        if (menuSound.getVolume()>0){
+            menuSound.setVolume(0);
+            gameSound.setVolume(0);
+        }else{
+            menuSound.setVolume(1.0);
+            gameSound.setVolume(1.0);
         }
     }
 
