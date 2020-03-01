@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+import javax.sound.sampled.BooleanControl;
 import java.net.URL;
 import java.security.Key;
 import java.util.Random;
@@ -242,10 +243,13 @@ public class mainController implements Initializable {
 
 
     public void playSound(){
-        if (menuSound.getVolume()>0){
-            menuSound.setVolume(0);
-            gameSound.setVolume(0);
-        }else{
+      //  BooleanControl muteControl = (BooleanControl) menuSound.getControl(BooleanControl.type.MUTE);
+        if (menuSound.getVolume()>0.0){
+            menuSound.setVolume(0.0);
+            gameSound.setVolume(0.0);
+
+        }
+        if (menuSound.getVolume()==0.0){
             menuSound.setVolume(1.0);
             gameSound.setVolume(1.0);
         }
