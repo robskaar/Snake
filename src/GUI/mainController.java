@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.security.Key;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -40,6 +41,8 @@ public class mainController implements Initializable {
     private Button resumeButton;
     @FXML
     private AnchorPane gamePane;
+    @FXML
+    private AnchorPane userNamePane;
     @FXML
     private AnchorPane settingsPane;
     @FXML
@@ -89,16 +92,20 @@ public class mainController implements Initializable {
 
         AnimationUtilities.drawGameGrid(gameUnderlayPane);
 
-        userNameField.setOnMouseClicked(e -> { // set on mouse click actions for username field
-            userNameField.setEditable(true);
-            userNameField.setStyle("-fx-background-color: white");
-        });
-        userNameField.setOnAction(e -> { // set on action for username field - when space is pressed.
-            userNameField.setStyle("-fx-background-color: transparent");
-            userNameField.setEditable(false);
-        });
-        resumeButton.setDisable(true);
 
+
+        userNameField.setOnAction( e->{
+            if (userNameField.getText().isEmpty()){
+                userNameField.requestFocus();
+            userNameField.setTooltip( new Tooltip("Please provide a username"));
+            }else {
+                userNamePane.setVisible(false);
+                userNameField.clear();
+                playMenuSound(false);
+                playGameSound(true);
+                newGame();
+            }
+        });
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
         resumeButton.setOnAction(e -> { // set on action for resume button
             playMenuSound(false);
@@ -107,14 +114,15 @@ public class mainController implements Initializable {
         });
 
         newGameButton.setOnAction(e -> { // set on action for new game button
-            if(isUserNameSupplied()){
-                playMenuSound(false);
-                playGameSound(true);
-            }
-            newGame();
+        setUserName();
         });
 
 
+    }
+
+    public void setUserName(){
+        menuPane.setVisible(false);
+        userNamePane.setVisible(true);
     }
 
     public void setMode() {
@@ -203,7 +211,7 @@ public class mainController implements Initializable {
 
         // Other input
 
-        if (key == KeyCode.SPACE) {
+        if (key == KeyCode.SPACE) {              // pause game
             if (FPStimeline.getStatus().equals(Animation.Status.PAUSED)) {
                 // you cant pause if the game is paused.
             } else {
@@ -212,6 +220,7 @@ public class mainController implements Initializable {
                 showMenu();
             }
         }
+
 
         if (key == KeyCode.P) {          // Plays victory animation
             FPStimeline.stop();
@@ -229,6 +238,7 @@ public class mainController implements Initializable {
 
         FPStimeline.pause();
         CollisionTimeline.pause();
+        userNamePane.setVisible(false);
         settingsPane.setVisible(false);
         menuPane.setVisible(true);
         overlayPane.setVisible(false);
@@ -241,7 +251,7 @@ public class mainController implements Initializable {
     }
 
     public void resumeGame() {
-        if (isUserNameSupplied()) {
+
             KeyFrame countOne = new KeyFrame(Duration.seconds(0), event -> {
                 FPStimeline.pause();
                 CollisionTimeline.pause();
@@ -279,24 +289,21 @@ public class mainController implements Initializable {
 
             overlayPane.setVisible(true);
         }
-    }
+
 
     public boolean isUserNameSupplied() {
         if (userNameField.getText().isEmpty()) {
-            userNameField.setEditable(true);
             userNameField.requestFocus();
-            userNameField.setStyle("-fx-background-color: white");
             userNameField.setTooltip(new Tooltip("YOU MUST PROVIDE A USERNAME"));
             return false;
         } else {
-            userNameField.setStyle("-fx-background-color: transparent");
             return true;
         }
 
     }
 
     public void newGame() {
-        if (isUserNameSupplied()) {
+
             overlayPane.setVisible(true);
             resumeButton.setDisable(false);
             highScorePane.setVisible(false);
@@ -314,7 +321,6 @@ public class mainController implements Initializable {
             }
             resumeGame();
         }
-    }
 
     public void quitGame() {
         Platform.exit();

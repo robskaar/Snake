@@ -64,10 +64,28 @@
     -fx-font-family: "Karmatic Arcade" !important;
     -fx-background-color: Transparent;
 }
-.Settings{
-    -fx-background-color: rgba(255, 255, 255, 0.75);
+.MenuButtons:hover{
+    -fx-scale-x:1.2;
+    -fx-scale-y: 1.2;
 }
 
+.Settings{
+    -fx-font-family: "Karmatic Arcade" !important;
+    -fx-background-color: rgba(255, 255, 255, 0.75);
+}
+.SettingsButtons{
+    -fx-font-family: "Evil Empire" !important;
+    -fx-background-radius: 50 50 50 50;
+    -fx-border-radius: 50 50 50 50;
+    -fx-border-color: black;
+    -fx-max-height: 20;
+}
+.SettingsButtons:selected{
+    -fx-background-color: rgba(131, 255, 152, 0.75)
+}
+.UserNamePane{
+    -fx-background-color: rgba(255, 255, 255, 0.75);
+}
 .BackButton{
     -fx-background-color: transparent;
     -fx-background-size: 20px;
