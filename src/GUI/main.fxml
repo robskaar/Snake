@@ -45,11 +45,6 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="258.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TextField fx:id="userNameField" alignment="CENTER" prefHeight="39.0" prefWidth="474.0" promptText="User Name" styleClass="userName">
-                           <VBox.margin>
-                              <Insets left="125.0" right="125.0" top="50.0" />
-                           </VBox.margin>
-                        </TextField>
                         <Button fx:id="resumeButton" mnemonicParsing="false" onAction="#resumeGame" prefHeight="54.0" prefWidth="499.0" styleClass="MenuButtons" text="RESUME GAME">
                            <VBox.margin>
                               <Insets left="50.0" right="50.0" top="20.0" />
@@ -81,24 +76,36 @@
             </AnchorPane>
             <AnchorPane fx:id="settingsPane" prefHeight="200.0" prefWidth="200.0" styleClass="Settings" visible="false">
                <children>
-                  <Label alignment="CENTER" layoutX="104.0" layoutY="37.0" prefHeight="62.0" prefWidth="388.0" text="SETTINGS">
+                  <Label alignment="CENTER" layoutX="104.0" layoutY="37.0" prefHeight="62.0" prefWidth="388.0" styleClass="Settings" text="SETTINGS">
                      <font>
                         <Font size="50.0" />
                      </font>
                   </Label>
-                  <Button layoutX="21.0" layoutY="25.0" mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" />
+                  <Button layoutX="21.0" layoutY="25.0" mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0" />
                   <HBox layoutX="65.0" layoutY="125.0" prefHeight="56.0" prefWidth="471.0">
                      <children>
-                        <ToggleButton fx:id="easyDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setMode" prefHeight="100.0" prefWidth="157.0" text="EASY" />
-                        <ToggleButton fx:id="normalDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setMode" prefHeight="58.0" prefWidth="157.0" text="NORMAL" />
-                        <ToggleButton fx:id="hardDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setMode" prefHeight="56.0" prefWidth="157.0" text="HARD" />
+                        <ToggleButton fx:id="easyDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setMode" prefHeight="100.0" prefWidth="157.0" styleClass="SettingsButtons" text="EASY">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin></ToggleButton>
+                        <ToggleButton fx:id="normalDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setMode" prefHeight="58.0" prefWidth="157.0" styleClass="SettingsButtons" text="NORMAL">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin></ToggleButton>
+                        <ToggleButton fx:id="hardDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setMode" prefHeight="56.0" prefWidth="157.0" styleClass="SettingsButtons" text="HARD" />
                      </children>
                   </HBox>
-                  <Label alignment="CENTER" layoutX="104.0" layoutY="220.0" prefHeight="62.0" prefWidth="388.0" text="EXTRAS">
+                  <Label alignment="CENTER" layoutX="104.0" layoutY="220.0" prefHeight="62.0" prefWidth="388.0" styleClass="Settings" text="EXTRAS">
                      <font>
                         <Font size="50.0" />
                      </font>
                   </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="userNamePane" prefHeight="200.0" prefWidth="200.0" styleClass="UserNamePane" visible="false">
+               <children>
+                  <TextField fx:id="userNameField" alignment="CENTER" layoutX="63.0" layoutY="280.0" prefHeight="39.0" prefWidth="474.0" promptText="User Name" styleClass="userName" />
+                  <Button layoutX="26.0" layoutY="28.0" mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0" />
                </children>
             </AnchorPane>
          </children>
