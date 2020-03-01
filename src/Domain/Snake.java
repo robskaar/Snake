@@ -126,10 +126,10 @@ public class Snake {
         Timeline timeline = new Timeline();
         timeline.setAutoReverse(false);
         timeline.setCycleCount(queue.size());
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100), ActionEvent -> {
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(150), ActionEvent -> {
 
             if(!queue.isEmpty()){
-                AnimationUtilities.shapeColorShow(this.getSnakeArray().get(queue.poll()),true,Duration.millis(200),10);
+                AnimationUtilities.shapeColorShow(this.getSnakeArray().get(queue.poll()),true,Duration.millis(100),2);
             }
 
         }));
