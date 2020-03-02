@@ -1,14 +1,27 @@
 package Domain;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import GUI.mainController;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
+
+import static Domain.Direction.DOWN;
+import static Domain.Direction.UP;
 
 public class Snake {
 
     private ArrayList<Blocks> snakeArray = new ArrayList<>();
     private Direction snakeDirection = Direction.RIGHT;
-    private Food yumyum;
+
+    public enum Headstate {NORMAL, BIG};
+    private Headstate head = Headstate.NORMAL;
 
     public Snake() {
         snakeArray.add(new SnakeHead());                    // Add snake head
@@ -34,10 +47,10 @@ public class Snake {
         if (snakeDirection == Direction.RIGHT) {
             snakeArray.get(0).setX(snakeHeadX + snakeSize);
             snakeArray.get(0).setRotate(360);
-        } else if (snakeDirection == Direction.DOWN) {
+        } else if (snakeDirection == DOWN) {
             snakeArray.get(0).setY(snakeHeadY + snakeSize);
             snakeArray.get(0).setRotate(90);
-        } else if (snakeDirection == Direction.UP) {
+        } else if (snakeDirection == UP) {
             snakeArray.get(0).setY(snakeHeadY - snakeSize);
             snakeArray.get(0).setRotate(-90);
         } else if (snakeDirection == Direction.LEFT) {
@@ -46,15 +59,40 @@ public class Snake {
         }
     }
 
-    public boolean checkFoodCollision() {
+    public boolean checkFoodCollision(Food food, Headstate headSize) {
         boolean result = false;
 
-        int headHash = snakeArray.get(0).getHashValue();
-        int foodHash = mainController.getFood().getHashValue();
+        if(headSize == Headstate.NORMAL){
+            int headHash = snakeArray.get(0).getHashValue();
+            int foodHash = food.getHashValue();
+            if(headHash == foodHash){
+                result = true;
+            }
+        } else {
+            int foodHash = food.getHashValue();
 
-        if(headHash == foodHash){
-            result = true;
+            int x = (int) snakeArray.get(0).getX();
+            int y = (int) snakeArray.get(0).getY();
+
+            ArrayList<Integer> hashes = new ArrayList<Integer>();
+
+            hashes.add(calcUnboundHash(x-20,y-20));
+            hashes.add(calcUnboundHash(x,y-20));
+            hashes.add(calcUnboundHash(x+20,y-20));
+
+            hashes.add(calcUnboundHash(x-20,y));
+            hashes.add(calcUnboundHash(x,y));
+            hashes.add(calcUnboundHash(x+20,y));
+
+            hashes.add(calcUnboundHash(x-20,y+20));
+            hashes.add(calcUnboundHash(x,y+20));
+            hashes.add(calcUnboundHash(x+20,y+20));
+
+            for(int hash : hashes){
+                if(foodHash==hash)result=true;
+            }
         }
+
 
         return result;
     }
@@ -108,6 +146,32 @@ public class Snake {
 
     }
 
+    public void changeBodyColor(Pane pane){
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 1; i < this.getSnakeArray().size() ; i++) {
+            queue.add(i);
+        }
+
+        Timeline timeline = new Timeline();
+        timeline.setAutoReverse(false);
+        timeline.setCycleCount(queue.size());
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(150), ActionEvent -> {
+
+            if(!queue.isEmpty()){
+                AnimationUtilities.shapeColorShow(this.getSnakeArray().get(queue.poll()),true,Duration.millis(100),2);
+            }
+
+        }));
+        timeline.play();
+        timeline.setOnFinished(ActionEvent -> {
+            this.addSnakeBody(pane);
+        });
+
+    }
+
+    // Getter and Setters
+
     public ArrayList<Blocks> getSnakeArray() {
         return snakeArray;
     }
@@ -120,5 +184,15 @@ public class Snake {
         this.snakeDirection = snakeDirection;
     }
 
+    public void setHeadstate (Headstate size){
+        this.head=size;
+    }
 
+    public Headstate getHeadstate(){
+        return this.head;
+    }
+
+    public int calcUnboundHash(int x, int y){
+        return (((x + y) * (x + y + 1)) / 2) + y;
+    }
 }
