@@ -19,6 +19,7 @@
          <children>
             <AnchorPane fx:id="gameUnderlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="gameUnderlayPane" />
             <AnchorPane fx:id="gamePane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="AnchorPane" />
+            <AnchorPane fx:id="winnerPane" prefHeight="200.0" prefWidth="200.0" />
             <AnchorPane fx:id="overlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" onKeyPressed="#getGameInput" prefHeight="600.0" prefWidth="600.0" styleClass="Overlay">
                <children>
                   <Label fx:id="score" layoutX="40.0" layoutY="29.0" styleClass="scoreLabel" text="Score" />
