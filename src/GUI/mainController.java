@@ -68,7 +68,7 @@ public class mainController implements Initializable {
     static Snake snake;
     static String difficulty;
     static Score currentScore;
-
+    Timeline foodTimeLime = new Timeline();
     Timeline FPSTimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
@@ -84,8 +84,10 @@ public class mainController implements Initializable {
         overlayPane.setFocusTraversable(true);       // Make key input possible on overlay pane
         initFPSTimeline();                           // Timeline to move snake
         initCollisionTimeline();                     // Timeline to detect collision
+        initFoodTimeLine();                         // time to spawn and despawn food
         FPSTimeline.pause();                        // pauses timeline
-        CollisionTimeline.pause();                   // pauses timeline
+        CollisionTimeline.pause();                  // pauses timeline
+        foodTimeLime.pause();                       //pauses timelime
         menuPane.setVisible(true);                   //initially shows main menu
         overlayPane.setVisible(false);               // Hide overlay
         highScorePane.setVisible(false);
@@ -161,6 +163,17 @@ public class mainController implements Initializable {
         }
 
     }
+    public void initFoodTimeLine(){
+    foodTimeLime.setAutoReverse(false);
+    foodTimeLime.setCycleCount(Animation.INDEFINITE);
+    foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(5), ActionEvent -> {
+
+        generateFood();
+
+    }));
+
+    foodTimeLime.play();
+}
 
     public void initFPSTimeline() {
 
@@ -295,6 +308,7 @@ public class mainController implements Initializable {
         KeyFrame countOne = new KeyFrame(Duration.seconds(0), event -> {
             FPSTimeline.pause();
             CollisionTimeline.pause();
+            foodTimeLime.pause();
             menuPane.setVisible(false);
             countDownPane.setVisible(true);
             countDown.setText("3");
@@ -319,6 +333,7 @@ public class mainController implements Initializable {
             countDownPane.setVisible(false);
             FPSTimeline.play();
             CollisionTimeline.play();
+            foodTimeLime.play();
         });
 
         Timeline countDowns = new Timeline(
@@ -368,6 +383,7 @@ public class mainController implements Initializable {
     public void endGame() {
         FPSTimeline.stop();       // Stop moving the snake..
         CollisionTimeline.stop();
+        foodTimeLime.stop();
         gamePane.getChildren().clear();  // Clear gamepane
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
         showHighScores();
@@ -396,7 +412,7 @@ public class mainController implements Initializable {
     }
 
     public void generateFood() {
-
+        foodTimeLime.playFromStart();
         gamePane.getChildren().remove(yumYum);
         boolean foodIsUnderSnake;
 
