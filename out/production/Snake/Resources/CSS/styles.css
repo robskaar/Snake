@@ -39,6 +39,7 @@
 
 .highscoreLabel{
     -fx-font-family: "Karmatic Arcade";
+    -fx-text-alignment: center;
     -fx-font-size: 50;
 }
 

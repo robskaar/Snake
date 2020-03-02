@@ -22,7 +22,11 @@ public class Score {
     private String name;
     private String difficulty;
     private int score;
+
     private static TableView tableView = new TableView();
+    private static TableColumn<String, Score> columnName;
+    private static TableColumn<Integer, Score> columnScore;
+    private static TableColumn<String, Score> columnDifficulty;
 
     private ObservableList<Score> highScores = FXCollections.observableArrayList();
 
@@ -96,7 +100,7 @@ public class Score {
         readCSV();
 
         tableView.setItems(highScores);
-        tableView.sort();
+        tableView.getSortOrder().addAll(columnScore, columnDifficulty);
         tableView.getSelectionModel().select(highScores.indexOf(this));
         tableView.scrollTo(highScores.indexOf(this));
 
@@ -108,21 +112,20 @@ public class Score {
         tableView.setLayoutX(50);
         tableView.setLayoutY(150);
 
-        TableColumn<String, Score> name = new TableColumn<>("Name");
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        name.setPrefWidth(165);
+        columnName = new TableColumn<>("Name");
+        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnName.setPrefWidth(165);
 
-        TableColumn<Integer, Score> score = new TableColumn<>("Score");
-        score.setCellValueFactory(new PropertyValueFactory<>("score"));
-        score.setSortType(TableColumn.SortType.DESCENDING);
-        score.setPrefWidth(165);
+        columnScore = new TableColumn<>("Score");
+        columnScore.setCellValueFactory(new PropertyValueFactory<>("score"));
+        columnScore.setSortType(TableColumn.SortType.DESCENDING);
+        columnScore.setPrefWidth(165);
 
-        TableColumn<String, Score> difficulty = new TableColumn<>("Level");
-        difficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
-        difficulty.setPrefWidth(165);
+        columnDifficulty = new TableColumn<>("Level");
+        columnDifficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
+        columnDifficulty.setPrefWidth(165);
 
-        tableView.getColumns().addAll(name, score, difficulty);
-        tableView.getSortOrder().addAll(score, difficulty);
+        tableView.getColumns().addAll(columnName, columnScore, columnDifficulty);
 
         pane.getChildren().addAll(tableView);
     }
@@ -135,16 +138,8 @@ public class Score {
         this.score = score;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
     }
 
     public void setDifficulty(String difficulty) {
