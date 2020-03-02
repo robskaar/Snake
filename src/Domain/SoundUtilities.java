@@ -29,8 +29,8 @@ public abstract class SoundUtilities {
             MENU_SOUND.setVolume(0.0);
         }
         else {
-            GAME_SOUND.setVolume(0.05);
-            MENU_SOUND.setVolume(0.05);
+            GAME_SOUND.setVolume(GAME_SOUND.getVolume());
+            MENU_SOUND.setVolume(MENU_SOUND.getVolume());
         }
     }
 
