@@ -77,6 +77,16 @@ public abstract class SoundUtilities {
 
     }
 
+    public static void playGrowHead(Boolean play) {
+        if (play) {
+            HEAD_GROW.play(0);
+        }
+        else {
+            HEAD_GROW.stop();
+        }
+
+    }
+
     public static void playHoverSound(Boolean play) {
         if (play) {
             BUTTON_HOVER.play(0);

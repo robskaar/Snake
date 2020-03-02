@@ -12,10 +12,16 @@ import GUI.mainController;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+import static Domain.Direction.DOWN;
+import static Domain.Direction.UP;
+
 public class Snake {
 
     private ArrayList<Blocks> snakeArray = new ArrayList<>();
     private Direction snakeDirection = Direction.RIGHT;
+
+    public enum Headstate {NORMAL, BIG};
+    private Headstate head = Headstate.NORMAL;
 
     public Snake() {
         snakeArray.add(new SnakeHead());                    // Add snake head
@@ -41,10 +47,10 @@ public class Snake {
         if (snakeDirection == Direction.RIGHT) {
             snakeArray.get(0).setX(snakeHeadX + snakeSize);
             snakeArray.get(0).setRotate(360);
-        } else if (snakeDirection == Direction.DOWN) {
+        } else if (snakeDirection == DOWN) {
             snakeArray.get(0).setY(snakeHeadY + snakeSize);
             snakeArray.get(0).setRotate(90);
-        } else if (snakeDirection == Direction.UP) {
+        } else if (snakeDirection == UP) {
             snakeArray.get(0).setY(snakeHeadY - snakeSize);
             snakeArray.get(0).setRotate(-90);
         } else if (snakeDirection == Direction.LEFT) {
@@ -53,15 +59,40 @@ public class Snake {
         }
     }
 
-    public boolean checkFoodCollision(Food food) {
+    public boolean checkFoodCollision(Food food, Headstate headSize) {
         boolean result = false;
 
-        int headHash = snakeArray.get(0).getHashValue();
-        int foodHash = food.getHashValue();
+        if(headSize == Headstate.NORMAL){
+            int headHash = snakeArray.get(0).getHashValue();
+            int foodHash = food.getHashValue();
+            if(headHash == foodHash){
+                result = true;
+            }
+        } else {
+            int foodHash = food.getHashValue();
 
-        if(headHash == foodHash){
-            result = true;
+            int x = (int) snakeArray.get(0).getX();
+            int y = (int) snakeArray.get(0).getY();
+
+            ArrayList<Integer> hashes = new ArrayList<Integer>();
+
+            hashes.add(calcUnboundHash(x-20,y-20));
+            hashes.add(calcUnboundHash(x,y-20));
+            hashes.add(calcUnboundHash(x+20,y-20));
+
+            hashes.add(calcUnboundHash(x-20,y));
+            hashes.add(calcUnboundHash(x,y));
+            hashes.add(calcUnboundHash(x+20,y));
+
+            hashes.add(calcUnboundHash(x-20,y+20));
+            hashes.add(calcUnboundHash(x,y+20));
+            hashes.add(calcUnboundHash(x+20,y+20));
+
+            for(int hash : hashes){
+                if(foodHash==hash)result=true;
+            }
         }
+
 
         return result;
     }
@@ -153,5 +184,15 @@ public class Snake {
         this.snakeDirection = snakeDirection;
     }
 
+    public void setHeadstate (Headstate size){
+        this.head=size;
+    }
 
+    public Headstate getHeadstate(){
+        return this.head;
+    }
+
+    public int calcUnboundHash(int x, int y){
+        return (((x + y) * (x + y + 1)) / 2) + y;
+    }
 }
