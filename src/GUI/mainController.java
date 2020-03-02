@@ -59,6 +59,8 @@ public class mainController implements Initializable {
     @FXML
     private AnchorPane menuPane;
     @FXML
+    private AnchorPane winnerPane;
+    @FXML
     private AnchorPane countDownPane;
     @FXML
     private AnchorPane highScorePane;
@@ -80,10 +82,12 @@ public class mainController implements Initializable {
     private Slider musicSlider;
 
     public static boolean muteStatus = false;
+    static boolean winnerAnimationActive = false;
     static Food yumYum;
     static Snake snake;
     static String difficulty;
     static Score currentScore;
+    AnimationUtilities animationUtilities;
     Timeline foodTimeLime = new Timeline();
     Timeline FPSTimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
@@ -94,31 +98,28 @@ public class mainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-        musicSlider.setOnMouseDragged( e-> {
+        musicSlider.setOnMouseDragged(e -> {
             SoundUtilities.controlMusicLevel(musicSlider.getValue());
         });
-      soundSlider.setOnMouseDragged( e-> {
-          SoundUtilities.controlSoundLevel(soundSlider.getValue());
-      });
-
-      highScoreButton.setOnMouseEntered( e-> {
-            SoundUtilities.playHoverSound(true);
-        });
-        newGameButton.setOnMouseEntered( e-> {
-            SoundUtilities.playHoverSound(true);
-        });
-        resumeButton.setOnMouseEntered( e-> {
-            SoundUtilities.playHoverSound(true);
-        });
-        quitButton.setOnMouseEntered( e-> {
-            SoundUtilities.playHoverSound(true);
-        });
-        settingsButton.setOnMouseEntered( e-> {
-            SoundUtilities.playHoverSound(true);
+        soundSlider.setOnMouseDragged(e -> {
+            SoundUtilities.controlSoundLevel(soundSlider.getValue());
         });
 
-
-
+        highScoreButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
+        newGameButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
+        resumeButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
+        quitButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
+        settingsButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
 
 
         SoundUtilities.playMenuSound(true);                        // start the menu sound
@@ -137,15 +138,13 @@ public class mainController implements Initializable {
         menuPane.setVisible(true);                   //initially shows main menu
         overlayPane.setVisible(false);               // Hide overlay
         highScorePane.setVisible(false);
+        winnerPane.setVisible(false);
 
         AnimationUtilities.drawGameGrid(gameUnderlayPane); // Draw grass and grid
 
 
-
-
-
-        userNameField.setOnAction( e->{
-            if (userNameField.getText().isEmpty()){
+        userNameField.setOnAction(e -> {
+            if (userNameField.getText().isEmpty()) {
                 userNameField.requestFocus();
                 userNameField.setTooltip(new Tooltip("Please provide a username"));
             } else {
@@ -169,23 +168,23 @@ public class mainController implements Initializable {
 
     }
 
-    public void mute(){
+    public void mute() {
 
-        if (muteStatus){
+        if (muteStatus) {
             soundButton1.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
             soundButton2.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
             soundButton3.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
             soundSlider.getValue();
-            muteStatus=false;
-        }
-        else{
+            muteStatus = false;
+        } else {
             soundButton1.setStyle("-fx-background-image: url('/Resources/Images/mute.png');");
             soundButton2.setStyle("-fx-background-image: url('/Resources/Images/mute.png');");
             soundButton3.setStyle("-fx-background-image: url('/Resources/Images/mute.png');");
-            muteStatus=true;
+            muteStatus = true;
         }
         SoundUtilities.muteStatus(muteStatus);
     }
+
     public void setUserName() {
         menuPane.setVisible(false);
         userNamePane.setVisible(true);
@@ -211,17 +210,17 @@ public class mainController implements Initializable {
 
     }
 
-    public void initFoodTimeLine(){
-    foodTimeLime.setAutoReverse(false);
-    foodTimeLime.setCycleCount(Animation.INDEFINITE);
-    foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(6), ActionEvent -> {
+    public void initFoodTimeLine() {
+        foodTimeLime.setAutoReverse(false);
+        foodTimeLime.setCycleCount(Animation.INDEFINITE);
+        foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(6), ActionEvent -> {
 
-        generateFood();
+            generateFood();
 
-    }));
+        }));
 
-    foodTimeLime.play();
-}
+        foodTimeLime.play();
+    }
 
     public void initFPSTimeline() {
 
@@ -267,17 +266,17 @@ public class mainController implements Initializable {
 
                 if (difficulty.contains("Hard")) {
 
-                    if(rollTheDice(25)){
+                    if (rollTheDice(25)) {
                         SoundUtilities.playSpeedBoost(true);
                         hardModeSpeedBoost();
                     }
-                    if (rollTheDice(20)){
+                    if (rollTheDice(20)) {
                         SoundUtilities.playGrowHead(true);
                         hardModeBigHead();
                     }
-                    if(rollTheDice(10)){
+                    if (rollTheDice(10)) {
                         SoundUtilities.playRotatePane(true);
-                        AnimationUtilities.rotatePane(5,gamePane);
+                        AnimationUtilities.rotatePane(5, gamePane);
                     }
 
                 }
@@ -296,13 +295,13 @@ public class mainController implements Initializable {
         KeyCode key = ke.getCode();
 
         if (key == KeyCode.DOWN && snake.getSnakeDirection() != Direction.UP) {
-            pressedDirection=DOWN;
+            pressedDirection = DOWN;
         } else if (key == KeyCode.LEFT && snake.getSnakeDirection() != RIGHT) {
-            pressedDirection=LEFT;
+            pressedDirection = LEFT;
         } else if (key == KeyCode.RIGHT && snake.getSnakeDirection() != LEFT) {
-            pressedDirection=RIGHT;
+            pressedDirection = RIGHT;
         } else if (key == KeyCode.UP && snake.getSnakeDirection() != DOWN) {
-            pressedDirection=UP;
+            pressedDirection = UP;
         }
 
         // Other input
@@ -317,17 +316,25 @@ public class mainController implements Initializable {
             }
         }
 
-
         if (key == KeyCode.P) {          // Plays victory animation
-            FPSTimeline.stop();
-            CollisionTimeline.stop();
-            SoundUtilities.playGameSound(false);
-            SoundUtilities.playMenuSound(false);
-            overlayPane.setVisible(false);
-            gamePane.getChildren().clear();
-            AnimationUtilities animationUtilities = new AnimationUtilities(gamePane);
-            gamePane.setFocusTraversable(true);
-            animationUtilities.playVictoryAnimation();
+
+            if (winnerAnimationActive) {
+                animationUtilities.stopAnimation();
+                winnerPane.setVisible(false);
+                endGame();
+            } else {
+                animationUtilities = new AnimationUtilities(winnerPane);
+                winnerPane.setVisible(true);
+                winnerAnimationActive = true;
+                FPSTimeline.stop();
+                CollisionTimeline.stop();
+                foodTimeLime.stop();
+                SoundUtilities.playGameSound(false);
+                SoundUtilities.playMenuSound(false);
+                score.setStyle("-fx-text-fill: transparent");
+                animationUtilities.playVictoryAnimation();
+            }
+
         }
     }
 
@@ -512,9 +519,9 @@ public class mainController implements Initializable {
         headBuffTimer.play();
     }
 
-    private boolean rollTheDice(int percentChance){
+    private boolean rollTheDice(int percentChance) {
 
-        if(percentChance > 100 || percentChance < 0){
+        if (percentChance > 100 || percentChance < 0) {
             throw new IllegalArgumentException("Percent can only be between 0-100");
         }
 

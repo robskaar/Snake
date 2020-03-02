@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -20,6 +21,8 @@ import java.util.Random;
 public class AnimationUtilities {
 
     private Pane pane;
+    private ArrayList<AudioPlayer> allAudio = new ArrayList<>();
+    private ArrayList<Timeline> allTimelines = new ArrayList<>();
 
     public AnimationUtilities(Pane pane) {
         this.pane = pane;
@@ -28,6 +31,17 @@ public class AnimationUtilities {
     public void playVictoryAnimation() {
         SoundUtilities.playVictorySound(true);
         winnerSnake();
+    }
+
+    public void stopAnimation(){
+        SoundUtilities.playVictorySound(false);
+
+        for (Timeline tl : allTimelines){
+            tl.stop();
+        }
+        for (AudioPlayer ap : allAudio){
+            ap.stop();
+        }
     }
 
     private void winnerSnake() {
@@ -49,6 +63,7 @@ public class AnimationUtilities {
         }
 
         Timeline timeline = new Timeline();
+        allTimelines.add(timeline);
         timeline.setAutoReverse(false);
         timeline.setCycleCount(queue.size() + (int) (NUMBER_OF_BLOCKS));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(ANIMATION_TIME_MS / NUMBER_OF_BLOCKS), ActionEvent -> {
@@ -87,6 +102,7 @@ public class AnimationUtilities {
         int circleSpawnY = 235;
 
         Timeline victoryTimeline = new Timeline();
+        allTimelines.add(victoryTimeline);
         victoryTimeline.setAutoReverse(false);
         victoryTimeline.setCycleCount(1000);
         victoryTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(10), ActionEvent -> {
@@ -126,6 +142,7 @@ public class AnimationUtilities {
 
         AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketLaunch.wav",1);
         audioPlayer.play(0);
+        allAudio.add(audioPlayer);
 
         final Duration DURATION = Duration.millis(2500);
 
@@ -187,14 +204,17 @@ public class AnimationUtilities {
     private void playFireworks() {
 
         AudioPlayer ap = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
+        allAudio.add(ap);
         ap.play(1);
 
         Random ran = new Random();
         Timeline timeline = new Timeline();
+        allTimelines.add(timeline);
         timeline.setAutoReverse(false);
         timeline.setCycleCount(5);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), ActionEvent -> {
             AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
+            allAudio.add(audioPlayer);
             audioPlayer.play(1);
             timeline.setRate(ran.nextInt(1) + 1);
         }));
@@ -205,6 +225,7 @@ public class AnimationUtilities {
     private void nodeToFront(Node node) {
 
         Timeline timeline = new Timeline();
+        allTimelines.add(timeline);
         timeline.setCycleCount(15000);
         timeline.setAutoReverse(false);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1), ActionEvent -> {
@@ -287,5 +308,4 @@ public class AnimationUtilities {
         timeline.play();
 
     }
-
 }
