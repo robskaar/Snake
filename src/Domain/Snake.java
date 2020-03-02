@@ -1,9 +1,16 @@
 package Domain;
 
-
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
-
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import GUI.mainController;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class Snake {
 
@@ -14,7 +21,6 @@ public class Snake {
         snakeArray.add(new SnakeHead());                    // Add snake head
         snakeArray.add(new SnakeBody(280,300));  // Add body part
         snakeArray.add(new SnakeBody(260,300));  // Add body part
-
     }
 
     public void moveSnake() {
@@ -34,18 +40,37 @@ public class Snake {
 
         if (snakeDirection == Direction.RIGHT) {
             snakeArray.get(0).setX(snakeHeadX + snakeSize);
+            snakeArray.get(0).setRotate(360);
         } else if (snakeDirection == Direction.DOWN) {
             snakeArray.get(0).setY(snakeHeadY + snakeSize);
+            snakeArray.get(0).setRotate(90);
         } else if (snakeDirection == Direction.UP) {
             snakeArray.get(0).setY(snakeHeadY - snakeSize);
+            snakeArray.get(0).setRotate(-90);
         } else if (snakeDirection == Direction.LEFT) {
             snakeArray.get(0).setX(snakeHeadX - snakeSize);
+            snakeArray.get(0).setRotate(-180);
         }
     }
 
-    public boolean checkCollision() {
+    public boolean checkFoodCollision(Food food) {
+        boolean result = false;
 
-        // Check collision with snake it self
+        int headHash = snakeArray.get(0).getHashValue();
+        int foodHash = food.getHashValue();
+
+        if(headHash == foodHash){
+            result = true;
+        }
+
+        return result;
+    }
+
+    public boolean checkSelfCollision() {
+
+        // Check collision with snake itself
+
+        boolean result = false;
 
         for (int i = 1; i <= snakeArray.size() - 1 ; i++) {
 
@@ -53,9 +78,18 @@ public class Snake {
             int checkHash = snakeArray.get(i).getHashValue();
 
             if(headHash == checkHash){
-                return true;
+                result = true;
             }
         }
+
+        return result;
+    }
+
+    public boolean checkBorderCollision(){
+
+        // checking if snake is out of bounds of playing fields
+
+        boolean result = false;
 
         // Get position of the snake head
         double snakeX = snakeArray.get(0).getX();
@@ -63,12 +97,10 @@ public class Snake {
 
         // Check collision with borders (Pane is 600x600)
         if (snakeX >= 600 || snakeX < 0 || snakeY >= 600 || snakeY < 0) {
-            return true;
+            result =  true;
         }
 
-        // On no collision return false
-        return false;
-
+        return result;
     }
 
     public void addSnakeBody(Pane pane) {
@@ -82,6 +114,32 @@ public class Snake {
         pane.getChildren().add(snakeArray.get(snakeArray.size() - 1));
 
     }
+
+    public void changeBodyColor(Pane pane){
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 1; i < this.getSnakeArray().size() ; i++) {
+            queue.add(i);
+        }
+
+        Timeline timeline = new Timeline();
+        timeline.setAutoReverse(false);
+        timeline.setCycleCount(queue.size());
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(150), ActionEvent -> {
+
+            if(!queue.isEmpty()){
+                AnimationUtilities.shapeColorShow(this.getSnakeArray().get(queue.poll()),true,Duration.millis(100),2);
+            }
+
+        }));
+        timeline.play();
+        timeline.setOnFinished(ActionEvent -> {
+            this.addSnakeBody(pane);
+        });
+
+    }
+
+    // Getter and Setters
 
     public ArrayList<Blocks> getSnakeArray() {
         return snakeArray;

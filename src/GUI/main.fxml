@@ -16,13 +16,30 @@
    <center>
       <StackPane prefHeight="600.0" prefWidth="600.0" styleClass="StackPane" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="AnchorPane" />
+            <AnchorPane fx:id="gameUnderlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="gameUnderlayPane" />
             <AnchorPane fx:id="gamePane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="AnchorPane" />
-            <AnchorPane fx:id="overlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" onKeyPressed="#getKeyInput" prefHeight="600.0" prefWidth="600.0" styleClass="Overlay">
+            <AnchorPane fx:id="overlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" onKeyPressed="#getGameInput" prefHeight="600.0" prefWidth="600.0" styleClass="Overlay">
                <children>
-                  <Label fx:id="score" layoutX="40.0" layoutY="29.0" text="Score" />
+                  <Label fx:id="score" layoutX="40.0" layoutY="29.0" styleClass="scoreLabel" text="Score" />
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="highScorePane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="600.0">
+                     <children>
+                        <Button fx:id="soundIcon11" mnemonicParsing="false" onAction="#mute" styleClass="MuteButton">
+                           <HBox.margin>
+                              <Insets right="21.0" top="25.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Label alignment="CENTER" layoutY="-15.0" prefHeight="150.0" prefWidth="600.0" styleClass="highscoreLabel" text="HIGHSCORES">
+                     <font>
+                        <Font size="49.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
             <AnchorPane fx:id="countDownPane" prefHeight="200.0" prefWidth="200.0" styleClass="Menu" visible="false">
                <children>
                   <Label fx:id="countDown" alignment="CENTER" contentDisplay="CENTER" prefHeight="151.0" prefWidth="216.0" styleClass="Counter" textAlignment="CENTER" AnchorPane.bottomAnchor="224.0" AnchorPane.leftAnchor="192.0" AnchorPane.topAnchor="225.0">
@@ -34,13 +51,17 @@
             </AnchorPane>
             <AnchorPane fx:id="menuPane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" styleClass="Menu" visible="false">
                <children>
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="600.0">
+                     <children>
+                        <Button fx:id="soundIcon1" mnemonicParsing="false" onAction="#mute" styleClass="MuteButton">
+                           <HBox.margin>
+                              <Insets right="21.0" top="25.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                   <VBox alignment="CENTER" prefHeight="258.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TextField fx:id="userNameField" alignment="CENTER" prefHeight="39.0" prefWidth="474.0" promptText="User Name" styleClass="userName">
-                           <VBox.margin>
-                              <Insets left="125.0" right="125.0" top="50.0" />
-                           </VBox.margin>
-                        </TextField>
                         <Button fx:id="resumeButton" mnemonicParsing="false" onAction="#resumeGame" prefHeight="54.0" prefWidth="499.0" styleClass="MenuButtons" text="RESUME GAME">
                            <VBox.margin>
                               <Insets left="50.0" right="50.0" top="20.0" />
@@ -56,7 +77,7 @@
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="HIGHSCORES">
+                        <Button fx:id="highScoreButton" mnemonicParsing="false" onAction="#showHighScores" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="HIGHSCORES">
                            <VBox.margin>
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
@@ -72,24 +93,42 @@
             </AnchorPane>
             <AnchorPane fx:id="settingsPane" prefHeight="200.0" prefWidth="200.0" styleClass="Settings" visible="false">
                <children>
-                  <Label alignment="CENTER" layoutX="104.0" layoutY="37.0" prefHeight="62.0" prefWidth="388.0" text="SETTINGS">
+                  <Label alignment="CENTER" layoutX="104.0" layoutY="37.0" prefHeight="62.0" prefWidth="388.0" styleClass="Settings" text="SETTINGS">
                      <font>
                         <Font size="50.0" />
                      </font>
                   </Label>
-                  <Button layoutX="21.0" layoutY="25.0" mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" />
+                  <Button layoutX="21.0" layoutY="25.0" mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0" />
+                  <Button fx:id="soundIcon" mnemonicParsing="false" onAction="#mute" styleClass="MuteButton" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="25.0" />
                   <HBox layoutX="65.0" layoutY="125.0" prefHeight="56.0" prefWidth="471.0">
                      <children>
-                        <ToggleButton fx:id="easyDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setMode" prefHeight="100.0" prefWidth="157.0" text="EASY" />
-                        <ToggleButton fx:id="normalDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setMode" prefHeight="58.0" prefWidth="157.0" text="NORMAL" />
-                        <ToggleButton fx:id="hardDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setMode" prefHeight="56.0" prefWidth="157.0" text="HARD" />
+                        <ToggleButton fx:id="easyDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setDifficulty" prefHeight="100.0" prefWidth="157.0" styleClass="SettingsButtons" text="EASY">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin></ToggleButton>
+                        <ToggleButton fx:id="normalDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setDifficulty" prefHeight="58.0" prefWidth="157.0" styleClass="SettingsButtons" text="NORMAL">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin></ToggleButton>
+                        <ToggleButton fx:id="hardDifficultyButton" focusTraversable="false" mnemonicParsing="false" onAction="#setDifficulty" prefHeight="56.0" prefWidth="157.0" styleClass="SettingsButtons" text="HARD" />
                      </children>
                   </HBox>
-                  <Label alignment="CENTER" layoutX="104.0" layoutY="220.0" prefHeight="62.0" prefWidth="388.0" text="EXTRAS">
+                  <Label alignment="CENTER" layoutX="104.0" layoutY="220.0" prefHeight="62.0" prefWidth="388.0" styleClass="Settings" text="EXTRAS">
                      <font>
                         <Font size="50.0" />
                      </font>
                   </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="userNamePane" prefHeight="200.0" prefWidth="200.0" styleClass="UserNamePane" visible="false">
+               <children>
+                  <Label alignment="CENTER" layoutX="106.0" layoutY="206.0" prefHeight="62.0" prefWidth="388.0" styleClass="userName" text="UserName">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="userNameField" alignment="CENTER" focusTraversable="false" layoutX="63.0" layoutY="280.0" prefHeight="39.0" prefWidth="474.0" promptText="Insert User Name" styleClass="userName" />
+                  <Button layoutX="26.0" layoutY="28.0" mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0" />
                </children>
             </AnchorPane>
          </children>

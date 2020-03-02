@@ -21,11 +21,25 @@
 }
 
 .AnchorPane {
-    -fx-background-color: grey;
+    -fx-background-color: Transparent;
+}
+
+.gameUnderlayPane {
+    -fx-background-color: WHITE;
 }
 
 .Overlay {
     -fx-background-color: Transparent !important;
+}
+
+.scoreLabel{
+    -fx-font-family: "Karmatic Arcade";
+    -fx-font-size: 20;
+}
+
+.highscoreLabel{
+    -fx-font-family: "Karmatic Arcade";
+    -fx-font-size: 50;
 }
 
 .Menu {
@@ -37,12 +51,7 @@
 }
 .userName{
     -fx-font-size: 20;
-    -fx-font-family: "Evil Empire" !important;
-    -fx-background-color: white;
-    -fx-background-radius: 50 50 50 50;
-    -fx-border-radius: 50 50 50 50;
-   -fx-border-width: 2px;
-   -fx-border-color: black;
+    -fx-font-family: "Karmatic Arcade" !important;
 }
 
 .MenuButtons{
@@ -50,10 +59,42 @@
     -fx-font-family: "Karmatic Arcade" !important;
     -fx-background-color: Transparent;
 }
+.MenuButtons:hover{
+    -fx-scale-x:1.2;
+    -fx-scale-y: 1.2;
+}
+
+.MuteButton{
+    -fx-background-color: transparent;
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%;
+    -fx-background-image: url("/Resources/Images/sound.png");
+    -fx-pref-width: 30;
+}
+
 .Settings{
+    -fx-font-family: "Karmatic Arcade" !important;
     -fx-background-color: rgba(255, 255, 255, 0.75);
 }
 
+.Settings .label{
+    -fx-background-color: transparent;
+}
+
+.SettingsButtons{
+    -fx-font-family: "Evil Empire" !important;
+    -fx-background-radius: 50 50 50 50;
+    -fx-border-radius: 50 50 50 50;
+    -fx-border-color: black;
+    -fx-max-height: 20;
+}
+.SettingsButtons:selected{
+    -fx-background-color: rgba(131, 255, 152, 0.75)
+}
+.UserNamePane{
+    -fx-background-color: rgba(255, 255, 255, 0.75);
+}
 .BackButton{
     -fx-background-color: transparent;
     -fx-background-size: 20px;
@@ -62,6 +103,16 @@
     -fx-background-image: url("/Resources/Images/left-arrow.png");
     -fx-pref-width: 20;
 }
+
+.HighScores{
+    -fx-font-size: 20;
+    -fx-pref-width: 500;
+}
+
+.HighScores .table-column {
+    -fx-alignment: center;
+}
+
 
 
 
