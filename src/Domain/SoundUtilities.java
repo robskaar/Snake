@@ -1,5 +1,6 @@
 package Domain;
 
+import javax.swing.*;
 import java.util.Random;
 
 public abstract class SoundUtilities {
@@ -13,6 +14,18 @@ public abstract class SoundUtilities {
     private static final AudioPlayer VICTORY = new AudioPlayer("src/Resources/Sound/victoryFanfareCut1.wav");
     private static final AudioPlayer WUHUU = new AudioPlayer("src/Resources/Sound/Wuhu.wav");
     private static final AudioPlayer SCREAM = new AudioPlayer("src/Resources/Sound/Scream.wav",1);
+
+    public static void muteStatus(Boolean mute){
+        if (mute){
+            GAME_SOUND.setVolume(0.0);
+            MENU_SOUND.setVolume(0.0);
+        }
+        else{
+            GAME_SOUND.setVolume(1.0);
+            MENU_SOUND.setVolume(1.0);
+        }
+    }
+
 
     public static void playGameSound(Boolean play) {
         if (play) {

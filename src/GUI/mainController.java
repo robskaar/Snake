@@ -55,10 +55,10 @@ public class mainController implements Initializable {
     private TextField userNameField;
     @FXML
     private AnchorPane overlayPane;
-    @FXML
-    private Button soundIcon;
 
 
+
+    private boolean muteStatus = false;
     static Food yumYum;
     static Snake snake;
     static String difficulty;
@@ -89,9 +89,8 @@ public class mainController implements Initializable {
 
 
 
-        soundIcon.setOnAction(e->{
-           playSound();
-        });
+
+
         userNameField.setOnAction( e->{
             if (userNameField.getText().isEmpty()){
                 userNameField.requestFocus();
@@ -117,6 +116,17 @@ public class mainController implements Initializable {
 
     }
 
+
+    public void mute(){
+
+        SoundUtilities.muteStatus(muteStatus);
+        if (muteStatus){
+            muteStatus=false;
+        }
+        else{
+            muteStatus=true;
+        }
+    }
     public void setUserName() {
         menuPane.setVisible(false);
         userNamePane.setVisible(true);
@@ -250,19 +260,6 @@ public class mainController implements Initializable {
         }
     }
 
-
-    public void playSound(){
-      //  BooleanControl muteControl = (BooleanControl) menuSound.getControl(BooleanControl.type.MUTE);
-        if (menuSound.getVolume()>0.0){
-            menuSound.setVolume(0.0);
-            gameSound.setVolume(0.0);
-
-        }
-        if (menuSound.getVolume()==0.0){
-            menuSound.setVolume(1.0);
-            gameSound.setVolume(1.0);
-        }
-    }
 
     public void showMenu() {
 

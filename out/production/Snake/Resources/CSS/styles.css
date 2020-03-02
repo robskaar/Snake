@@ -51,12 +51,7 @@
 }
 .userName{
     -fx-font-size: 20;
-    -fx-font-family: "Evil Empire" !important;
-    -fx-background-color: white;
-    -fx-background-radius: 50 50 50 50;
-    -fx-border-radius: 50 50 50 50;
-   -fx-border-width: 2px;
-   -fx-border-color: black;
+    -fx-font-family: "Karmatic Arcade" !important;
 }
 
 .MenuButtons{
