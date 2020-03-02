@@ -15,7 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-import javax.sound.sampled.BooleanControl;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -212,6 +211,9 @@ public class mainController implements Initializable {
                     if(randomNum < 30){
                         SoundUtilities.playSpeedBoost(true);
                         hardModeSpeedBoost();        // 29% chance of speed boost
+                    }
+                    if (randomNum >30 && randomNum < 90){
+                        hardModeBigHead();
                     }
                     if(randomNum > 90){
                         SoundUtilities.playRotatePane(true);
@@ -442,5 +444,21 @@ public class mainController implements Initializable {
         );
         speedBuffTime.setCycleCount(1);
         speedBuffTime.play();
+    }
+
+    private void hardModeBigHead() {
+        KeyFrame bigHeadTimer = new KeyFrame(Duration.seconds(0), event -> {
+            snake.getSnakeArray().get(0).setScaleX(3);
+            snake.getSnakeArray().get(0).setScaleY(3);
+        });
+        KeyFrame bigHeadTimerEnd = new KeyFrame(Duration.seconds(10), event -> {
+            snake.getSnakeArray().get(0).setScaleX(1.5);
+            snake.getSnakeArray().get(0).setScaleY(1.5);
+        });
+        Timeline headBuffTimer = new Timeline(
+                bigHeadTimer, bigHeadTimerEnd
+        );
+        headBuffTimer.setCycleCount(1);
+        headBuffTimer.play();
     }
 }
