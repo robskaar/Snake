@@ -25,15 +25,8 @@
             </AnchorPane>
             <AnchorPane fx:id="highScorePane" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="600.0">
-                     <children>
-                        <Button fx:id="soundIcon11" mnemonicParsing="false" onAction="#mute" styleClass="MuteButton">
-                           <HBox.margin>
-                              <Insets right="21.0" top="25.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
+                  <Button mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0" />
+                  <Button fx:id="soundIcon11" mnemonicParsing="false" onAction="#mute" styleClass="MuteButton" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="25.0" />
                   <Label alignment="CENTER" layoutY="-15.0" prefHeight="150.0" prefWidth="600.0" styleClass="highscoreLabel" text="HIGHSCORES">
                      <font>
                         <Font size="49.0" />
@@ -51,15 +44,7 @@
             </AnchorPane>
             <AnchorPane fx:id="menuPane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" styleClass="Menu" visible="false">
                <children>
-                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="600.0">
-                     <children>
-                        <Button fx:id="soundIcon1" mnemonicParsing="false" onAction="#mute" styleClass="MuteButton">
-                           <HBox.margin>
-                              <Insets right="21.0" top="25.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
+                  <Button fx:id="soundIcon1" mnemonicParsing="false" onAction="#mute" styleClass="MuteButton" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="25.0" />
                   <VBox alignment="CENTER" prefHeight="258.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Button fx:id="resumeButton" mnemonicParsing="false" onAction="#resumeGame" prefHeight="54.0" prefWidth="499.0" styleClass="MenuButtons" text="RESUME GAME">

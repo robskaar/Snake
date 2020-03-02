@@ -119,6 +119,7 @@ public class mainController implements Initializable {
 
     public void mute(){
 
+        System.out.println("test");
         SoundUtilities.muteStatus(muteStatus);
         if (muteStatus){
             muteStatus=false;
@@ -262,7 +263,7 @@ public class mainController implements Initializable {
 
 
     public void showMenu() {
-
+        System.out.println("test");
         FPSTimeline.pause();
         CollisionTimeline.pause();
         userNamePane.setVisible(false);
