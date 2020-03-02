@@ -23,6 +23,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.jar.Attributes;
 
 import static Domain.Direction.*;
 
@@ -75,7 +76,8 @@ public class mainController implements Initializable {
     private Button soundButton1;
     @FXML
     private Slider soundSlider;
-
+    @FXML
+    private Slider musicSlider;
 
     public static boolean muteStatus = false;
     static Food yumYum;
@@ -92,9 +94,11 @@ public class mainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
+        musicSlider.setOnMouseDragged( e-> {
+            SoundUtilities.controlMusicLevel(musicSlider.getValue());
+        });
       soundSlider.setOnMouseDragged( e-> {
           SoundUtilities.controlSoundLevel(soundSlider.getValue());
-          mute();
       });
 
       highScoreButton.setOnMouseEntered( e-> {
@@ -165,13 +169,20 @@ public class mainController implements Initializable {
 
     }
 
-    public void mute(){
+    public double getSoundSliderValue(){
+        return soundSlider.getValue();
+    }
+    public double getMusicSliderValue(){
+        return musicSlider.getValue();
+    }
 
+    public void mute(){
 
         if (muteStatus){
             soundButton1.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
             soundButton2.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
             soundButton3.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
+            soundSlider.getValue();
             muteStatus=false;
         }
         else{
@@ -315,7 +326,6 @@ public class mainController implements Initializable {
         if (key == KeyCode.P) {          // Plays victory animation
             FPSTimeline.stop();
             CollisionTimeline.stop();
-            foodTimeLime.stop();
             SoundUtilities.playGameSound(false);
             SoundUtilities.playMenuSound(false);
             overlayPane.setVisible(false);
@@ -329,7 +339,6 @@ public class mainController implements Initializable {
     public void showMenu() {
         FPSTimeline.pause();
         CollisionTimeline.pause();
-        foodTimeLime.pause();
         userNamePane.setVisible(false);
         settingsPane.setVisible(false);
         menuPane.setVisible(true);
@@ -419,7 +428,6 @@ public class mainController implements Initializable {
     }
 
     public void showHighScores() {
-        foodTimeLime.pause();
         FPSTimeline.pause();
         CollisionTimeline.pause();
         settingsPane.setVisible(false);
@@ -490,7 +498,6 @@ public class mainController implements Initializable {
         speedBuffTime.setCycleCount(1);
         speedBuffTime.play();
     }
-
 
     private void hardModeBigHead() {
         KeyFrame bigHeadTimer = new KeyFrame(Duration.seconds(0), event -> {

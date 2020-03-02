@@ -14,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         winnerFont = Font.loadFont(getClass().getResourceAsStream("/Resources/ka1.ttf"),100);
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/GUI/main.fxml"));
         primaryStage.setTitle("Snake");
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
