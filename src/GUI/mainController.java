@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+import javax.sound.sampled.BooleanControl;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -55,6 +56,9 @@ public class mainController implements Initializable {
     @FXML
     private AnchorPane overlayPane;
 
+
+
+    private boolean muteStatus = false;
     static Food yumYum;
     static Snake snake;
     static String difficulty;
@@ -84,8 +88,11 @@ public class mainController implements Initializable {
         AnimationUtilities.drawGameGrid(gameUnderlayPane); // Draw grass and grid
 
 
-        userNameField.setOnAction(e -> {
-            if (userNameField.getText().isEmpty()) {
+
+
+
+        userNameField.setOnAction( e->{
+            if (userNameField.getText().isEmpty()){
                 userNameField.requestFocus();
                 userNameField.setTooltip(new Tooltip("Please provide a username"));
             } else {
@@ -109,6 +116,19 @@ public class mainController implements Initializable {
 
     }
 
+
+    public void mute(){
+
+        System.out.println("test");
+
+        if (muteStatus){
+            muteStatus=false;
+        }
+        else{
+            muteStatus=true;
+        }
+        SoundUtilities.muteStatus(muteStatus);
+    }
     public void setUserName() {
         menuPane.setVisible(false);
         userNamePane.setVisible(true);
@@ -242,8 +262,9 @@ public class mainController implements Initializable {
         }
     }
 
-    public void showMenu() {
 
+    public void showMenu() {
+        System.out.println("test");
         FPSTimeline.pause();
         CollisionTimeline.pause();
         userNamePane.setVisible(false);

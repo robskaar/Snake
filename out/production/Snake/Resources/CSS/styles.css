@@ -51,12 +51,7 @@
 }
 .userName{
     -fx-font-size: 20;
-    -fx-font-family: "Evil Empire" !important;
-    -fx-background-color: white;
-    -fx-background-radius: 50 50 50 50;
-    -fx-border-radius: 50 50 50 50;
-   -fx-border-width: 2px;
-   -fx-border-color: black;
+    -fx-font-family: "Karmatic Arcade" !important;
 }
 
 .MenuButtons{
@@ -67,6 +62,15 @@
 .MenuButtons:hover{
     -fx-scale-x:1.2;
     -fx-scale-y: 1.2;
+}
+
+.MuteButton{
+    -fx-background-color: transparent;
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%;
+    -fx-background-image: url("/Resources/Images/sound.png");
+    -fx-pref-width: 30;
 }
 
 .Settings{
