@@ -6,6 +6,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -61,7 +66,8 @@ public class mainController implements Initializable {
     private Button soundButton2;
     @FXML
     private Button soundButton1;
-
+    @FXML
+    private Slider soundSlider;
 
 
     private boolean muteStatus = false;
@@ -76,6 +82,12 @@ public class mainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+      soundSlider.setOnMouseDragged( e-> SoundUtilities.controlSoundLevel(soundSlider.getValue()));
+
+
+
 
         SoundUtilities.playMenuSound(true);                        // start the menu sound
         normalDifficultyButton.setSelected(true);   // sets initial difficulty to normal
