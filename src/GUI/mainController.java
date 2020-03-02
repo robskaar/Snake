@@ -263,11 +263,12 @@ public class mainController implements Initializable {
                         hardModeSpeedBoost();
                     }
                     if (rollTheDice(20)){
+                        SoundUtilities.playGrowHead(true);
                         hardModeBigHead();
                     }
                     if(rollTheDice(10)){
                         SoundUtilities.playRotatePane(true);
-                        AnimationUtilities.rotatePane(5,gamePane);  // 9% chance for rotate pane
+                        AnimationUtilities.rotatePane(5,gamePane);
                     }
 
                 }
@@ -384,17 +385,6 @@ public class mainController implements Initializable {
         overlayPane.setVisible(true);
     }
 
-    public boolean isUserNameSupplied() {
-        if (userNameField.getText().isEmpty()) {
-            userNameField.requestFocus();
-            userNameField.setTooltip(new Tooltip("YOU MUST PROVIDE A USERNAME"));
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
     public void newGame() {
 
         overlayPane.setVisible(true);
@@ -448,6 +438,7 @@ public class mainController implements Initializable {
             currentScore.showHighScores();   // Show highscores
             currentScore.writeCSV();                      // Add current score to csv
         }
+
 
     }
 

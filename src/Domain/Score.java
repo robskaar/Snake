@@ -134,6 +134,14 @@ public class Score {
         return this.score;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
     public void setScore(int score) {
         this.score = score;
     }
