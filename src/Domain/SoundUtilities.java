@@ -1,7 +1,9 @@
 package Domain;
 
-import javax.swing.*;
+import GUI.mainController;
+
 import java.util.Random;
+
 
 public abstract class SoundUtilities {
 
@@ -13,33 +15,76 @@ public abstract class SoundUtilities {
     private static final AudioPlayer GAME_OVER = new AudioPlayer("src/Resources/Sound/GameOver2.wav");
     private static final AudioPlayer VICTORY = new AudioPlayer("src/Resources/Sound/victoryFanfareCut1.wav");
     private static final AudioPlayer WUHUU = new AudioPlayer("src/Resources/Sound/Wuhu.wav");
-    private static final AudioPlayer SCREAM = new AudioPlayer("src/Resources/Sound/Scream.wav",1);
+    private static final AudioPlayer SCREAM = new AudioPlayer("src/Resources/Sound/Scream.wav", 1);
+    private static final AudioPlayer HEAD_GROW = new AudioPlayer("src/Resources/Sound/GrowHead.wav");
+    private static final AudioPlayer BUTTON_HOVER = new AudioPlayer("src/Resources/Sound/buttonHover.wav",0.5f);
 
-    public static void muteStatus(Boolean mute){
-        if (mute){
-            GAME_SOUND.setVolume(0.0);
-            MENU_SOUND.setVolume(0.0);
+
+    public static void muteStatus(Boolean mute) {
+        if (mute) {
+            GAME_SOUND.setVolume(0.0f);
+            MENU_SOUND.setVolume(0.0f);
         }
-        else{
-            GAME_SOUND.setVolume(0.05);
-            MENU_SOUND.setVolume(0.05);
+        else {
+            GAME_SOUND.setVolume(GAME_SOUND.getVolume());
+            MENU_SOUND.setVolume(MENU_SOUND.getVolume());
         }
     }
 
+    public static void controlSoundLevel(double sliderVal) {
+        System.out.println(sliderVal);
+        FOOD_SLURP.setVolume(sliderVal);
+        FOOD_BITE.setVolume(sliderVal);
+        FOOD_CHOMP.setVolume(sliderVal);
+        MENU_SOUND.setVolume(sliderVal);
+        GAME_SOUND.setVolume(sliderVal);
+        GAME_OVER.setVolume(sliderVal);
+        VICTORY.setVolume(sliderVal);
+        WUHUU.setVolume(sliderVal);
+        SCREAM.setVolume(sliderVal);
+        if (sliderVal==0.0){
+            mainController.muteStatus = false;
+            muteStatus(true);
+        }else{
+            mainController.muteStatus = true;
+            muteStatus(false);
+        }
+    }
 
     public static void playGameSound(Boolean play) {
         if (play) {
             GAME_SOUND.play(-1);
-        } else {
+        }
+        else {
             GAME_SOUND.stop();
         }
 
     }
 
+    public static void playGrowHead(Boolean play) {
+        if (play) {
+            HEAD_GROW.play(0);
+        }
+        else {
+            HEAD_GROW.stop();
+        }
+
+    }
+
+    public static void playHoverSound(Boolean play) {
+        if (play) {
+            BUTTON_HOVER.play(0);
+        }
+        else {
+            BUTTON_HOVER.stop();
+        }
+    }
+
     public static void playMenuSound(Boolean play) {
         if (play) {
             MENU_SOUND.play(-1);
-        } else {
+        }
+        else {
             MENU_SOUND.stop();
         }
     }
@@ -47,7 +92,8 @@ public abstract class SoundUtilities {
     public static void playGameOverSound(Boolean play) {
         if (play) {
             GAME_OVER.play(0);
-        } else {
+        }
+        else {
             GAME_OVER.stop();
         }
     }
@@ -55,7 +101,8 @@ public abstract class SoundUtilities {
     public static void playVictorySound(Boolean play) {
         if (play) {
             VICTORY.play(3);
-        } else {
+        }
+        else {
             VICTORY.stop();
         }
     }
@@ -78,7 +125,8 @@ public abstract class SoundUtilities {
     public static void playSpeedBoost(Boolean play) {
         if (play) {
             WUHUU.play(0);
-        } else {
+        }
+        else {
             WUHUU.stop();
         }
     }
@@ -87,7 +135,8 @@ public abstract class SoundUtilities {
         if (play) {
             SCREAM.play(0);
 
-        } else {
+        }
+        else {
             SCREAM.stop();
         }
     }
