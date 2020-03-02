@@ -1,5 +1,6 @@
 package Domain;
 
+import GUI.mainController;
 import javafx.beans.Observable;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
@@ -46,8 +47,10 @@ public abstract class SoundUtilities {
         WUHUU.setVolume(sliderVal);
         SCREAM.setVolume(sliderVal);
         if (sliderVal==0.0){
+            mainController.muteStatus = false;
             muteStatus(true);
         }else{
+            mainController.muteStatus = true;
             muteStatus(false);
         }
     }

@@ -117,7 +117,7 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </Label>
-                        <Slider fx:id="soundSlider" blockIncrement="0.05" max="1.0" prefHeight="14.0" prefWidth="502.0" value="0.05">
+                        <Slider fx:id="soundSlider" blockIncrement="0.05" majorTickUnit="0.25" max="1.0" minorTickCount="4" prefHeight="14.0" prefWidth="502.0" showTickLabels="true" showTickMarks="true" styleClass="SoundSlider" value="0.05">
                            <VBox.margin>
                               <Insets left="100.0" right="100.0" top="5.0" />
                            </VBox.margin>

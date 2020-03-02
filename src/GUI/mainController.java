@@ -69,7 +69,7 @@ public class mainController implements Initializable {
     private Slider soundSlider;
 
 
-    private boolean muteStatus = false;
+    public static boolean muteStatus = false;
     static Food yumYum;
     static Snake snake;
     static String difficulty;
@@ -83,7 +83,10 @@ public class mainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-      soundSlider.setOnMouseDragged( e-> SoundUtilities.controlSoundLevel(soundSlider.getValue()));
+      soundSlider.setOnMouseDragged( e-> {
+          SoundUtilities.controlSoundLevel(soundSlider.getValue());
+          mute();
+      });
 
 
 
