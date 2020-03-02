@@ -316,6 +316,7 @@ public class mainController implements Initializable {
         if (key == KeyCode.P) {          // Plays victory animation
             FPSTimeline.stop();
             CollisionTimeline.stop();
+            foodTimeLime.stop();
             SoundUtilities.playGameSound(false);
             SoundUtilities.playMenuSound(false);
             overlayPane.setVisible(false);
@@ -330,6 +331,7 @@ public class mainController implements Initializable {
     public void showMenu() {
         FPSTimeline.pause();
         CollisionTimeline.pause();
+        foodTimeLime.pause();
         userNamePane.setVisible(false);
         settingsPane.setVisible(false);
         menuPane.setVisible(true);
@@ -430,6 +432,7 @@ public class mainController implements Initializable {
     }
 
     public void showHighScores() {
+        foodTimeLime.pause();
         FPSTimeline.pause();
         CollisionTimeline.pause();
         settingsPane.setVisible(false);
@@ -499,6 +502,7 @@ public class mainController implements Initializable {
         speedBuffTime.setCycleCount(1);
         speedBuffTime.play();
     }
+
 
     private void hardModeBigHead() {
         KeyFrame bigHeadTimer = new KeyFrame(Duration.seconds(0), event -> {
