@@ -25,7 +25,7 @@
                   <Label fx:id="score" layoutX="40.0" layoutY="29.0" styleClass="scoreLabel" text="Score" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="highScorePane" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="highScorePane" onKeyPressed="#getMenuInput" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Label alignment="CENTER" layoutY="-15.0" prefHeight="150.0" prefWidth="600.0" styleClass="highscoreLabel" text="HIGHSCORES">
                      <font>
@@ -44,7 +44,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="menuPane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" styleClass="Menu" visible="false">
+            <AnchorPane fx:id="menuPane" layoutX="10.0" layoutY="10.0" onKeyPressed="#getMenuInput" prefHeight="200.0" prefWidth="200.0" styleClass="Menu" visible="false">
                <children>
                   <VBox alignment="CENTER" prefHeight="258.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
