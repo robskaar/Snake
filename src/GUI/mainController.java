@@ -169,13 +169,6 @@ public class mainController implements Initializable {
 
     }
 
-    public double getSoundSliderValue(){
-        return soundSlider.getValue();
-    }
-    public double getMusicSliderValue(){
-        return musicSlider.getValue();
-    }
-
     public void mute(){
 
         if (muteStatus){
@@ -196,6 +189,7 @@ public class mainController implements Initializable {
     public void setUserName() {
         menuPane.setVisible(false);
         userNamePane.setVisible(true);
+        userNameField.requestFocus();
     }
 
     public void setDifficulty() {
@@ -216,10 +210,11 @@ public class mainController implements Initializable {
         }
 
     }
+
     public void initFoodTimeLine(){
     foodTimeLime.setAutoReverse(false);
     foodTimeLime.setCycleCount(Animation.INDEFINITE);
-    foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(5), ActionEvent -> {
+    foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(6), ActionEvent -> {
 
         generateFood();
 
@@ -501,11 +496,11 @@ public class mainController implements Initializable {
 
     private void hardModeBigHead() {
         KeyFrame bigHeadTimer = new KeyFrame(Duration.seconds(0), event -> {
-            snake.getSnakeArray().get(0).setScaleX(4.5);
-            snake.getSnakeArray().get(0).setScaleY(4.5);
+            snake.getSnakeArray().get(0).setScaleX(3);
+            snake.getSnakeArray().get(0).setScaleY(3);
             snake.setHeadstate(Snake.Headstate.BIG);
         });
-        KeyFrame bigHeadTimerEnd = new KeyFrame(Duration.seconds(10), event -> {
+        KeyFrame bigHeadTimerEnd = new KeyFrame(Duration.seconds(5), event -> {
             snake.getSnakeArray().get(0).setScaleX(1.5);
             snake.getSnakeArray().get(0).setScaleY(1.5);
             snake.setHeadstate(Snake.Headstate.NORMAL);
