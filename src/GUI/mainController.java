@@ -120,13 +120,14 @@ public class mainController implements Initializable {
     public void mute(){
 
         System.out.println("test");
-        SoundUtilities.muteStatus(muteStatus);
+
         if (muteStatus){
             muteStatus=false;
         }
         else{
             muteStatus=true;
         }
+        SoundUtilities.muteStatus(muteStatus);
     }
     public void setUserName() {
         menuPane.setVisible(false);
