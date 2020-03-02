@@ -214,6 +214,7 @@ public class mainController implements Initializable {
                 score.setText(Integer.toString(currentScore.getScore()));
                 generateFood();
                 SoundUtilities.playRandomFoodSound();
+                foodTimeLime.playFromStart();
                 System.out.println(difficulty + " current rate" + FPSTimeline.getCurrentRate());
 
                 if (difficulty.contains("Hard")) {
@@ -412,7 +413,6 @@ public class mainController implements Initializable {
     }
 
     public void generateFood() {
-        foodTimeLime.playFromStart();
         gamePane.getChildren().remove(yumYum);
         boolean foodIsUnderSnake;
 
