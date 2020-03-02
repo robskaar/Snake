@@ -169,13 +169,6 @@ public class mainController implements Initializable {
 
     }
 
-    public double getSoundSliderValue(){
-        return soundSlider.getValue();
-    }
-    public double getMusicSliderValue(){
-        return musicSlider.getValue();
-    }
-
     public void mute(){
 
         if (muteStatus){
@@ -196,6 +189,7 @@ public class mainController implements Initializable {
     public void setUserName() {
         menuPane.setVisible(false);
         userNamePane.setVisible(true);
+        userNameField.requestFocus();
     }
 
     public void setDifficulty() {
@@ -216,10 +210,11 @@ public class mainController implements Initializable {
         }
 
     }
+
     public void initFoodTimeLine(){
     foodTimeLime.setAutoReverse(false);
     foodTimeLime.setCycleCount(Animation.INDEFINITE);
-    foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(5), ActionEvent -> {
+    foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(6), ActionEvent -> {
 
         generateFood();
 
