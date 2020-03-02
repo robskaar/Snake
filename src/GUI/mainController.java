@@ -257,17 +257,14 @@ public class mainController implements Initializable {
 
                 if (difficulty.contains("Hard")) {
 
-                    Random ran = new Random();
-                    int randomNum = ran.nextInt(100) + 1 ;
-
-                    if(randomNum < 30){
+                    if(rollTheDice(25)){
                         SoundUtilities.playSpeedBoost(true);
-                        hardModeSpeedBoost();        // 29% chance of speed boost
+                        hardModeSpeedBoost();
                     }
-                    if (randomNum >30 && randomNum < 90){
+                    if (rollTheDice(20)){
                         hardModeBigHead();
                     }
-                    if(randomNum > 90){
+                    if(rollTheDice(10)){
                         SoundUtilities.playRotatePane(true);
                         AnimationUtilities.rotatePane(5,gamePane);  // 9% chance for rotate pane
                     }
@@ -518,5 +515,18 @@ public class mainController implements Initializable {
         );
         headBuffTimer.setCycleCount(1);
         headBuffTimer.play();
+    }
+
+    private boolean rollTheDice(int percentChance){
+
+        if(percentChance > 100 || percentChance < 0){
+            throw new IllegalArgumentException("Percent can only be between 0-100");
+        }
+
+        Random ran = new Random();
+        int randomNumber = ran.nextInt(100) + 1;
+
+        return randomNumber < percentChance + 1;
+
     }
 }

@@ -22,7 +22,7 @@ public class AudioPlayer {
 
     }
 
-    public AudioPlayer(String filePath, double volume) {
+    public AudioPlayer(String filePath, float volume) {
 
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
@@ -53,7 +53,7 @@ public class AudioPlayer {
         return (float) Math.pow(10f, gainControl.getValue() / 20f);
     }
 
-    public void setVolume(double volume) {
+    public void setVolume(float volume) {
         if (volume < 0f || volume > 1f)
             throw new IllegalArgumentException("Volume not valid: " + volume);
 

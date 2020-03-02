@@ -100,16 +100,16 @@ public class Score {
 
         TableColumn<String, Score> name = new TableColumn<>("Name");
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        name.setPrefWidth(275);
+        name.setPrefWidth(165);
 
         TableColumn<Integer, Score> score = new TableColumn<>("Score");
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
         score.setSortType(TableColumn.SortType.DESCENDING);
-        score.setPrefWidth(100);
+        score.setPrefWidth(165);
 
         TableColumn<String, Score> difficulty = new TableColumn<>("Level");
         difficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
-        difficulty.setPrefWidth(100);
+        difficulty.setPrefWidth(165);
 
         tableView.getColumns().addAll(name, score, difficulty);
         tableView.setItems(highScores);
