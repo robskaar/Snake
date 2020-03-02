@@ -18,18 +18,21 @@ public class Food extends Blocks {
         String foodString;
         switch (r.nextInt(3)) {
             case 0:
-                foodString = "Resources/Images/Strawberry.png";
+                foodString = "Resources/Images/Strawberry2.png";
                 break;
             case 1:
-                foodString = "Resources/Images/Apple.png";
+                foodString = "Resources/Images/Apple2.png";
                 break;
             case 2:
-                foodString = "Resources/Images/orange.png";
+                foodString = "Resources/Images/orange2.png";
                 break;
             default:
                 foodString = "Resources/Images/snakeFood.png";
         }
         return foodString;
     }
+
+
+
 
 }

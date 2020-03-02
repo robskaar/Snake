@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 import java.util.LinkedList;
@@ -19,14 +20,13 @@ import java.util.Random;
 public class AnimationUtilities {
 
     private Pane pane;
-    private AudioPlayer music = new AudioPlayer("src\\Resources\\Sound\\victoryFanfareCut1.wav");
 
     public AnimationUtilities(Pane pane) {
         this.pane = pane;
     }
 
-    public void play() {
-        music.play(-1);
+    public void playVictoryAnimation() {
+        SoundUtilities.playVictorySound(true);
         winnerSnake();
     }
 
@@ -184,6 +184,24 @@ public class AnimationUtilities {
         nodeToFront(text);
     }
 
+    private void playFireworks() {
+
+        AudioPlayer ap = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
+        ap.play(1);
+
+        Random ran = new Random();
+        Timeline timeline = new Timeline();
+        timeline.setAutoReverse(false);
+        timeline.setCycleCount(5);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), ActionEvent -> {
+            AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
+            audioPlayer.play(1);
+            timeline.setRate(ran.nextInt(1) + 1);
+        }));
+        timeline.play();
+
+    }
+
     private void nodeToFront(Node node) {
 
         Timeline timeline = new Timeline();
@@ -196,7 +214,7 @@ public class AnimationUtilities {
         timeline.play();
     }
 
-    private void shapeColorShow(Shape shape, Boolean endOnBlack, Duration duration, int cycleCount) {
+    public static void shapeColorShow(Shape shape, Boolean endOnBlack, Duration duration, int cycleCount) {
 
         Timeline timeline = new Timeline();
         timeline.setAutoReverse(false);
@@ -216,35 +234,25 @@ public class AnimationUtilities {
         timeline.play();
     }
 
-    private void playFireworks() {
-
-        AudioPlayer ap = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
-        ap.play(1);
-
-        Random ran = new Random();
-        Timeline timeline = new Timeline();
-        timeline.setAutoReverse(false);
-        timeline.setCycleCount(5);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), ActionEvent -> {
-            AudioPlayer audioPlayer = new AudioPlayer("src\\Resources\\Sound\\RocketExplosion.wav");
-            audioPlayer.play(1);
-            timeline.setRate(ran.nextInt(1) + 1);
-        }));
-        timeline.play();
-
-    }
-
     public static void drawGameGrid(Pane pane) {
 
         final int BLOCK_SIZE = 20;
         final int PANE_SIZE = 600;
+
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(600);
+        imageView.setFitHeight(600);
+        imageView.setImage(new Image("Resources/Images/UnderlayBG.png"));
+        pane.getChildren().add(imageView);
+
 
         for (int y = 0; y < PANE_SIZE; y += BLOCK_SIZE * 2) {
 
             for (int x = 0; x < PANE_SIZE; x += BLOCK_SIZE * 2) {
 
                 Rectangle r = new Rectangle(x, y, BLOCK_SIZE, BLOCK_SIZE);
-                r.setFill(Color.WHITESMOKE);
+                r.setFill(Color.BLACK);
+                r.setOpacity(0.1);
                 pane.getChildren().add(r);
 
             }
@@ -252,11 +260,31 @@ public class AnimationUtilities {
             for (int x = 0; x < PANE_SIZE; x += BLOCK_SIZE * 2) {
 
                 Rectangle r = new Rectangle(x + BLOCK_SIZE, y + BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                r.setFill(Color.WHITESMOKE);
+                r.setFill(Color.BLACK);
+                r.setOpacity(0.1);
                 pane.getChildren().add(r);
 
             }
         }
+
+
+
+    }
+
+    public static void rotatePane(double seconds , Pane pane){
+
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5),pane);
+        rotateTransition.setToAngle(90);
+        rotateTransition.play();
+
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(1);
+        timeline.setAutoReverse(false);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(seconds),ActionEvent ->{
+            rotateTransition.setToAngle(0);
+            rotateTransition.play();
+        }));
+        timeline.play();
 
     }
 

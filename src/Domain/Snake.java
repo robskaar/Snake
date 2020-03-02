@@ -1,14 +1,21 @@
 package Domain;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import GUI.mainController;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class Snake {
 
     private ArrayList<Blocks> snakeArray = new ArrayList<>();
     private Direction snakeDirection = Direction.RIGHT;
-    private Food yumyum;
 
     public Snake() {
         snakeArray.add(new SnakeHead());                    // Add snake head
@@ -46,11 +53,11 @@ public class Snake {
         }
     }
 
-    public boolean checkFoodCollision() {
+    public boolean checkFoodCollision(Food food) {
         boolean result = false;
 
         int headHash = snakeArray.get(0).getHashValue();
-        int foodHash = mainController.getFood().getHashValue();
+        int foodHash = food.getHashValue();
 
         if(headHash == foodHash){
             result = true;
@@ -107,6 +114,32 @@ public class Snake {
         pane.getChildren().add(snakeArray.get(snakeArray.size() - 1));
 
     }
+
+    public void changeBodyColor(Pane pane){
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 1; i < this.getSnakeArray().size() ; i++) {
+            queue.add(i);
+        }
+
+        Timeline timeline = new Timeline();
+        timeline.setAutoReverse(false);
+        timeline.setCycleCount(queue.size());
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(150), ActionEvent -> {
+
+            if(!queue.isEmpty()){
+                AnimationUtilities.shapeColorShow(this.getSnakeArray().get(queue.poll()),true,Duration.millis(100),2);
+            }
+
+        }));
+        timeline.play();
+        timeline.setOnFinished(ActionEvent -> {
+            this.addSnakeBody(pane);
+        });
+
+    }
+
+    // Getter and Setters
 
     public ArrayList<Blocks> getSnakeArray() {
         return snakeArray;
