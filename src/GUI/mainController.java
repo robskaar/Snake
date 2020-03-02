@@ -20,7 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-import javax.sound.sampled.BooleanControl;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -75,7 +74,7 @@ public class mainController implements Initializable {
     static Snake snake;
     static String difficulty;
     static Score currentScore;
-
+    Timeline foodTimeLime = new Timeline();
     Timeline FPSTimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
@@ -97,8 +96,10 @@ public class mainController implements Initializable {
         overlayPane.setFocusTraversable(true);       // Make key input possible on overlay pane
         initFPSTimeline();                           // Timeline to move snake
         initCollisionTimeline();                     // Timeline to detect collision
+        initFoodTimeLine();                         // time to spawn and despawn food
         FPSTimeline.pause();                        // pauses timeline
-        CollisionTimeline.pause();                   // pauses timeline
+        CollisionTimeline.pause();                  // pauses timeline
+        foodTimeLime.pause();                       //pauses timelime
         menuPane.setVisible(true);                   //initially shows main menu
         overlayPane.setVisible(false);               // Hide overlay
         highScorePane.setVisible(false);
@@ -174,6 +175,17 @@ public class mainController implements Initializable {
         }
 
     }
+    public void initFoodTimeLine(){
+    foodTimeLime.setAutoReverse(false);
+    foodTimeLime.setCycleCount(Animation.INDEFINITE);
+    foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(5), ActionEvent -> {
+
+        generateFood();
+
+    }));
+
+    foodTimeLime.play();
+}
 
     public void initFPSTimeline() {
 
@@ -214,6 +226,7 @@ public class mainController implements Initializable {
                 score.setText(Integer.toString(currentScore.getScore()));
                 generateFood();
                 SoundUtilities.playRandomFoodSound();
+                foodTimeLime.playFromStart();
                 System.out.println(difficulty + " current rate" + FPSTimeline.getCurrentRate());
 
                 if (difficulty.contains("Hard")) {
@@ -224,6 +237,9 @@ public class mainController implements Initializable {
                     if(randomNum < 30){
                         SoundUtilities.playSpeedBoost(true);
                         hardModeSpeedBoost();        // 29% chance of speed boost
+                    }
+                    if (randomNum >30 && randomNum < 90){
+                        hardModeBigHead();
                     }
                     if(randomNum > 90){
                         SoundUtilities.playRotatePane(true);
@@ -305,6 +321,7 @@ public class mainController implements Initializable {
         KeyFrame countOne = new KeyFrame(Duration.seconds(0), event -> {
             FPSTimeline.pause();
             CollisionTimeline.pause();
+            foodTimeLime.pause();
             menuPane.setVisible(false);
             countDownPane.setVisible(true);
             countDown.setText("3");
@@ -329,6 +346,7 @@ public class mainController implements Initializable {
             countDownPane.setVisible(false);
             FPSTimeline.play();
             CollisionTimeline.play();
+            foodTimeLime.play();
         });
 
         Timeline countDowns = new Timeline(
@@ -378,6 +396,7 @@ public class mainController implements Initializable {
     public void endGame() {
         FPSTimeline.stop();       // Stop moving the snake..
         CollisionTimeline.stop();
+        foodTimeLime.stop();
         gamePane.getChildren().clear();  // Clear gamepane
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
         showHighScores();
@@ -406,7 +425,6 @@ public class mainController implements Initializable {
     }
 
     public void generateFood() {
-
         gamePane.getChildren().remove(yumYum);
         boolean foodIsUnderSnake;
 
@@ -454,5 +472,21 @@ public class mainController implements Initializable {
         );
         speedBuffTime.setCycleCount(1);
         speedBuffTime.play();
+    }
+
+    private void hardModeBigHead() {
+        KeyFrame bigHeadTimer = new KeyFrame(Duration.seconds(0), event -> {
+            snake.getSnakeArray().get(0).setScaleX(3);
+            snake.getSnakeArray().get(0).setScaleY(3);
+        });
+        KeyFrame bigHeadTimerEnd = new KeyFrame(Duration.seconds(10), event -> {
+            snake.getSnakeArray().get(0).setScaleX(1.5);
+            snake.getSnakeArray().get(0).setScaleY(1.5);
+        });
+        Timeline headBuffTimer = new Timeline(
+                bigHeadTimer, bigHeadTimerEnd
+        );
+        headBuffTimer.setCycleCount(1);
+        headBuffTimer.play();
     }
 }
