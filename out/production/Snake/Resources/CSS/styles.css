@@ -39,6 +39,7 @@
 
 .highscoreLabel{
     -fx-font-family: "Karmatic Arcade";
+    -fx-text-alignment: center;
     -fx-font-size: 50;
 }
 
@@ -108,14 +109,80 @@
     -fx-pref-width: 20;
 }
 
-.HighScores{
+/* Styling for high score table-view */
+
+.table-view {
     -fx-font-size: 20;
-    -fx-pref-width: 500;
+    -fx-pref-width: 520;
+    -fx-alignment: center;
+    -fx-background-color: transparent;
 }
 
-.HighScores .table-column {
+.table-view .table-row-cell:selected{     /*Highlight row with current score on game end*/
+    -fx-opacity: 1;
+}
+
+.table-view .table-column {
     -fx-alignment: center;
 }
+
+.table-view .column-header {
+    -fx-background-color: black;
+    -fx-text-alignment: center;
+    -fx-opacity: 0.7;
+}
+
+.table-view .column-header-background .label{
+    -fx-font-family: "Karmatic Arcade";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-pref-height: 50;
+}
+
+.table-row-cell:odd{
+    -fx-background-color: black;
+    -fx-opacity: 0.6;
+}
+
+.table-row-cell:even{
+    -fx-background-color: black;
+    -fx-opacity: 0.5;
+}
+
+.table-row-cell .label{
+    -fx-opacity: 1;
+    -fx-text-fill: white;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.table-view .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar-corner{
+    -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar .thumb {
+    -fx-background-color: Black;
+    -fx-opacity: 0.5;
+}
+
+.table-view .filler{
+    -fx-background-color: transparent;
+}
+
 
 
 

@@ -10,19 +10,20 @@ public abstract class SoundUtilities {
     private static final AudioPlayer FOOD_SLURP = new AudioPlayer("src/Resources/Sound/Slurping+1.wav");
     private static final AudioPlayer FOOD_BITE = new AudioPlayer("src/Resources/Sound/bite.wav");
     private static final AudioPlayer FOOD_CHOMP = new AudioPlayer("src/Resources/Sound/Chomp+1.wav");
-    private static final AudioPlayer MENU_SOUND = new AudioPlayer("src/Resources/Sound/MenuSound.wav", 0.5);
-    private static final AudioPlayer GAME_SOUND = new AudioPlayer("src/Resources/Sound/GameSound.wav", 0.5);
+    private static final AudioPlayer MENU_SOUND = new AudioPlayer("src/Resources/Sound/MenuSound.wav", 0.05);
+    private static final AudioPlayer GAME_SOUND = new AudioPlayer("src/Resources/Sound/GameSound.wav", 0.05);
     private static final AudioPlayer GAME_OVER = new AudioPlayer("src/Resources/Sound/GameOver2.wav");
     private static final AudioPlayer VICTORY = new AudioPlayer("src/Resources/Sound/victoryFanfareCut1.wav");
     private static final AudioPlayer WUHUU = new AudioPlayer("src/Resources/Sound/Wuhu.wav");
     private static final AudioPlayer SCREAM = new AudioPlayer("src/Resources/Sound/Scream.wav", 1);
-    private static final AudioPlayer BUTTON_HOVER = new AudioPlayer("src/Resources/Sound/buttonHover.wav",0.5);
+    private static final AudioPlayer HEAD_GROW = new AudioPlayer("src/Resources/Sound/GrowHead.wav");
+    private static final AudioPlayer BUTTON_HOVER = new AudioPlayer("src/Resources/Sound/buttonHover.wav",0.5f);
 
 
     public static void muteStatus(Boolean mute) {
         if (mute) {
-            GAME_SOUND.setVolume(0.0);
-            MENU_SOUND.setVolume(0.0);
+            GAME_SOUND.setVolume(0.0f);
+            MENU_SOUND.setVolume(0.0f);
         }
         else {
             GAME_SOUND.setVolume(GAME_SOUND.getVolume());
@@ -56,6 +57,16 @@ public abstract class SoundUtilities {
         }
         else {
             GAME_SOUND.stop();
+        }
+
+    }
+
+    public static void playGrowHead(Boolean play) {
+        if (play) {
+            HEAD_GROW.play(0);
+        }
+        else {
+            HEAD_GROW.stop();
         }
 
     }

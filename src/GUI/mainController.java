@@ -123,6 +123,7 @@ public class mainController implements Initializable {
         initFPSTimeline();                           // Timeline to move snake
         initCollisionTimeline();                     // Timeline to detect collision
         initFoodTimeLine();                         // time to spawn and despawn food
+        Score.initHighScores(highScorePane);
         FPSTimeline.pause();                        // pauses timeline
         CollisionTimeline.pause();                  // pauses timeline
         foodTimeLime.pause();                       //pauses timelime
@@ -257,19 +258,17 @@ public class mainController implements Initializable {
 
                 if (difficulty.contains("Hard")) {
 
-                    Random ran = new Random();
-                    int randomNum = ran.nextInt(100) + 1 ;
-
-                    if(randomNum < 30){
+                    if(rollTheDice(25)){
                         SoundUtilities.playSpeedBoost(true);
-                        hardModeSpeedBoost();        // 29% chance of speed boost
+                        hardModeSpeedBoost();
                     }
-                    if (randomNum >30 && randomNum < 90){
+                    if (rollTheDice(20)){
+                        SoundUtilities.playGrowHead(true);
                         hardModeBigHead();
                     }
-                    if(randomNum > 90){
+                    if(rollTheDice(10)){
                         SoundUtilities.playRotatePane(true);
-                        AnimationUtilities.rotatePane(5,gamePane);  // 9% chance for rotate pane
+                        AnimationUtilities.rotatePane(5,gamePane);
                     }
 
                 }
@@ -386,17 +385,6 @@ public class mainController implements Initializable {
         overlayPane.setVisible(true);
     }
 
-    public boolean isUserNameSupplied() {
-        if (userNameField.getText().isEmpty()) {
-            userNameField.requestFocus();
-            userNameField.setTooltip(new Tooltip("YOU MUST PROVIDE A USERNAME"));
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
     public void newGame() {
 
         overlayPane.setVisible(true);
@@ -444,12 +432,13 @@ public class mainController implements Initializable {
         SoundUtilities.playMenuSound(true);
 
         if (currentScore == null) {
-            new Score().showHighScores(highScorePane);
+            new Score().showHighScores();
         } else {
             currentScore.addToObservableList();
-            currentScore.showHighScores(highScorePane);   // Show highscores
+            currentScore.showHighScores();   // Show highscores
             currentScore.writeCSV();                      // Add current score to csv
         }
+
 
     }
 
@@ -518,5 +507,18 @@ public class mainController implements Initializable {
         );
         headBuffTimer.setCycleCount(1);
         headBuffTimer.play();
+    }
+
+    private boolean rollTheDice(int percentChance){
+
+        if(percentChance > 100 || percentChance < 0){
+            throw new IllegalArgumentException("Percent can only be between 0-100");
+        }
+
+        Random ran = new Random();
+        int randomNumber = ran.nextInt(100) + 1;
+
+        return randomNumber < percentChance + 1;
+
     }
 }
