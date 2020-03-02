@@ -3,6 +3,7 @@ package Domain;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 
 import javafx.scene.control.TableView;
@@ -21,6 +22,7 @@ public class Score {
     private String name;
     private String difficulty;
     private int score;
+    private static TableView tableView = new TableView();
 
     private ObservableList<Score> highScores = FXCollections.observableArrayList();
 
@@ -89,14 +91,22 @@ public class Score {
         highScores.add(this);
     }
 
-    public void showHighScores(Pane pane) {
+    public void showHighScores() {
 
         readCSV();
 
-        TableView tableView = new TableView();
+        tableView.setItems(highScores);
+        tableView.sort();
+        tableView.getSelectionModel().select(highScores.indexOf(this));
+        tableView.scrollTo(highScores.indexOf(this));
+
+    }
+
+    public static void initHighScores(Pane pane){
+
         tableView.getStyleClass().addAll("HighScores");
         tableView.setLayoutX(50);
-        tableView.setLayoutY(140);
+        tableView.setLayoutY(150);
 
         TableColumn<String, Score> name = new TableColumn<>("Name");
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -112,13 +122,9 @@ public class Score {
         difficulty.setPrefWidth(165);
 
         tableView.getColumns().addAll(name, score, difficulty);
-        tableView.setItems(highScores);
         tableView.getSortOrder().addAll(score, difficulty);
 
-        tableView.getSelectionModel().select(highScores.indexOf(this));
-        tableView.scrollTo(highScores.indexOf(this));
-
-        pane.getChildren().add(tableView);
+        pane.getChildren().addAll(tableView);
     }
 
     public int getScore() {

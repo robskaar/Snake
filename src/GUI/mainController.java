@@ -123,6 +123,7 @@ public class mainController implements Initializable {
         initFPSTimeline();                           // Timeline to move snake
         initCollisionTimeline();                     // Timeline to detect collision
         initFoodTimeLine();                         // time to spawn and despawn food
+        Score.initHighScores(highScorePane);
         FPSTimeline.pause();                        // pauses timeline
         CollisionTimeline.pause();                  // pauses timeline
         foodTimeLime.pause();                       //pauses timelime
@@ -441,10 +442,10 @@ public class mainController implements Initializable {
         SoundUtilities.playMenuSound(true);
 
         if (currentScore == null) {
-            new Score().showHighScores(highScorePane);
+            new Score().showHighScores();
         } else {
             currentScore.addToObservableList();
-            currentScore.showHighScores(highScorePane);   // Show highscores
+            currentScore.showHighScores();   // Show highscores
             currentScore.writeCSV();                      // Add current score to csv
         }
 
