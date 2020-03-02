@@ -117,6 +117,47 @@
     -fx-alignment: center;
 }
 
+/* Styling for high score table-view */
+
+.table-view {
+    -fx-font-size: 20;
+    -fx-pref-width: 500;
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+}
+
+.table-view .table-column {
+    -fx-alignment: center;
+}
+
+.table-view .column-header {
+    -fx-background-color: black;
+    -fx-opacity: 0.5;
+}
+
+.table-view .column-header-background .label{
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header.label {
+    -fx-text-fill: white;
+}
+
+.table-view .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar .thumb {
+    -fx-background-color: Black;
+    -fx-opacity: 0.5;
+}
+
+
 
 
 
