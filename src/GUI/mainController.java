@@ -237,8 +237,7 @@ public class mainController implements Initializable {
             boolean hasSelfCollision, hasBorderCollision, hasFoodCollision;
             hasSelfCollision = snake.checkSelfCollision();
             hasBorderCollision = snake.checkBorderCollision();
-            hasFoodCollision = snake.checkFoodCollision(yumYum);
-
+            hasFoodCollision = snake.checkFoodCollision(yumYum, snake.getHeadstate());
 
             // End game if collision with self or border is detected
             if (hasSelfCollision || hasBorderCollision) {
@@ -325,7 +324,6 @@ public class mainController implements Initializable {
             animationUtilities.playVictoryAnimation();
         }
     }
-
 
     public void showMenu() {
         FPSTimeline.pause();
@@ -495,12 +493,14 @@ public class mainController implements Initializable {
 
     private void hardModeBigHead() {
         KeyFrame bigHeadTimer = new KeyFrame(Duration.seconds(0), event -> {
-            snake.getSnakeArray().get(0).setScaleX(3);
-            snake.getSnakeArray().get(0).setScaleY(3);
+            snake.getSnakeArray().get(0).setScaleX(4.5);
+            snake.getSnakeArray().get(0).setScaleY(4.5);
+            snake.setHeadstate(Snake.Headstate.BIG);
         });
         KeyFrame bigHeadTimerEnd = new KeyFrame(Duration.seconds(10), event -> {
             snake.getSnakeArray().get(0).setScaleX(1.5);
             snake.getSnakeArray().get(0).setScaleY(1.5);
+            snake.setHeadstate(Snake.Headstate.NORMAL);
         });
         Timeline headBuffTimer = new Timeline(
                 bigHeadTimer, bigHeadTimerEnd
