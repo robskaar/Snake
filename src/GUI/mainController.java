@@ -24,6 +24,8 @@ import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import static Domain.Direction.*;
+
 
 public class mainController implements Initializable {
 
@@ -84,6 +86,7 @@ public class mainController implements Initializable {
     Timeline FPSTimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
+    static Direction pressedDirection = RIGHT;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -220,6 +223,7 @@ public class mainController implements Initializable {
         FPSTimeline.setCycleCount(Animation.INDEFINITE);
         FPSTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), ActionEvent -> {
 
+            snake.setSnakeDirection(pressedDirection);
             snake.moveSnake();
 
         }));
@@ -285,17 +289,14 @@ public class mainController implements Initializable {
 
         KeyCode key = ke.getCode();
 
-        // Get movement input
-        Direction snakeDirection = snake.getSnakeDirection();
-
-        if (key == KeyCode.DOWN && snakeDirection != Direction.UP) {
-            snake.setSnakeDirection(Direction.DOWN);
-        } else if (key == KeyCode.LEFT && snakeDirection != Direction.RIGHT) {
-            snake.setSnakeDirection(Direction.LEFT);
-        } else if (key == KeyCode.RIGHT && snakeDirection != Direction.LEFT) {
-            snake.setSnakeDirection(Direction.RIGHT);
-        } else if (key == KeyCode.UP && snakeDirection != Direction.DOWN) {
-            snake.setSnakeDirection(Direction.UP);
+        if (key == KeyCode.DOWN && snake.getSnakeDirection() != Direction.UP) {
+            pressedDirection=DOWN;
+        } else if (key == KeyCode.LEFT && snake.getSnakeDirection() != RIGHT) {
+            pressedDirection=LEFT;
+        } else if (key == KeyCode.RIGHT && snake.getSnakeDirection() != LEFT) {
+            pressedDirection=RIGHT;
+        } else if (key == KeyCode.UP && snake.getSnakeDirection() != DOWN) {
+            pressedDirection=UP;
         }
 
         // Other input
