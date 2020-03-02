@@ -6,6 +6,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -37,6 +42,12 @@ public class mainController implements Initializable {
     @FXML
     private Button resumeButton;
     @FXML
+    private Button highScoreButton;
+    @FXML
+    private Button quitButton;
+    @FXML
+    private Button settingsButton;
+    @FXML
     private AnchorPane gamePane;
     @FXML
     private AnchorPane userNamePane;
@@ -60,10 +71,11 @@ public class mainController implements Initializable {
     private Button soundButton2;
     @FXML
     private Button soundButton1;
+    @FXML
+    private Slider soundSlider;
 
 
-
-    private boolean muteStatus = false;
+    public static boolean muteStatus = false;
     static Food yumYum;
     static Snake snake;
     static String difficulty;
@@ -75,6 +87,32 @@ public class mainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+      soundSlider.setOnMouseDragged( e-> {
+          SoundUtilities.controlSoundLevel(soundSlider.getValue());
+          mute();
+      });
+
+      highScoreButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+        newGameButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+        resumeButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+        quitButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+        settingsButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+
+
+
+
 
         SoundUtilities.playMenuSound(true);                        // start the menu sound
         normalDifficultyButton.setSelected(true);   // sets initial difficulty to normal
@@ -278,6 +316,7 @@ public class mainController implements Initializable {
         if (key == KeyCode.P) {          // Plays victory animation
             FPSTimeline.stop();
             CollisionTimeline.stop();
+            foodTimeLime.stop();
             SoundUtilities.playGameSound(false);
             SoundUtilities.playMenuSound(false);
             overlayPane.setVisible(false);
@@ -292,6 +331,7 @@ public class mainController implements Initializable {
     public void showMenu() {
         FPSTimeline.pause();
         CollisionTimeline.pause();
+        foodTimeLime.pause();
         userNamePane.setVisible(false);
         settingsPane.setVisible(false);
         menuPane.setVisible(true);
@@ -392,6 +432,7 @@ public class mainController implements Initializable {
     }
 
     public void showHighScores() {
+        foodTimeLime.pause();
         FPSTimeline.pause();
         CollisionTimeline.pause();
         settingsPane.setVisible(false);
@@ -461,6 +502,7 @@ public class mainController implements Initializable {
         speedBuffTime.setCycleCount(1);
         speedBuffTime.play();
     }
+
 
     private void hardModeBigHead() {
         KeyFrame bigHeadTimer = new KeyFrame(Duration.seconds(0), event -> {

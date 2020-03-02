@@ -64,6 +64,10 @@
     -fx-scale-y: 1.2;
 }
 
+.SoundSlider{
+    -fx-show-tick-labels: true;
+    -fx-show-tick-marks: true;
+}
 .MuteButton{
     -fx-background-color: transparent;
     -fx-background-size: 30px;
