@@ -17,6 +17,7 @@ public abstract class SoundUtilities {
     private static final AudioPlayer WUHUU = new AudioPlayer("src/Resources/Sound/Wuhu.wav");
     private static final AudioPlayer SCREAM = new AudioPlayer("src/Resources/Sound/Scream.wav", 1);
     private static final AudioPlayer BUTTON_HOVER = new AudioPlayer("src/Resources/Sound/buttonHover.wav",0.5);
+    private static final AudioPlayer HEAD_GROW = new AudioPlayer("src/Resources/Sound/GrowHead.wav");
     private static double currentMusicLvl;
     private static double currentSoundLvl;
 
