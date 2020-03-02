@@ -55,6 +55,12 @@ public class mainController implements Initializable {
     private TextField userNameField;
     @FXML
     private AnchorPane overlayPane;
+    @FXML
+    private Button soundButton3;
+    @FXML
+    private Button soundButton2;
+    @FXML
+    private Button soundButton1;
 
 
 
@@ -116,15 +122,19 @@ public class mainController implements Initializable {
 
     }
 
-
     public void mute(){
 
-        System.out.println("test");
 
         if (muteStatus){
+            soundButton1.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
+            soundButton2.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
+            soundButton3.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
             muteStatus=false;
         }
         else{
+            soundButton1.setStyle("-fx-background-image: url('/Resources/Images/mute.png');");
+            soundButton2.setStyle("-fx-background-image: url('/Resources/Images/mute.png');");
+            soundButton3.setStyle("-fx-background-image: url('/Resources/Images/mute.png');");
             muteStatus=true;
         }
         SoundUtilities.muteStatus(muteStatus);
@@ -264,7 +274,6 @@ public class mainController implements Initializable {
 
 
     public void showMenu() {
-        System.out.println("test");
         FPSTimeline.pause();
         CollisionTimeline.pause();
         userNamePane.setVisible(false);
