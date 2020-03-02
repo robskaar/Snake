@@ -414,7 +414,7 @@ public class mainController implements Initializable {
 
         snake = new Snake();                          // Create new snake
         generateFood();
-
+        snake.setHeadstate(Snake.Headstate.NORMAL);
         for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
             gamePane.getChildren().add(block);
         }
