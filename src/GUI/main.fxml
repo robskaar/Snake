@@ -57,7 +57,7 @@
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#showSettings" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="SETTINGS">
+                        <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#showSettings" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="SETTINGS">
                            <VBox.margin>
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
@@ -67,7 +67,7 @@
                               <Insets left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#quitGame" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="QUIT">
+                        <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quitGame" prefHeight="54.0" prefWidth="610.0" styleClass="MenuButtons" text="QUIT">
                            <VBox.margin>
                               <Insets bottom="50.0" left="50.0" right="50.0" top="20.0" />
                            </VBox.margin>

@@ -42,6 +42,12 @@ public class mainController implements Initializable {
     @FXML
     private Button resumeButton;
     @FXML
+    private Button highScoreButton;
+    @FXML
+    private Button quitButton;
+    @FXML
+    private Button settingsButton;
+    @FXML
     private AnchorPane gamePane;
     @FXML
     private AnchorPane userNamePane;
@@ -87,6 +93,23 @@ public class mainController implements Initializable {
           SoundUtilities.controlSoundLevel(soundSlider.getValue());
           mute();
       });
+
+      highScoreButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+        newGameButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+        resumeButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+        quitButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+        settingsButton.setOnMouseEntered( e-> {
+            SoundUtilities.playHoverSound(true);
+        });
+
 
 
 

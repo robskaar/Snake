@@ -1,13 +1,7 @@
 package Domain;
 
 import GUI.mainController;
-import javafx.beans.Observable;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 
-import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -22,6 +16,7 @@ public abstract class SoundUtilities {
     private static final AudioPlayer VICTORY = new AudioPlayer("src/Resources/Sound/victoryFanfareCut1.wav");
     private static final AudioPlayer WUHUU = new AudioPlayer("src/Resources/Sound/Wuhu.wav");
     private static final AudioPlayer SCREAM = new AudioPlayer("src/Resources/Sound/Scream.wav", 1);
+    private static final AudioPlayer BUTTON_HOVER = new AudioPlayer("src/Resources/Sound/buttonHover.wav",0.5);
 
 
     public static void muteStatus(Boolean mute) {
@@ -63,6 +58,15 @@ public abstract class SoundUtilities {
             GAME_SOUND.stop();
         }
 
+    }
+
+    public static void playHoverSound(Boolean play) {
+        if (play) {
+            BUTTON_HOVER.play(0);
+        }
+        else {
+            BUTTON_HOVER.stop();
+        }
     }
 
     public static void playMenuSound(Boolean play) {
