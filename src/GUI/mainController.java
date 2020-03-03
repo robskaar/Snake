@@ -268,7 +268,6 @@ public class mainController implements Initializable {
                 generateFood();
                 SoundUtilities.playRandomFoodSound();
                 foodTimeLime.playFromStart();
-                System.out.println(difficulty + " current rate" + FPSTimeline.getCurrentRate());
 
                 if (difficulty.contains("Hard")) {
 
@@ -312,6 +311,11 @@ public class mainController implements Initializable {
 
         // Other input
 
+        if(key == KeyCode.ENTER){
+            if(menuPane.isVisible()) newGame();
+            else if(highScorePane.isVisible()) showMenu();
+        }
+
         if (key == KeyCode.SPACE) {              // pause game
             if (FPSTimeline.getStatus().equals(Animation.Status.PAUSED)) {
                 // you cant pause if the game is paused.
@@ -341,6 +345,16 @@ public class mainController implements Initializable {
                 animationUtilities.playVictoryAnimation();
             }
 
+        }
+    }
+
+    public void getMenuInput(KeyEvent ke){
+
+        KeyCode key = ke.getCode();
+
+        if(key == KeyCode.ENTER){
+            if(menuPane.isVisible()) setUserName();
+            else if(highScorePane.isVisible()) showMenu();
         }
     }
 
@@ -429,10 +443,12 @@ public class mainController implements Initializable {
         FPSTimeline.stop();       // Stop moving the snake..
         CollisionTimeline.stop();
         foodTimeLime.stop();
+        pressedDirection = RIGHT;
         gamePane.getChildren().clear();  // Clear gamepane
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
         showHighScores();
         currentScore = null;
+        score.setText("0");
     }
 
     public void showHighScores() {
@@ -488,6 +504,8 @@ public class mainController implements Initializable {
             }
 
         } while (foodIsUnderSnake);
+
+        System.out.println("x " + yumYum.getX() + " y " + yumYum.getY());
 
         gamePane.getChildren().add(yumYum);
     }
