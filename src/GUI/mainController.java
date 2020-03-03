@@ -443,6 +443,7 @@ public class mainController implements Initializable {
     }
 
     public void endGame() {
+        FPSTimeline.setRate(4);
         FPSTimeline.stop();       // Stop moving the snake..
         CollisionTimeline.stop();
         foodTimeLime.stop();
