@@ -514,12 +514,11 @@ public class mainController implements Initializable {
     }
 
     private void hardModeSpeedBoost() {
-        double currentSpeed = FPSTimeline.getCurrentRate();
         KeyFrame speedStart = new KeyFrame(Duration.seconds(0), event -> {
             FPSTimeline.setRate(boostSpeed);
         });
         KeyFrame speedEnd = new KeyFrame(Duration.seconds(1), event -> {
-            FPSTimeline.setRate(normalSpeed);
+            FPSTimeline.setRate(4);
         });
         Timeline speedBuffTime = new Timeline(
                 speedStart, speedEnd
