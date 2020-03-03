@@ -136,13 +136,7 @@ public class mainController implements Initializable {
         setDifficulty();                                  // load the initial difficulty level
 
         overlayPane.setFocusTraversable(true);       // Make key input possible on overlay pane
-        initFPSTimeline();                           // Timeline to move snake
-        initCollisionTimeline();                     // Timeline to detect collision
-        initFoodTimeLine();                         // time to spawn and despawn food
         Score.initHighScores(highScorePane);
-        FPSTimeline.pause();                        // pauses timeline
-        CollisionTimeline.pause();                  // pauses timeline
-        foodTimeLime.pause();                       //pauses timelime
         menuPane.setVisible(true);                   //initially shows main menu
         overlayPane.setVisible(false);               // Hide overlay
         highScorePane.setVisible(false);
@@ -241,6 +235,7 @@ public class mainController implements Initializable {
 
             snake.setSnakeDirection(pressedDirection);
             snake.moveSnake();
+            initCollisionTimeline();
 
         }));
 
@@ -250,7 +245,7 @@ public class mainController implements Initializable {
     public void initCollisionTimeline() {
 
         CollisionTimeline.setAutoReverse(false);
-        CollisionTimeline.setCycleCount(Animation.INDEFINITE);
+        CollisionTimeline.setCycleCount(1);
         CollisionTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1), ActionEvent -> {
 
             // Check if snake collides with anything
@@ -427,6 +422,8 @@ public class mainController implements Initializable {
         highScorePane.setVisible(false);
         userNameField.setTooltip(null);
         gamePane.getChildren().clear();
+        initFPSTimeline();                           // Timeline to move snake
+        initFoodTimeLine();                         // time to spawn and despawn food
 
         // Create new score and bind value to label
         currentScore = new Score(userNameField.getText(), 0, difficulty);
