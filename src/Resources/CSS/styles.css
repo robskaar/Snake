@@ -12,9 +12,9 @@
 }
 
 .BorderPane {
-    -fx-pref-width: 600;
-    -fx-pref-height: 600;
-    -fx-background-color: brown;
+    -fx-pref-width: 620;
+    -fx-pref-height: 620;
+    -fx-background-color: #784212;
 }
 
 .StackPane {

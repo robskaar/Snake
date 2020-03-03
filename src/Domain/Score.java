@@ -109,7 +109,7 @@ public class Score {
     public static void initHighScores(Pane pane){
 
         tableView.getStyleClass().addAll("HighScores");
-        tableView.setLayoutX(50);
+        tableView.setLayoutX(70);
         tableView.setLayoutY(150);
 
         columnName = new TableColumn<>("Name");
