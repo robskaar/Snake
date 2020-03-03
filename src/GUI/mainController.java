@@ -93,6 +93,8 @@ public class mainController implements Initializable {
     Timeline CollisionTimeline = new Timeline();
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
     static Direction pressedDirection = RIGHT;
+    private double normalSpeed = 4;
+    private double boostSpeed = 10;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -134,13 +136,7 @@ public class mainController implements Initializable {
         setDifficulty();                                  // load the initial difficulty level
 
         overlayPane.setFocusTraversable(true);       // Make key input possible on overlay pane
-        initFPSTimeline();                           // Timeline to move snake
-        initCollisionTimeline();                     // Timeline to detect collision
-        initFoodTimeLine();                         // time to spawn and despawn food
         Score.initHighScores(highScorePane);
-        FPSTimeline.pause();                        // pauses timeline
-        CollisionTimeline.pause();                  // pauses timeline
-        foodTimeLime.pause();                       //pauses timelime
         menuPane.setVisible(true);                   //initially shows main menu
         overlayPane.setVisible(false);               // Hide overlay
         highScorePane.setVisible(false);
@@ -204,13 +200,16 @@ public class mainController implements Initializable {
         hardDifficultyButton.setToggleGroup(levelDifficulty);
 
         if (easyDifficultyButton.isArmed()) {
-            FPSTimeline.setRate(2);
+            normalSpeed = 2;
+            FPSTimeline.setRate(normalSpeed);
             difficulty = "Easy";
         } else if (hardDifficultyButton.isArmed()) {
-            FPSTimeline.setRate(4);
+            normalSpeed = 4;
+            FPSTimeline.setRate(normalSpeed);
             difficulty = "Hard";
         } else if (normalDifficultyButton.isArmed()) {
-            FPSTimeline.setRate(4);
+            normalSpeed = 4;
+            FPSTimeline.setRate(normalSpeed);
             difficulty = "Normal";
         }
 
@@ -236,6 +235,7 @@ public class mainController implements Initializable {
 
             snake.setSnakeDirection(pressedDirection);
             snake.moveSnake();
+            initCollisionTimeline();
 
         }));
 
@@ -245,7 +245,7 @@ public class mainController implements Initializable {
     public void initCollisionTimeline() {
 
         CollisionTimeline.setAutoReverse(false);
-        CollisionTimeline.setCycleCount(Animation.INDEFINITE);
+        CollisionTimeline.setCycleCount(1);
         CollisionTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1), ActionEvent -> {
 
             // Check if snake collides with anything
@@ -422,6 +422,8 @@ public class mainController implements Initializable {
         highScorePane.setVisible(false);
         userNameField.setTooltip(null);
         gamePane.getChildren().clear();
+        initFPSTimeline();                           // Timeline to move snake
+        initFoodTimeLine();                         // time to spawn and despawn food
 
         // Create new score and bind value to label
         currentScore = new Score(userNameField.getText(), 0, difficulty);
@@ -429,6 +431,7 @@ public class mainController implements Initializable {
         snake = new Snake();                          // Create new snake
         generateFood();
         snake.setHeadstate(Snake.Headstate.NORMAL);
+        FPSTimeline.setRate(normalSpeed);
         for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
             gamePane.getChildren().add(block);
         }
@@ -512,7 +515,7 @@ public class mainController implements Initializable {
 
     private void hardModeSpeedBoost() {
         KeyFrame speedStart = new KeyFrame(Duration.seconds(0), event -> {
-            FPSTimeline.setRate(10);
+            FPSTimeline.setRate(boostSpeed);
         });
         KeyFrame speedEnd = new KeyFrame(Duration.seconds(1), event -> {
             FPSTimeline.setRate(4);
