@@ -93,6 +93,8 @@ public class mainController implements Initializable {
     Timeline CollisionTimeline = new Timeline();
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
     static Direction pressedDirection = RIGHT;
+    private double normalSpeed = 4;
+    private double boostSpeed = 10;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -204,13 +206,16 @@ public class mainController implements Initializable {
         hardDifficultyButton.setToggleGroup(levelDifficulty);
 
         if (easyDifficultyButton.isArmed()) {
-            FPSTimeline.setRate(2);
+            normalSpeed = 2;
+            FPSTimeline.setRate(normalSpeed);
             difficulty = "Easy";
         } else if (hardDifficultyButton.isArmed()) {
-            FPSTimeline.setRate(4);
+            normalSpeed = 4;
+            FPSTimeline.setRate(normalSpeed);
             difficulty = "Hard";
         } else if (normalDifficultyButton.isArmed()) {
-            FPSTimeline.setRate(4);
+            normalSpeed = 4;
+            FPSTimeline.setRate(normalSpeed);
             difficulty = "Normal";
         }
 
@@ -429,6 +434,7 @@ public class mainController implements Initializable {
         snake = new Snake();                          // Create new snake
         generateFood();
         snake.setHeadstate(Snake.Headstate.NORMAL);
+        FPSTimeline.setRate(normalSpeed);
         for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
             gamePane.getChildren().add(block);
         }
@@ -513,10 +519,10 @@ public class mainController implements Initializable {
     private void hardModeSpeedBoost() {
         double currentSpeed = FPSTimeline.getCurrentRate();
         KeyFrame speedStart = new KeyFrame(Duration.seconds(0), event -> {
-            FPSTimeline.setRate(10);
+            FPSTimeline.setRate(boostSpeed);
         });
         KeyFrame speedEnd = new KeyFrame(Duration.seconds(1), event -> {
-            FPSTimeline.setRate(currentSpeed);
+            FPSTimeline.setRate(normalSpeed);
         });
         Timeline speedBuffTime = new Timeline(
                 speedStart, speedEnd
