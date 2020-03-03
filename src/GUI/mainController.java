@@ -448,6 +448,7 @@ public class mainController implements Initializable {
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
         showHighScores();
         currentScore = null;
+        score.setText("0");
     }
 
     public void showHighScores() {
