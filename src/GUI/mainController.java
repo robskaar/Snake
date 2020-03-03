@@ -101,7 +101,13 @@ public class mainController implements Initializable {
         musicSlider.setOnMouseDragged(e -> {
             SoundUtilities.controlMusicLevel(musicSlider.getValue());
         });
+        musicSlider.setOnMouseClicked(e -> {
+            SoundUtilities.controlMusicLevel(musicSlider.getValue());
+        });
         soundSlider.setOnMouseDragged(e -> {
+            SoundUtilities.controlSoundLevel(soundSlider.getValue());
+        });
+        soundSlider.setOnMouseClicked(e -> {
             SoundUtilities.controlSoundLevel(soundSlider.getValue());
         });
 
@@ -408,7 +414,7 @@ public class mainController implements Initializable {
 
         snake = new Snake();                          // Create new snake
         generateFood();
-
+        snake.setHeadstate(Snake.Headstate.NORMAL);
         for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
             gamePane.getChildren().add(block);
         }
