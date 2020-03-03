@@ -19,7 +19,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/GUI/main.fxml"));
         primaryStage.getIcons().add(windowIcon);
         primaryStage.setTitle("Snake");
-        primaryStage.setScene(new Scene(root, 600, 600));
+        primaryStage.setScene(new Scene(root, 630, 630));
         primaryStage.show();
     }
 
