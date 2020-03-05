@@ -6,6 +6,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,10 +20,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-import javax.sound.sampled.BooleanControl;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.jar.Attributes;
+
+import static Domain.Direction.*;
 
 
 public class mainController implements Initializable {
@@ -38,6 +45,12 @@ public class mainController implements Initializable {
     @FXML
     private Button resumeButton;
     @FXML
+    private Button highScoreButton;
+    @FXML
+    private Button quitButton;
+    @FXML
+    private Button settingsButton;
+    @FXML
     private AnchorPane gamePane;
     @FXML
     private AnchorPane userNamePane;
@@ -45,6 +58,8 @@ public class mainController implements Initializable {
     private AnchorPane settingsPane;
     @FXML
     private AnchorPane menuPane;
+    @FXML
+    private AnchorPane winnerPane;
     @FXML
     private AnchorPane countDownPane;
     @FXML
@@ -55,21 +70,63 @@ public class mainController implements Initializable {
     private TextField userNameField;
     @FXML
     private AnchorPane overlayPane;
+    @FXML
+    private Button soundButton3;
+    @FXML
+    private Button soundButton2;
+    @FXML
+    private Button soundButton1;
+    @FXML
+    private Slider soundSlider;
+    @FXML
+    private Slider musicSlider;
 
-
-
-    private boolean muteStatus = false;
+    public static boolean muteStatus = false;
+    static boolean winnerAnimationActive;
     static Food yumYum;
     static Snake snake;
     static String difficulty;
     static Score currentScore;
-
+    AnimationUtilities animationUtilities;
+    Timeline foodTimeLime = new Timeline();
     Timeline FPSTimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
+    static Direction pressedDirection = RIGHT;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+        musicSlider.setOnMouseDragged(e -> {
+            SoundUtilities.controlMusicLevel(musicSlider.getValue());
+        });
+        musicSlider.setOnMouseClicked(e -> {
+            SoundUtilities.controlMusicLevel(musicSlider.getValue());
+        });
+        soundSlider.setOnMouseDragged(e -> {
+            SoundUtilities.controlSoundLevel(soundSlider.getValue());
+        });
+        soundSlider.setOnMouseClicked(e -> {
+            SoundUtilities.controlSoundLevel(soundSlider.getValue());
+        });
+
+        highScoreButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
+        newGameButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
+        resumeButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
+        quitButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
+        settingsButton.setOnMouseEntered(e -> {
+            SoundUtilities.playHoverSound(true);
+        });
+
 
         SoundUtilities.playMenuSound(true);                        // start the menu sound
         normalDifficultyButton.setSelected(true);   // sets initial difficulty to normal
@@ -79,20 +136,21 @@ public class mainController implements Initializable {
         overlayPane.setFocusTraversable(true);       // Make key input possible on overlay pane
         initFPSTimeline();                           // Timeline to move snake
         initCollisionTimeline();                     // Timeline to detect collision
+        initFoodTimeLine();                         // time to spawn and despawn food
+        Score.initHighScores(highScorePane);
         FPSTimeline.pause();                        // pauses timeline
-        CollisionTimeline.pause();                   // pauses timeline
+        CollisionTimeline.pause();                  // pauses timeline
+        foodTimeLime.pause();                       //pauses timelime
         menuPane.setVisible(true);                   //initially shows main menu
         overlayPane.setVisible(false);               // Hide overlay
         highScorePane.setVisible(false);
+        winnerPane.setVisible(false);
 
         AnimationUtilities.drawGameGrid(gameUnderlayPane); // Draw grass and grid
 
 
-
-
-
-        userNameField.setOnAction( e->{
-            if (userNameField.getText().isEmpty()){
+        userNameField.setOnAction(e -> {
+            if (userNameField.getText().isEmpty()) {
                 userNameField.requestFocus();
                 userNameField.setTooltip(new Tooltip("Please provide a username"));
             } else {
@@ -116,20 +174,27 @@ public class mainController implements Initializable {
 
     }
 
+    public void mute() {
 
-    public void mute(){
-
+        if (muteStatus) {
+            soundButton1.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
+            soundButton2.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
+            soundButton3.setStyle("-fx-background-image: url('/Resources/Images/sound.png');");
+            soundSlider.getValue();
+            muteStatus = false;
+        } else {
+            soundButton1.setStyle("-fx-background-image: url('/Resources/Images/mute.png');");
+            soundButton2.setStyle("-fx-background-image: url('/Resources/Images/mute.png');");
+            soundButton3.setStyle("-fx-background-image: url('/Resources/Images/mute.png');");
+            muteStatus = true;
+        }
         SoundUtilities.muteStatus(muteStatus);
-        if (muteStatus){
-            muteStatus=false;
-        }
-        else{
-            muteStatus=true;
-        }
     }
+
     public void setUserName() {
         menuPane.setVisible(false);
         userNamePane.setVisible(true);
+        userNameField.requestFocus();
     }
 
     public void setDifficulty() {
@@ -151,12 +216,25 @@ public class mainController implements Initializable {
 
     }
 
+    public void initFoodTimeLine() {
+        foodTimeLime.setAutoReverse(false);
+        foodTimeLime.setCycleCount(Animation.INDEFINITE);
+        foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(6), ActionEvent -> {
+
+            generateFood();
+
+        }));
+
+        foodTimeLime.play();
+    }
+
     public void initFPSTimeline() {
 
         FPSTimeline.setAutoReverse(false);
         FPSTimeline.setCycleCount(Animation.INDEFINITE);
         FPSTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), ActionEvent -> {
 
+            snake.setSnakeDirection(pressedDirection);
             snake.moveSnake();
 
         }));
@@ -174,8 +252,7 @@ public class mainController implements Initializable {
             boolean hasSelfCollision, hasBorderCollision, hasFoodCollision;
             hasSelfCollision = snake.checkSelfCollision();
             hasBorderCollision = snake.checkBorderCollision();
-            hasFoodCollision = snake.checkFoodCollision(yumYum);
-
+            hasFoodCollision = snake.checkFoodCollision(yumYum, snake.getHeadstate());
 
             // End game if collision with self or border is detected
             if (hasSelfCollision || hasBorderCollision) {
@@ -190,20 +267,21 @@ public class mainController implements Initializable {
                 score.setText(Integer.toString(currentScore.getScore()));
                 generateFood();
                 SoundUtilities.playRandomFoodSound();
-                System.out.println(difficulty + " current rate" + FPSTimeline.getCurrentRate());
+                foodTimeLime.playFromStart();
 
                 if (difficulty.contains("Hard")) {
 
-                    Random ran = new Random();
-                    int randomNum = ran.nextInt(100) + 1 ;
-
-                    if(randomNum < 30){
+                    if (rollTheDice(25)) {
                         SoundUtilities.playSpeedBoost(true);
-                        hardModeSpeedBoost();        // 29% chance of speed boost
+                        hardModeSpeedBoost();
                     }
-                    if(randomNum > 90){
+                    if (rollTheDice(20)) {
+                        SoundUtilities.playGrowHead(true);
+                        hardModeBigHead();
+                    }
+                    if (rollTheDice(10)) {
                         SoundUtilities.playRotatePane(true);
-                        AnimationUtilities.rotatePane(5,gamePane);  // 9% chance for rotate pane
+                        AnimationUtilities.rotatePane(5, gamePane);
                     }
 
                 }
@@ -221,20 +299,22 @@ public class mainController implements Initializable {
 
         KeyCode key = ke.getCode();
 
-        // Get movement input
-        Direction snakeDirection = snake.getSnakeDirection();
-
-        if (key == KeyCode.DOWN && snakeDirection != Direction.UP) {
-            snake.setSnakeDirection(Direction.DOWN);
-        } else if (key == KeyCode.LEFT && snakeDirection != Direction.RIGHT) {
-            snake.setSnakeDirection(Direction.LEFT);
-        } else if (key == KeyCode.RIGHT && snakeDirection != Direction.LEFT) {
-            snake.setSnakeDirection(Direction.RIGHT);
-        } else if (key == KeyCode.UP && snakeDirection != Direction.DOWN) {
-            snake.setSnakeDirection(Direction.UP);
+        if (key == KeyCode.DOWN && snake.getSnakeDirection() != Direction.UP) {
+            pressedDirection = DOWN;
+        } else if (key == KeyCode.LEFT && snake.getSnakeDirection() != RIGHT) {
+            pressedDirection = LEFT;
+        } else if (key == KeyCode.RIGHT && snake.getSnakeDirection() != LEFT) {
+            pressedDirection = RIGHT;
+        } else if (key == KeyCode.UP && snake.getSnakeDirection() != DOWN) {
+            pressedDirection = UP;
         }
 
         // Other input
+
+        if(key == KeyCode.ENTER){
+            if(menuPane.isVisible()) newGame();
+            else if(highScorePane.isVisible()) showMenu();
+        }
 
         if (key == KeyCode.SPACE) {              // pause game
             if (FPSTimeline.getStatus().equals(Animation.Status.PAUSED)) {
@@ -246,23 +326,40 @@ public class mainController implements Initializable {
             }
         }
 
-
         if (key == KeyCode.P) {          // Plays victory animation
-            FPSTimeline.stop();
-            CollisionTimeline.stop();
-            SoundUtilities.playGameSound(false);
-            SoundUtilities.playMenuSound(false);
-            overlayPane.setVisible(false);
-            gamePane.getChildren().clear();
-            AnimationUtilities animationUtilities = new AnimationUtilities(gamePane);
-            gamePane.setFocusTraversable(true);
-            animationUtilities.playVictoryAnimation();
+
+            if (winnerAnimationActive) {
+                animationUtilities.stopAnimation();
+                winnerPane.getChildren().clear();
+                winnerPane.setVisible(false);
+                endGame();
+            } else {
+                animationUtilities = new AnimationUtilities(winnerPane);
+                winnerPane.setVisible(true);
+                winnerAnimationActive = true;
+                FPSTimeline.stop();
+                CollisionTimeline.stop();
+                foodTimeLime.stop();
+                SoundUtilities.playGameSound(false);
+                SoundUtilities.playMenuSound(false);
+                score.setStyle("-fx-text-fill: transparent");
+                animationUtilities.playVictoryAnimation();
+            }
+
         }
     }
 
+    public void getMenuInput(KeyEvent ke){
+
+        KeyCode key = ke.getCode();
+
+        if(key == KeyCode.ENTER){
+            if(menuPane.isVisible()) setUserName();
+            else if(highScorePane.isVisible()) showMenu();
+        }
+    }
 
     public void showMenu() {
-
         FPSTimeline.pause();
         CollisionTimeline.pause();
         userNamePane.setVisible(false);
@@ -282,6 +379,7 @@ public class mainController implements Initializable {
         KeyFrame countOne = new KeyFrame(Duration.seconds(0), event -> {
             FPSTimeline.pause();
             CollisionTimeline.pause();
+            foodTimeLime.pause();
             menuPane.setVisible(false);
             countDownPane.setVisible(true);
             countDown.setText("3");
@@ -306,6 +404,7 @@ public class mainController implements Initializable {
             countDownPane.setVisible(false);
             FPSTimeline.play();
             CollisionTimeline.play();
+            foodTimeLime.play();
         });
 
         Timeline countDowns = new Timeline(
@@ -317,19 +416,8 @@ public class mainController implements Initializable {
         overlayPane.setVisible(true);
     }
 
-    public boolean isUserNameSupplied() {
-        if (userNameField.getText().isEmpty()) {
-            userNameField.requestFocus();
-            userNameField.setTooltip(new Tooltip("YOU MUST PROVIDE A USERNAME"));
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
     public void newGame() {
-
+        winnerAnimationActive = false;
         overlayPane.setVisible(true);
         resumeButton.setDisable(false);
         highScorePane.setVisible(false);
@@ -341,7 +429,7 @@ public class mainController implements Initializable {
 
         snake = new Snake();                          // Create new snake
         generateFood();
-
+        snake.setHeadstate(Snake.Headstate.NORMAL);
         for (Blocks block : snake.getSnakeArray()) {  // Add all blocks to gamePane
             gamePane.getChildren().add(block);
         }
@@ -355,10 +443,13 @@ public class mainController implements Initializable {
     public void endGame() {
         FPSTimeline.stop();       // Stop moving the snake..
         CollisionTimeline.stop();
+        foodTimeLime.stop();
+        pressedDirection = RIGHT;
         gamePane.getChildren().clear();  // Clear gamepane
         resumeButton.setDisable(true); // initial disables resume game button - no game to resume at startup
         showHighScores();
         currentScore = null;
+        score.setText("0");
     }
 
     public void showHighScores() {
@@ -373,17 +464,17 @@ public class mainController implements Initializable {
         SoundUtilities.playMenuSound(true);
 
         if (currentScore == null) {
-            new Score().showHighScores(highScorePane);
+            new Score().showHighScores();
         } else {
             currentScore.addToObservableList();
-            currentScore.showHighScores(highScorePane);   // Show highscores
+            currentScore.showHighScores();   // Show highscores
             currentScore.writeCSV();                      // Add current score to csv
         }
+
 
     }
 
     public void generateFood() {
-
         gamePane.getChildren().remove(yumYum);
         boolean foodIsUnderSnake;
 
@@ -415,21 +506,53 @@ public class mainController implements Initializable {
 
         } while (foodIsUnderSnake);
 
+        System.out.println("x " + yumYum.getX() + " y " + yumYum.getY());
+
         gamePane.getChildren().add(yumYum);
     }
 
     private void hardModeSpeedBoost() {
-        double currentSpeed = FPSTimeline.getCurrentRate();
         KeyFrame speedStart = new KeyFrame(Duration.seconds(0), event -> {
             FPSTimeline.setRate(10);
         });
         KeyFrame speedEnd = new KeyFrame(Duration.seconds(1), event -> {
-            FPSTimeline.setRate(currentSpeed);
+            FPSTimeline.setRate(4);
         });
         Timeline speedBuffTime = new Timeline(
                 speedStart, speedEnd
         );
         speedBuffTime.setCycleCount(1);
         speedBuffTime.play();
+    }
+
+    private void hardModeBigHead() {
+        KeyFrame bigHeadTimer = new KeyFrame(Duration.seconds(0), event -> {
+            snake.getSnakeArray().get(0).setScaleX(3);
+            snake.getSnakeArray().get(0).setScaleY(3);
+            snake.setHeadstate(Snake.Headstate.BIG);
+        });
+        KeyFrame bigHeadTimerEnd = new KeyFrame(Duration.seconds(5), event -> {
+            snake.getSnakeArray().get(0).setScaleX(1.5);
+            snake.getSnakeArray().get(0).setScaleY(1.5);
+            snake.setHeadstate(Snake.Headstate.NORMAL);
+        });
+        Timeline headBuffTimer = new Timeline(
+                bigHeadTimer, bigHeadTimerEnd
+        );
+        headBuffTimer.setCycleCount(1);
+        headBuffTimer.play();
+    }
+
+    private boolean rollTheDice(int percentChance) {
+
+        if (percentChance > 100 || percentChance < 0) {
+            throw new IllegalArgumentException("Percent can only be between 0-100");
+        }
+
+        Random ran = new Random();
+        int randomNumber = ran.nextInt(100) + 1;
+
+        return randomNumber < percentChance + 1;
+
     }
 }

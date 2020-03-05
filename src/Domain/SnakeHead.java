@@ -8,6 +8,7 @@ public class SnakeHead extends Blocks {
     private final int POSITION_X = 300;
     private final int POSITION_Y = 300;
 
+
     public SnakeHead() {
         super(new Image("Resources/Images/snakeHeadAnimated.gif"));  // Set width, height and image
         this.setX(POSITION_X);

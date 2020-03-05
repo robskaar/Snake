@@ -10,3 +10,7 @@ Mid way update
 -Custom amazing Art
 -3 difficulties
 -Constant arcade music
+
+Final update 
+Game is fully supported by all features and it's amazing!
+Art, Music, Several difficulties, Menu's, High Scores and much more
