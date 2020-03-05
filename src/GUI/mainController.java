@@ -330,6 +330,7 @@ public class mainController implements Initializable {
 
             if (winnerAnimationActive) {
                 animationUtilities.stopAnimation();
+                winnerPane.getChildren().clear();
                 winnerPane.setVisible(false);
                 endGame();
             } else {
