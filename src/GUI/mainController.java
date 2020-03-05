@@ -82,7 +82,7 @@ public class mainController implements Initializable {
     private Slider musicSlider;
 
     public static boolean muteStatus = false;
-    static boolean winnerAnimationActive = false;
+    static boolean winnerAnimationActive;
     static Food yumYum;
     static Snake snake;
     static String difficulty;
@@ -416,7 +416,7 @@ public class mainController implements Initializable {
     }
 
     public void newGame() {
-
+        winnerAnimationActive = false;
         overlayPane.setVisible(true);
         resumeButton.setDisable(false);
         highScorePane.setVisible(false);
