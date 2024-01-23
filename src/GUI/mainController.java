@@ -20,16 +20,21 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Timer;
 import java.util.jar.Attributes;
 
 import static Domain.Direction.*;
 
 
 public class mainController implements Initializable {
-
+    @FXML
+    private ToggleButton blackBackgroundButton;
+    @FXML
+    private ToggleButton normalBackgroundButton;
     @FXML
     private ToggleButton easyDifficultyButton;
     @FXML
@@ -86,12 +91,15 @@ public class mainController implements Initializable {
     static Food yumYum;
     static Snake snake;
     static String difficulty;
+
+    static String extraBackground;
     static Score currentScore;
     AnimationUtilities animationUtilities;
     Timeline foodTimeLime = new Timeline();
     Timeline FPSTimeline = new Timeline();
     Timeline CollisionTimeline = new Timeline();
     ToggleGroup levelDifficulty = new ToggleGroup(); // toggle group for level difficulty
+    ToggleGroup levelExtraBackground = new ToggleGroup();
     static Direction pressedDirection = RIGHT;
 
     @Override
@@ -127,12 +135,13 @@ public class mainController implements Initializable {
             SoundUtilities.playHoverSound(true);
         });
 
-
+        blackBackgroundButton.setSelected(false);
+        normalBackgroundButton.setSelected(true);
         SoundUtilities.playMenuSound(true);                        // start the menu sound
         normalDifficultyButton.setSelected(true);   // sets initial difficulty to normal
         normalDifficultyButton.arm();               // sets initial difficulty to normal
         setDifficulty();                                  // load the initial difficulty level
-
+        setBackground();
         overlayPane.setFocusTraversable(true);       // Make key input possible on overlay pane
         initFPSTimeline();                           // Timeline to move snake
         initCollisionTimeline();                     // Timeline to detect collision
@@ -207,7 +216,7 @@ public class mainController implements Initializable {
             FPSTimeline.setRate(2);
             difficulty = "Easy";
         } else if (hardDifficultyButton.isArmed()) {
-            FPSTimeline.setRate(4);
+            FPSTimeline.setRate(6);
             difficulty = "Hard";
         } else if (normalDifficultyButton.isArmed()) {
             FPSTimeline.setRate(4);
@@ -216,15 +225,35 @@ public class mainController implements Initializable {
 
     }
 
+    public void setBackground() {
+
+        normalBackgroundButton.setToggleGroup(levelExtraBackground);
+        blackBackgroundButton.setToggleGroup(levelExtraBackground);
+
+        if (blackBackgroundButton.isArmed()) {
+            AnimationUtilities.setBackground(true);
+        }
+        else{
+            AnimationUtilities.setBackground(false);
+        }
+
+    }
+
+
+
     public void initFoodTimeLine() {
         foodTimeLime.setAutoReverse(false);
         foodTimeLime.setCycleCount(Animation.INDEFINITE);
-        foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(6), ActionEvent -> {
 
-            generateFood();
+        if (difficulty.contains("Hard")) {
 
-        }));
+            foodTimeLime.getKeyFrames().add(new KeyFrame(Duration.seconds(6), ActionEvent -> {
 
+                generateFood();
+
+            }));
+
+        }
         foodTimeLime.play();
     }
 
@@ -298,14 +327,66 @@ public class mainController implements Initializable {
     public void getGameInput(KeyEvent ke) {
 
         KeyCode key = ke.getCode();
-
+        Timer t = new java.util.Timer();
         if (key == KeyCode.DOWN && snake.getSnakeDirection() != Direction.UP) {
+            if(difficulty.equals("Hard") && snake.getSnakeDirection() == DOWN){
+                t.schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                FPSTimeline.setRate(FPSTimeline.getRate()*0.5);
+                                t.cancel();
+                            }
+                        },
+                        3000
+                );
+                FPSTimeline.setRate(FPSTimeline.getRate()*2);
+            }
             pressedDirection = DOWN;
         } else if (key == KeyCode.LEFT && snake.getSnakeDirection() != RIGHT) {
+            if(difficulty.equals("Hard") && snake.getSnakeDirection() == LEFT){
+                t.schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                FPSTimeline.setRate(FPSTimeline.getRate()*0.5);
+                                t.cancel();
+                            }
+                        },
+                        3000
+                );
+                FPSTimeline.setRate(FPSTimeline.getRate()*2);
+            }
             pressedDirection = LEFT;
         } else if (key == KeyCode.RIGHT && snake.getSnakeDirection() != LEFT) {
+            if(difficulty.equals("Hard") && snake.getSnakeDirection() == RIGHT){
+                t.schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                FPSTimeline.setRate(FPSTimeline.getRate()*0.5);
+                                t.cancel();
+                            }
+                        },
+                        3000
+                );
+                FPSTimeline.setRate(FPSTimeline.getRate()*2);
+            }
             pressedDirection = RIGHT;
         } else if (key == KeyCode.UP && snake.getSnakeDirection() != DOWN) {
+            if(difficulty.equals("Hard") && snake.getSnakeDirection() == UP){
+                t.schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                FPSTimeline.setRate(FPSTimeline.getRate()*0.5);
+                                t.cancel();
+                            }
+                        },
+                        3000
+                );
+                FPSTimeline.setRate(FPSTimeline.getRate()*2);
+            }
             pressedDirection = UP;
         }
 
@@ -317,9 +398,7 @@ public class mainController implements Initializable {
         }
 
         if (key == KeyCode.SPACE) {              // pause game
-            if (FPSTimeline.getStatus().equals(Animation.Status.PAUSED)) {
-                // you cant pause if the game is paused.
-            } else {
+            if (!FPSTimeline.getStatus().equals(Animation.Status.PAUSED)) {
                 SoundUtilities.playGameSound(false);
                 SoundUtilities.playMenuSound(true);
                 showMenu();

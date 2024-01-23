@@ -21,11 +21,13 @@ import java.util.Random;
 public class AnimationUtilities {
 
     private Pane pane;
+    private static ImageView backgroundImage = new ImageView();
     private ArrayList<AudioPlayer> allAudio = new ArrayList<>();
     private ArrayList<Timeline> allTimelines = new ArrayList<>();
 
     public AnimationUtilities(Pane pane) {
         this.pane = pane;
+
     }
 
     public void playVictoryAnimation() {
@@ -254,17 +256,23 @@ public class AnimationUtilities {
 
         timeline.play();
     }
-
+    public static void setBackground(boolean isBlack){
+        if(isBlack){
+            backgroundImage.setImage(new Image("Resources/Images/black.png"));
+        }else{
+            backgroundImage.setImage(new Image("Resources/Images/UnderlayBG.png"));
+        }
+    }
     public static void drawGameGrid(Pane pane) {
 
         final int BLOCK_SIZE = 20;
         final int PANE_SIZE = 600;
+        backgroundImage = new ImageView();
+        backgroundImage.setFitWidth(600);
+        backgroundImage.setFitHeight(600);
+        backgroundImage.setImage(new Image("Resources/Images/UnderlayBG.png"));
 
-        ImageView imageView = new ImageView();
-        imageView.setFitWidth(600);
-        imageView.setFitHeight(600);
-        imageView.setImage(new Image("Resources/Images/UnderlayBG.png"));
-        pane.getChildren().add(imageView);
+        pane.getChildren().add(backgroundImage);
 
 
         for (int y = 0; y < PANE_SIZE; y += BLOCK_SIZE * 2) {

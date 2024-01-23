@@ -19,7 +19,7 @@
          <children>
             <AnchorPane fx:id="gameUnderlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="gameUnderlayPane" />
             <AnchorPane fx:id="gamePane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="AnchorPane" />
-            <AnchorPane fx:id="winnerPane" prefHeight="200.0" prefWidth="200.0" />
+            <AnchorPane fx:id="winnerPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" />
             <AnchorPane fx:id="overlayPane" maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" onKeyPressed="#getGameInput" prefHeight="600.0" prefWidth="600.0" styleClass="Overlay">
                <children>
                   <Label fx:id="score" layoutX="40.0" layoutY="29.0" styleClass="scoreLabel" text="Score" />
@@ -134,13 +134,39 @@
                            </VBox.margin>
                         </Slider>
                         <Label alignment="CENTER" prefHeight="62.0" prefWidth="388.0" styleClass="Settings" text="EXTRAS">
-                           <font>
-                              <Font size="50.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Label>
+
+                              <font>
+                                 <Font size="50.0" />
+                              </font>
+                              <VBox.margin>
+                                 <Insets top="25.0" />
+                              </VBox.margin>    </Label>
+                              <Label text="Background">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <HBox alignment="CENTER" prefHeight="31.0" prefWidth="600.0">
+
+                                 <children>
+                                    <ToggleButton fx:id="blackBackgroundButton" focusTraversable="false" mnemonicParsing="false" onAction="#setBackground" prefHeight="100.0" prefWidth="157.0" styleClass="SettingsButtons" text="Black">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="normalBackgroundButton" focusTraversable="false" mnemonicParsing="false" onAction="#setBackground" prefHeight="100.0" prefWidth="157.0" styleClass="SettingsButtons" text="Grass">
+                                    <HBox.margin>
+                                       <Insets right="10.0" />
+                                    </HBox.margin>
+                                 </ToggleButton>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+
+
+
                      </children>
                   </VBox>
                   <Button layoutX="21.0" layoutY="25.0" mnemonicParsing="false" onAction="#showMenu" styleClass="BackButton" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0" />
