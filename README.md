@@ -1,7 +1,7 @@
 # Snake
-snake weekly project - Jonas, Robert, Kasper, Jacob
+Snake game By Jonas, Robert, Kasper, Jacob
 
-This is a Sneke project for EASV D19 Spring from the 21-02 to 06-03
+This is a snake game project for EASV D19 Spring from the 21-02 to 06-03
 This README will be updated through the project
 
 Mid way update

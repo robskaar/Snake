@@ -17,19 +17,12 @@
     -fx-background-color: #784212;
 }
 
-.StackPane {
-}
-
-.AnchorPane {
-    -fx-background-color: Transparent;
+.AnchorPane, .Overlay, .MenuButtons, .MuteButton, .Settings .label, .BackButton, .table-view, .table-view .column-header-background, .table-view .scroll-bar, .table-view .filler, .table-view .scroll-bar-corner {
+    -fx-background-color: Transparent !important;
 }
 
 .gameUnderlayPane {
     -fx-background-color: WHITE;
-}
-
-.Overlay {
-    -fx-background-color: Transparent !important;
 }
 
 .scoreLabel{
@@ -58,7 +51,6 @@
 .MenuButtons{
     -fx-font-size: 30;
     -fx-font-family: "Karmatic Arcade" !important;
-    -fx-background-color: Transparent;
 }
 .MenuButtons:hover{
     -fx-scale-x:1.2;
@@ -70,7 +62,6 @@
     -fx-show-tick-marks: true;
 }
 .MuteButton{
-    -fx-background-color: transparent;
     -fx-background-size: 30px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%;
@@ -83,9 +74,6 @@
     -fx-background-color: rgba(255, 255, 255, 0.75);
 }
 
-.Settings .label{
-    -fx-background-color: transparent;
-}
 
 .SettingsButtons{
     -fx-font-family: "Evil Empire" !important;
@@ -101,7 +89,6 @@
     -fx-background-color: rgba(255, 255, 255, 0.75);
 }
 .BackButton{
-    -fx-background-color: transparent;
     -fx-background-size: 20px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%;
@@ -115,7 +102,6 @@
     -fx-font-size: 20;
     -fx-pref-width: 520;
     -fx-alignment: center;
-    -fx-background-color: transparent;
 }
 
 .table-view .table-row-cell:selected{     /*Highlight row with current score on game end*/
@@ -138,9 +124,6 @@
     -fx-opacity: 1;
 }
 
-.table-view .column-header-background{
-    -fx-background-color: transparent;
-}
 
 .table-view .column-header {
     -fx-pref-height: 50;
@@ -156,32 +139,16 @@
     -fx-opacity: 0.5;
 }
 
-.table-row-cell .label{
-    -fx-opacity: 1;
-    -fx-text-fill: white;
-}
-
-.table-view .table-cell{
+.table-view .table-cell, .table-row-cell .label{
     -fx-text-fill: white;
     -fx-opacity: 1;
 }
 
-.table-view .scroll-bar {
-    -fx-background-color: transparent;
-}
-
-.table-view .scroll-bar-corner{
-    -fx-background-color: transparent;
-}
-
-.table-view .scroll-bar .thumb {
+.table-view .scroll-bar .thumb, .table-row-cell .label {
     -fx-background-color: Black;
     -fx-opacity: 0.5;
 }
 
-.table-view .filler{
-    -fx-background-color: transparent;
-}
 
 
 
