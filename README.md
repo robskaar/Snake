@@ -14,3 +14,4 @@ Mid way update
 Final update 
 Game is fully supported by all features and it's amazing!
 Art, Music, Several difficulties, Menu's, High Scores and much more
+![Alt](https://repobeats.axiom.co/api/embed/c97473850e5b39ae5cd5d8ecd4366862c57fbe62.svg "Repobeats analytics image")
